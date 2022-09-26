@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 16:53:29 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/09/20 20:54:30 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:57:52 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 # define GREY 				"\033[0;90m"
 # define RED				"\033[0;31m"
+# define PURPLE				"\033[0;35m"
+# define CYAN				"\033[0;36m"
 # define RESET 				"\033[0m"
 
 # ifndef BUFFER_SIZE
