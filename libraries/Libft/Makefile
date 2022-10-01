@@ -61,6 +61,7 @@ SRCS 		= ft_isalpha.c 					\
 			ft_putnbr_fd.c					\
 			ft_count_occurrences.c			\
 			ft_free_str_array.c				\
+			ft_strappend.c					\
 			get_next_line/get_next_line.c	\
 			ft_printf/ft_printf.c			\
 			ft_printf/ft_argument_c.c		\

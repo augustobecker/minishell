@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 16:53:29 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/09/26 19:57:52 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/10/01 15:44:44 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int			ft_count_occurrences(char *str, char c);
 void		free_str_array(char **array);
+char		*ft_strappend(char **s1, const char *s2);
 char		*get_next_line(int fd);
 int			ft_printf(const char *str, ...);
 int			ft_argument_c(char c);
