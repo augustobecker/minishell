@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/04 16:30:40 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:42:26 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	prompt(void)
 		cd(&prompt[3]);
 	if (ft_strnstr(prompt, "echo", ft_strlen(prompt)))
 		ft_printf("%s\n", &prompt[5]);
+	if (ft_strnstr(prompt, "pwd", ft_strlen(prompt)))
+		pwd(STDOUT_FILENO);
 	if (ft_strlen(prompt) > 0)
 		add_history(prompt);
 }
