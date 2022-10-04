@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/04 14:44:26 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:30:15 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-void    prompt(void);
-t_bool 	is_prompt_valid(char *prompt);
-int     pwd(int fd_out);
-char    *current_path(void);
+void		prompt(void);
+t_bool		is_prompt_valid(char *prompt);
+char		*current_path(void);
+int		pwd(int fd_out);
+int		cd(char *directory);
 
 #endif
