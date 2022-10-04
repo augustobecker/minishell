@@ -22,6 +22,8 @@ void	prompt(void)
 	prompt = readline(current_path());
 	if (is_prompt_valid(prompt) == false)
 		exit(EXIT_FAILURE);
+	if (ft_strnstr(prompt, "cd", ft_strlen(prompt)))
+		cd(&prompt[3]);
 	if (ft_strlen(prompt) > 0)
 		add_history(prompt);
 	ft_printf(CYAN"prompt> %s\n"RESET, prompt);
