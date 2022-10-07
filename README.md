@@ -1,6 +1,6 @@
 <h1 align="center"> Minishell - @42sp </h1>
 
-<p align="center">:information_source: Recreating Shell (bash) in C  programming </p>
+<p align="center">:information_source: A Command language interpreter - Recreating a mini Shell (bash) in C  programming </p>
 
 <p align="center"> :mage_man: Project done in partnership with <a href="https://github.com/guilherme-dell">gnuncio-</a> </p>
 
