@@ -15,6 +15,7 @@
 t_bool	is_syntax_valid(char *expression);
 t_bool	there_is_a_valid_char(char *str, char *limiter);
 t_bool	is_a_limiter(char c);
+t_bool	are_the_quotation_marks_closed(char *expression);
 
 t_bool	is_syntax_valid(char *expression)
 {
@@ -74,5 +75,35 @@ t_bool	is_a_limiter(char c)
 {
 	if ((c == '<') || (c == '>') || (c == '|') || (c == '&'))
 		return (true);
+	return (false);
+}
+
+t_bool	are_the_quotation_marks_closed(char *expression)
+{
+	t_stack	**head;
+	int		i;
+
+	i = 0;
+	head = malloc(sizeof(t_stack **));
+	*head = NULL;
+	while (expression[i])
+	{
+		if (expression[i] == '\'' || expression[i] == '"')
+		{
+			if (!(*head))
+				stack_push(head, stack_new(expression[i]));
+			else if ((*head)->c == expression[i])
+				stack_pop(head);
+			else if ((*head)->c != expression[i])
+				stack_push(head, stack_new(expression[i]));
+		}
+		i++;
+	}
+	if (*head)
+	{
+		clear_stack(head);
+		return (true);
+	}
+	clear_stack(head);
 	return (false);
 }
