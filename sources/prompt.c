@@ -22,6 +22,9 @@ void	prompt(void)
 	prompt = readline(current_path());
 	if (there_is_a_valid_char(prompt, "\0") == false)
 		return	;
+	add_history(prompt);
+	if (there_is_a_valid_char(prompt, "#") == false)
+		return	;
 	if (is_syntax_valid(prompt) == false)
 		error("syntax error or syntax not suported", 2);
 	if (is_prompt_valid(prompt) == false)
@@ -32,8 +35,6 @@ void	prompt(void)
 		ft_printf("%s\n", &prompt[5]);
 	if (ft_strnstr(prompt, "pwd", ft_strlen(prompt)))
 		pwd(STDOUT_FILENO);
-	if (ft_strlen(prompt) > 0)
-		add_history(prompt);
 }
 
 char	*current_path(void)
