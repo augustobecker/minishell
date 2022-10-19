@@ -23,11 +23,12 @@
 void		prompt(void);
 t_bool		is_prompt_valid(char *prompt);
 char		*current_path(void);
-int		pwd(int fd_out);
-int		cd(char *directory);
+int			pwd(int fd_out);
+int			cd(char *directory);
 t_bool		is_syntax_valid(char *expression);
 t_bool		there_is_a_valid_char(char *str, char *limiter);
 t_bool		is_a_limiter(char c);
-int		error(char *message, int exit_code);
+t_bool    	are_the_quotation_marks_closed(char *expression);
+int	      	error(char *message, int exit_code);
 
 #endif
