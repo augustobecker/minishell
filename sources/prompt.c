@@ -20,7 +20,8 @@ void	prompt(void)
 	char	*prompt;
 
 	prompt = readline(current_path());
-	if (there_is_a_valid_char(prompt, "\0") == false)
+	if ((there_is_a_valid_char(prompt, "\0") == false)
+	|| (are_the_quotation_marks_closed(prompt) == false))
 		return	;
 	add_history(prompt);
 	if (there_is_a_valid_char(prompt, "#") == false)
