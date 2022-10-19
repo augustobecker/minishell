@@ -15,8 +15,8 @@
 
 typedef struct s_data
 {
+	int	last_exit_code;
 
 }	t_data;
-
 
 #endif
