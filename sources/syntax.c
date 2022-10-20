@@ -102,8 +102,8 @@ t_bool	are_the_quotation_marks_closed(char *expression)
 	if (*head)
 	{
 		clear_stack(head);
-		return (true);
+		return (false);
 	}
 	clear_stack(head);
-	return (false);
+	return (true);
 }
