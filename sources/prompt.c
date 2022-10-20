@@ -20,9 +20,13 @@ void	prompt(void)
 	char	*prompt;
 
 	prompt = readline(current_path());
-	if ((there_is_a_valid_char(prompt, "\0") == false)
-	|| (are_the_quotation_marks_closed(prompt) == false))
+	if (there_is_a_valid_char(prompt, "\0") == false)
 		return	;
+	if (are_the_quotation_marks_closed(prompt) == false)
+	{
+		error("syntax error: unclosed quotation marks", 2);
+		return	;
+	}
 	add_history(prompt);
 	if (there_is_a_valid_char(prompt, "#") == false)
 		return	;
