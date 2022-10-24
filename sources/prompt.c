@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/19 06:00:45 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/10/20 15:17:42 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ void	prompt(void)
 	char	*prompt;
 
 	prompt = readline(current_path());
-	if ((there_is_a_valid_char(prompt, "\0") == false)
-	|| (are_the_quotation_marks_closed(prompt) == false))
+	if (there_is_a_valid_char(prompt, "\0") == false) // caracter valido
 		return	;
+	if (are_the_quotation_marks_closed(prompt) == false) // aspas aberta
+		return (error("syntax error or syntax not suported", 2));
 	add_history(prompt);
-	if (there_is_a_valid_char(prompt, "#") == false)
+	if (there_is_a_valid_char(prompt, "#") == false) //comentario
 		return	;
 	if (is_syntax_valid(prompt) == false)
 		error("syntax error or syntax not suported", 2);
+	indentify_args(prompt);
 	if (is_prompt_valid(prompt) == false)
 		exit(EXIT_FAILURE);
 	if (ft_strnstr(prompt, "cd", ft_strlen(prompt)))

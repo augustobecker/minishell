@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/09/27 22:51:55 by acesar-l         ###   ########.fr        #
+#    Updated: 2022/10/20 12:09:46 by gnuncio-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS 		= $(SRCS_PATH)/*.c
 all:		$(NAME)
 
 $(NAME): 	$(LIBFT)
-			@$(CC) $(INCLUDES) -o $(NAME) $(SRCS) $(STD_FLAGS) $(RDLINE_LIB) $(LIBFT)
+			@$(CC) $(INCLUDES) -o $(NAME) $(SRCS) $(RDLINE_LIB) $(LIBFT)
 			@echo "$(GREY)$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
 ${LIBFT}:
