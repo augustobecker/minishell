@@ -19,4 +19,11 @@ typedef struct s_data
 
 }	t_data;
 
+typedef struct	s_stack
+{
+    char		c;
+    struct s_stack	*next;
+}	t_stack;
+
+
 #endif
