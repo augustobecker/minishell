@@ -32,7 +32,7 @@ void	prompt(void)
 	if (there_is_a_valid_char(prompt, "#") == false)
 		return	;
 	token_prompt = tokenization(prompt);
-	if (is_syntax_valid(prompt) == false)
+	if (is_syntax_valid(token_prompt) == false)
 		error("syntax error or syntax not suported", 2);
 	if (is_prompt_valid(prompt) == false)
 		exit(EXIT_FAILURE);
