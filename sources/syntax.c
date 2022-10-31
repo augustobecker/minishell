@@ -26,19 +26,14 @@ t_bool	is_syntax_valid(char *expression)
 	{
 		if (is_a_limiter(expression[i]) == true)
 		{
-			if (is_a_limiter(expression[i + 1]) == false)
+			if (is_a_limiter(expression[i + 1]) == true)
 			{
-				if (expression[i] == '&')
-					return (false);
-			}
-			else
-			{
-				if (expression[i] != expression[i + 1])
+				if (expression[i] != expression[i + 1] || expression[i] == '|')
 					return (false);
 				i++;
 			}
 			i++;
-			if (there_is_a_valid_char(&expression[i], "<|&>") == false)
+			if (there_is_a_valid_char(&expression[i], "<|>") == false)
 				return (false);
 		}
 		i++;
@@ -73,7 +68,7 @@ t_bool	there_is_a_valid_char(char *str, char *limiter)
 
 t_bool	is_a_limiter(char c)
 {
-	if ((c == '<') || (c == '>') || (c == '|') || (c == '&'))
+	if ((c == '<') || (c == '>') || (c == '|'))
 		return (true);
 	return (false);
 }
