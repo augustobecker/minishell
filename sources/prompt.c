@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/19 06:00:45 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:23:52 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*current_path(void);
 void	prompt(void)
 {
 	char	*prompt;
-
+	
 	prompt = readline(current_path());
 	if (there_is_a_valid_char(prompt, "\0") == false)
 		return	;
