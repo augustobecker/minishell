@@ -35,5 +35,6 @@ void		clear_stack(t_stack **stack);
 t_stack    *stack_new(char c);
 void		stack_push(t_stack **stack, t_stack *new);
 void		stack_pop(t_stack **stack);
+char    *tokenization(char *prompt);
 
 #endif
