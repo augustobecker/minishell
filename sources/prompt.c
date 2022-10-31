@@ -18,6 +18,7 @@ char	*current_path(void);
 void	prompt(void)
 {
 	char	*prompt;
+	char	*token_prompt;
 	
 	prompt = readline(current_path());
 	if (there_is_a_valid_char(prompt, "\0") == false)
@@ -30,6 +31,7 @@ void	prompt(void)
 	add_history(prompt);
 	if (there_is_a_valid_char(prompt, "#") == false)
 		return	;
+	token_prompt = tokenization(prompt);
 	if (is_syntax_valid(prompt) == false)
 		error("syntax error or syntax not suported", 2);
 	if (is_prompt_valid(prompt) == false)
