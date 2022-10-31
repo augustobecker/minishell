@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/31 13:45:23 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:43:23 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ typedef struct s_data
 	int	last_exit_code;
 
 }	t_data;
-
+ 
+ 
 typedef struct s_stack
 {
 	char c;
