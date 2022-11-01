@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/11/01 09:52:02 by gasouza          ###   ########.fr        #
+#    Updated: 2022/11/01 10:43:06 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,4 +59,10 @@ fclean: 	clean
 
 re:			fclean $(NAME)
 
-.PHONY:		all clean fclean re
+tests:
+	@make -s -C tests run
+
+testsv:
+	@make -s -C tests runv
+
+.PHONY:		all clean fclean re tests testsv
