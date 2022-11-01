@@ -3,54 +3,60 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gnuncio- <gnuncio-@student.42.fr>          +#+  +:+       +#+         #
+#    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/10/28 13:59:51 by gnuncio-         ###   ########.fr        #
+#    Updated: 2022/11/01 09:43:24 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= minishell
-
 GREEN		= \033[0;32m
-GREY		= \033[0;90m
+RED			= \033[0;31m
 RESET		= \033[0m
 
-LIBFT_PATH	= ./libraries/Libft
-LIBFT		= ./libraries/Libft/libft.a
+NAME		= minishell
 
+INCS_PATH 	= ./includes
+LIBS_PATH	= ./libraries
 SRCS_PATH	= ./sources
 
-CC 			= gcc -g3
+LIBFT_PATH	= $(LIBS_PATH)/Libft
+LIBFT		= $(LIBFT_PATH)/libft.a
 
-STD_FLAGS 	= -Wall -Wextra -Werror
+SRCS 		= $(wildcard $(SRCS_PATH)/*.c)
+OBJS 		= $(SRCS:.c=.o)
 
-RDLINE_LIB	= -L/usr/local/lib -lreadline
+COMPILER 	= gcc -c
+LINKER		= gcc
+CFLAGS 		= -Wall -Wextra -Werror
 
-REMOVE 		= rm -f
+CLEANUP 	= rm -rf
 
-INCLUDES 	= -I ./includes/
-
-SRCS 		= $(SRCS_PATH)/*.c
+# To check wether lib readline is installed use:
+# ldconfig -p | grep libreadline
 
 all:		$(NAME)
 
-$(NAME): 	$(LIBFT)
-			@$(CC) $(INCLUDES) -o $(NAME) $(SRCS)  $(RDLINE_LIB) $(LIBFT)
-			@echo "$(GREY)$(NAME): $(GREEN)$(NAME) was created$(RESET)"
+$(NAME): 	$(LIBFT) $(OBJS)
+			@$(LINKER) $(OBJS) -lreadline -L$(LIBFT_PATH) -lft -o $@
+			@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
-${LIBFT}:
-			@make bonus -C $(LIBFT_PATH)
+%.o: %.c
+			@$(COMPILER) -I$(INCS_PATH) $< -o $@
+	
+$(LIBFT):
+			@make -s -C $(LIBFT_PATH)
 
 clean:
-			@${REMOVE} ${NAME}
-			@echo "$(GREY)$(NAME): $(NAME) was deleted$(RESET)"
+			@$(CLEANUP) $(OBJS)
+			@echo "$(NAME): $(RED)object files were deleted$(RESET)"
+			@make -s -C $(LIBFT_PATH) clean
 
-fclean:
-			make fclean -C $(LIBFT_PATH)
-			@$(REMOVE) $(NAME)
-			@echo "$(GREY)$(NAME): $(NAME) was deleted$(RESET)"
+fclean: 	clean
+			@$(CLEANUP) $(NAME)
+			@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
+			@make -s -C $(LIBFT_PATH) fclean
 
-re:			clean $(NAME)
+re:			fclean $(NAME)
 
 .PHONY:		all clean fclean re

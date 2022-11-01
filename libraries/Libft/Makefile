@@ -10,18 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= libft.a
-
 GREEN		= \033[0;32m
-GREY		= \033[0;90m
 RED			= \033[0;31m
 RESET		= \033[0m
 
-CC 			= clang
-
-FLAGS 		= -Wall -Werror -Wextra
-
-REMOVE 		= rm -f
+NAME		= libft.a
 
 SRCS 		= ft_isalpha.c 					\
 			ft_isdigit.c 					\
@@ -75,45 +68,41 @@ SRCS 		= ft_isalpha.c 					\
 			ft_printf/ft_hex_length.c		\
 			ft_printf/ft_decimal_length.c	\
 			ft_printf/ft_print_reversed_str.c	\
-			ft_printf/ft_decimal_converter_to_hex.c
-
-BONUS_SRCS  	= ft_lstnew.c			\
-			ft_lstadd_front.c			\
-			ft_lstsize.c				\
-			ft_lstlast.c				\
-			ft_lstadd_back.c			\
-			ft_lstdelone.c				\
-			ft_lstclear.c				\
-			ft_lstiter.c				\
+			ft_printf/ft_decimal_converter_to_hex.c	\
+			ft_lstnew.c						\
+			ft_lstadd_front.c				\
+			ft_lstsize.c					\
+			ft_lstlast.c					\
+			ft_lstadd_back.c				\
+			ft_lstdelone.c					\
+			ft_lstclear.c					\
+			ft_lstiter.c					\
 			ft_lstmap.c
 
 OBJS 		= $(SRCS:.c=.o)
 
-BONUS_OBJS 	= $(BONUS_SRCS:.c=.o)
+COMPILER 	= gcc -c
+CFLAGS 		= -Wall -Werror -Wextra
+CLEANUP 	= rm -rf
+ARCHIVE		= ar -rcs
 
-all:		${NAME}
+all:		$(NAME)
 
-${NAME}: 	${OBJS}
-			@ar -rcs ${NAME} ${OBJS}
-			@echo "$(GREY)Libft: $(GREEN)$(NAME) was created$(RESET)"
+$(NAME): 	$(OBJS)
+			@$(ARCHIVE) $(NAME) $(OBJS)
+			@echo "Libft: $(GREEN)$(NAME) was created$(RESET)"
 
-bonus:		${NAME} ${BONUS_OBJS}
-			@ar -rcs ${NAME} ${BONUS_OBJS}
-			@echo "$(GREY)Libft: $(GREEN)$(NAME) was created with Bonus$(RESET)"
-
-.c.o:
-			@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+%.o: %.c
+			@$(COMPILER) $(FLAGS) $< -o $@
 
 clean:
-			@${REMOVE} ${OBJS} ${BONUS_OBJS}
-			@echo "$(GREY)Libft: object files were deleted$(RESET)"
+			@$(CLEANUP) $(OBJS)
+			@echo "Libft: $(RED)object files were deleted$(RESET)"
 
 fclean:		clean
-			@${REMOVE} ${NAME}
-			@echo "$(GREY)Libft: $(NAME) was deleted$(RESET)"
+			@$(CLEANUP) $(NAME)
+			@echo "Libft: $(RED)$(NAME) was deleted$(RESET)"
 
-re:			fclean ${NAME}
-
-rebonus:	fclean bonus
+re:			fclean $(NAME)
 
 .PHONY:		all clean fclean re bonus rebonus
