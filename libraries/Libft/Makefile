@@ -93,7 +93,7 @@ $(NAME): 	$(OBJS)
 			@echo "Libft: $(GREEN)$(NAME) was created$(RESET)"
 
 %.o: %.c
-			@$(COMPILER) $(FLAGS) $< -o $@
+			@$(COMPILER) $(CFLAGS) $< -o $@
 
 clean:
 			@$(CLEANUP) $(OBJS)
