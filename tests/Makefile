@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:26:12 by gasouza           #+#    #+#              #
-#    Updated: 2022/11/01 10:51:13 by gasouza          ###   ########.fr        #
+#    Updated: 2022/11/01 11:06:01 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ INCS_PATH	= ../includes
 SRCS		= $(filter-out %minishell.c, $(wildcard $(SRCS_PATH)/*.c)) 
 OBJS		= $(SRCS:.c=.o)
 LIBS		= -L$(LIBS_PATH)/Libft -lft -lreadline
+LIBFT		= $(LIBS_PATH)/Libft/libft.a
 
 # Tests configuration
 
@@ -45,10 +46,13 @@ TESTS_INCS	= -I$(INCS_PATH)
 
 all: 		$(NAME) 
 
-$(NAME): 	clean_project $(OBJS) $(TESTS_SRCS)
+$(NAME): 	clean_project $(OBJS) $(TESTS_SRCS) $(LIBFT)
 			@$(CC) $(CFLAGS) $(UNITY_INCS) $(TESTS_INCS) 		\
 			$(OBJS) $(UNITY_SRCS) $(TESTS_SRCS) $(LIBS) -o $(NAME)
 			@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
+
+$(LIBFT):
+			@make -s -C .. $(subst ../, ,$@) > /dev/null
 
 $(SRCS_PATH)/%.o: $(SRCS_PATH)/%.c
 			@make -s -C .. $(subst ../, ,$@)
