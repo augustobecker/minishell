@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:08:56 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/04 16:08:00 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:11:02 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	pwd(int fd_out)
 	{
 		if (fd_out != STDOUT_FILENO)
 			dup2(fd_out, STDOUT_FILENO);
-		ft_printf("%s", pwd);
+		ft_printf("%s\n", pwd);
+		free(pwd);
 		return (0);
 	}
 }

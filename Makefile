@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
+#    By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/11/01 10:43:06 by gasouza          ###   ########.fr        #
+#    Updated: 2022/11/03 12:14:03 by gnuncio-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ LIBFT		= $(LIBFT_PATH)/libft.a
 SRCS 		= $(wildcard $(SRCS_PATH)/*.c)
 OBJS 		= $(SRCS:.c=.o)
 
-COMPILER 	= gcc -c
+COMPILER 	= gcc -g -c
 LINKER		= gcc
-CFLAGS 		= -Wall -Wextra -Werror
+# CFLAGS 		= -Wall -Wextra -Werror
 
 CLEANUP 	= rm -rf
 
@@ -43,7 +43,7 @@ $(NAME): 	$(LIBFT) $(OBJS)
 
 %.o: %.c
 			@$(COMPILER) $(CFLAGS) -I$(INCS_PATH) $< -o $@
-	
+
 $(LIBFT):
 			@make -s -C $(LIBFT_PATH)
 
@@ -60,9 +60,12 @@ fclean: 	clean
 re:			fclean $(NAME)
 
 tests:
-	@make -s -C tests run
+			@make -s -C tests run
 
 testsv:
-	@make -s -C tests runv
+			@make -s -C tests runv
 
-.PHONY:		all clean fclean re tests testsv
+val: all
+			valgrind --suppressions=./local.supp --leak-check=full ./minishell
+
+.PHONY:		all clean fclean re tests testsv val

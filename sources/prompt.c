@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/31 14:23:52 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:08:13 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ void	prompt(void)
 {
 	char	*prompt;
 	char	*token_prompt;
-	
-	prompt = readline(current_path());
+	char	*current;
+
+	current = current_path();
+
+	prompt = readline(current);
+	free(current);
 	if (there_is_a_valid_char(prompt, "\0") == false)
 		return	;
 	if (are_the_quotation_marks_closed(prompt) == false)
@@ -34,6 +38,7 @@ void	prompt(void)
 	token_prompt = tokenization(prompt);
 	if (is_syntax_valid(token_prompt) == false)
 		error("syntax error or syntax not suported", 2);
+	free(token_prompt);
 	if (is_prompt_valid(prompt) == false)
 		exit(EXIT_FAILURE);
 	if (ft_strnstr(prompt, "cd", ft_strlen(prompt)))
@@ -42,6 +47,12 @@ void	prompt(void)
 		ft_printf("%s\n", &prompt[5]);
 	if (ft_strnstr(prompt, "pwd", ft_strlen(prompt)))
 		pwd(STDOUT_FILENO);
+	if (ft_strnstr(prompt, "exit", ft_strlen(prompt)))
+	{
+		free(prompt);
+		error("Saindo",0);
+
+	}
 }
 
 char	*current_path(void)
