@@ -37,5 +37,6 @@ void		stack_push(t_stack **stack, t_stack *new);
 void		stack_pop(t_stack **stack);
 char    *tokenization(char *prompt);
 char	*get_env_value(const char *name, char *const *envp);
+void    handle_signal(void);
 
 #endif
