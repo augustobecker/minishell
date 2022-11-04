@@ -14,6 +14,7 @@
 
 int	pwd(int fd_out);
 int	cd(char *directory);
+int	echo(char **arguments);
 
 int	pwd(int fd_out)
 {
@@ -43,4 +44,32 @@ int	cd(char *directory)
 	}
 	else
 		return (0);
+}
+
+int	echo(char **arguments)
+{
+	t_bool	flag_n;
+	size_t	args;
+	int		printed;
+	int		i;
+
+	i = 0;
+	printed = 0;
+	flag_n = false;
+	if (*arguments == NULL)
+		return (ft_printf("\n"));
+	args = array_size(arguments);
+	if (!ft_strncmp(arguments[0], "-n\0", 3))
+	{
+		flag_n = true;
+		i++;
+	}
+	while (i < args)
+	{
+		printed = ft_printf("%s", arguments[i]);
+		i++;
+	}
+	if (!flag_n)
+		printed += ft_printf("\n");
+	return (printed);
 }
