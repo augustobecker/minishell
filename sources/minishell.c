@@ -17,6 +17,7 @@ int	main(void)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	handle_signal();
 	while (true)
 	{
 		prompt();
