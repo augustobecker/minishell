@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/04 13:04:01 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/04 13:40:29 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	stack_pop(t_stack **stack);
 char	*tokenization(char *prompt);
 char	*get_env_value(const char *name, char *const *envp);
 char	*expand_vars(const char *prompt, char *const *envp);
-void    handle_signal(void);
+void	handle_signal(void);
 
 // Utils
 size_t	array_size(char *const *array);
 void	array_destroy(char **array);
 
 // Builtins
-int     echo(char **arguments);
+int		echo(char **arguments);
 int		pwd(int fd_out);
 int		cd(char *directory);
 

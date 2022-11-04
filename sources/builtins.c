@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:08:56 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/03 12:11:02 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/04 13:21:24 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	cd(char *directory)
 		return (chdir("/home"));
 	if (chdir(directory))
 	{
-		ft_printf(GREY"minishell: cd: %s: No such file or directory\n"RESET, directory);
+		ft_printf(
+			GREY"minishell: cd: %s: No such file or directory\n"RESET,
+			directory);
 		return (1);
 	}
 	else
