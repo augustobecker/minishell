@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:26:12 by gasouza           #+#    #+#              #
-#    Updated: 2022/11/01 11:17:54 by gasouza          ###   ########.fr        #
+#    Updated: 2022/11/04 13:14:01 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS_PATH	= ../sources
 INCS_PATH	= ../includes
 
 SRCS		= $(filter-out %minishell.c, $(wildcard $(SRCS_PATH)/*.c)) 
+SRCS		+= $(wildcard $(SRCS_PATH)/*/*.c)
 OBJS		= $(SRCS:.c=.o)
 LIBS		= -L$(LIBS_PATH)/Libft -lft -lreadline
 LIBFT		= $(LIBS_PATH)/Libft/libft.a
@@ -44,7 +45,10 @@ UNITY_SRCS	= $(UNITY_PATH)/extras/fixture/src/unity_fixture.c	\
 TESTS_SRCS	= $(wildcard *.c)
 TESTS_INCS	= -I$(INCS_PATH)
 
-all: 		$(NAME) 
+all: 		$(NAME)
+
+teste:
+	@echo $(OBJS)
 
 $(NAME): 	clean_project $(OBJS) $(TESTS_SRCS) $(LIBFT)
 			@$(CC) $(CFLAGS) $(UNITY_INCS) $(TESTS_INCS) 		\
@@ -56,6 +60,10 @@ $(LIBFT):
 
 $(SRCS_PATH)/%.o: $(SRCS_PATH)/%.c
 			@make -s -C .. $(subst ../, ,$@)
+			
+$(SRCS_PATH)/%/%.o: $(SRCS_PATH)/%/%.c
+			@make -s -C .. $(subst ../, ,$@)
+
 
 clean_project:
 			@make -s -C .. clean  > /dev/null

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:12:43 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/03 23:40:05 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/04 12:02:22 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ TEST(expand_vars, With_valid_var_name)
 	TEST_ASSERT_EQUAL_STRING("gabriel ok $ !", value);
 	free(value);
 }
+
+// variavel com nome contendo _
 
 TEST_GROUP_RUNNER(expand_vars)
 {
