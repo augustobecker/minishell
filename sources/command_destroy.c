@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AllTests.c                                         :+:      :+:    :+:   */
+/*   command_destroy.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/04 23:21:43 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/06 19:43:24 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/06 19:49:28 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unity_fixture.h"
+#include "minishell.h"
 
-static	void	runAllTests(void)
+void	command_destroy(t_command **cmd)
 {
-	RUN_TEST_GROUP(get_env_value);
-	RUN_TEST_GROUP(expand_vars);
-	RUN_TEST_GROUP(command_parse_str);
-}
-
-int	main(int argc, const char **argv)
-{
-	return UnityMain(argc, argv, runAllTests);
+	if (!cmd || !*cmd)
+		return ;
+	free((*cmd)->command);
+	array_destroy((*cmd)->args);
+	free((*cmd)->infile);
+	free((*cmd)->outfile);
+	free(*cmd);
+	*cmd = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/04 13:42:00 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/04 21:51:13 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ typedef struct s_stack
 
 typedef struct s_command
 {
-	char				*command;
-	char				**command_argument;
-	char				*infile;
-	char				*outfile;
-	int					*exit_code;
-	struct s_command	*next;
+	char	*command;
+	char	**args;
+	char	*infile;
+	char	*outfile;
+	int		*exit_code;
 }	t_command;
 
 #endif

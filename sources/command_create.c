@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AllTests.c                                         :+:      :+:    :+:   */
+/*   command_create.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/04 23:21:43 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/06 19:24:24 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/06 19:49:16 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unity_fixture.h"
+#include "minishell.h"
 
-static	void	runAllTests(void)
+t_command	*command_create(void)
 {
-	RUN_TEST_GROUP(get_env_value);
-	RUN_TEST_GROUP(expand_vars);
-	RUN_TEST_GROUP(command_parse_str);
-}
+	t_command	*cmd;
 
-int	main(int argc, const char **argv)
-{
-	return UnityMain(argc, argv, runAllTests);
+	cmd = (t_command *) malloc(sizeof(t_command));
+	if (cmd)
+	{
+		cmd->command = NULL;
+		cmd->args = NULL;
+		cmd->infile = NULL;
+		cmd->outfile = NULL;
+		cmd->exit_code = 0;
+	}
+	return (cmd);
 }
