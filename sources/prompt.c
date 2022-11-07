@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/03 12:08:13 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:14:48 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,19 @@ void	prompt(void)
 	char	*prompt;
 	char	*token_prompt;
 	char	*current;
+	char	*command_line;
 
 	current = current_path();
 
 	prompt = readline(current);
 	free(current);
+	if (ft_strnstr(prompt, "command", ft_strlen(prompt)))
+	{
+		command_line =  command_creator(prompt);
+		printf("%s\n", command_line);
+		free(command_line);
+		return;
+	}
 	if (there_is_a_valid_char(prompt, "\0") == false)
 		return	;
 	if (are_the_quotation_marks_closed(prompt) == false)
@@ -51,7 +59,6 @@ void	prompt(void)
 	{
 		free(prompt);
 		error("Saindo",0);
-
 	}
 }
 
