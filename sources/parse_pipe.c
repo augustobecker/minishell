@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_creator.c                                  :+:      :+:    :+:   */
+/*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:18:59 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/11/04 18:17:16 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/07 22:58:31 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,13 @@ t_bool	replacement(t_stack **stack, char character)
 	}
 }
 
-char	*command_creator(char *prompt)
+char	*replace_pipe(char *command, t_stack **head)
 {
 	int		i;
-	char	*command;
 	t_bool	replacement_status;
-	t_stack	**head;
 
-	replacement_status = true;
-	head = malloc(sizeof(t_stack **));
-	*head = NULL;
-	command = ft_strdup(prompt);
 	i = 0;
+	replacement_status = true;
 	while (command[i])
 	{
 		if (command[i] == '\'' || command[i] == '"')
@@ -56,6 +51,22 @@ char	*command_creator(char *prompt)
 			command[i] = '&';
 		i++;
 	}
+}
+
+char	*parse_pipe(char *prompt)
+{
+	int		i;
+	char	*command;
+	t_stack	**head;
+
+	if (!prompt)
+		return (NULL);
+	head = malloc(sizeof(t_stack **));
+	if (!head)
+		return (NULL);
+	*head = NULL;
+	command = ft_strdup(prompt);
+	replace_pipe(command, head);
 	free(head);
 	return (command);
 }
