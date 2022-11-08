@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/04 18:22:04 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:11:04 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void		stack_push(t_stack **stack, t_stack *new);
 void		stack_pop(t_stack **stack);
 char	*tokenization(char *prompt);
 char	*get_env_value(const char *name, char *const *envp);
-char	*command_creator(char *prompt);
+char	*parse_pipe(char *prompt);
 
 #endif

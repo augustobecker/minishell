@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/04 18:14:48 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:10:41 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	prompt(void)
 	free(current);
 	if (ft_strnstr(prompt, "command", ft_strlen(prompt)))
 	{
-		command_line =  command_creator(prompt);
+		command_line =  parse_pipe(prompt);
 		printf("%s\n", command_line);
 		free(command_line);
 		return;
