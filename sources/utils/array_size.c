@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   array_size.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 19:18:49 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/01 15:06:10 by acesar-l         ###   ########.fr       */
+/*   Created: 2022/11/04 12:53:25 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/04 12:57:50 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+// Return the number os elements on NULL terminated array of strings.
+size_t	array_size(char *const *array)
 {
-	t_data	*data;
+	size_t	size;
 
-	data = malloc(sizeof(t_data));
-	handle_signal();
-	while (true)
+	size = 0;
+	while (array && *array)
 	{
-		prompt();
+		size++;
+		array++;
 	}
+	return (size);
 }

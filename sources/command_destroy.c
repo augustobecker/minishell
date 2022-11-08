@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   command_destroy.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 19:18:49 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/01 15:06:10 by acesar-l         ###   ########.fr       */
+/*   Created: 2022/11/06 19:43:24 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/06 19:49:28 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	command_destroy(t_command **cmd)
 {
-	t_data	*data;
-
-	data = malloc(sizeof(t_data));
-	handle_signal();
-	while (true)
-	{
-		prompt();
-	}
+	if (!cmd || !*cmd)
+		return ;
+	free((*cmd)->command);
+	array_destroy((*cmd)->args);
+	free((*cmd)->infile);
+	free((*cmd)->outfile);
+	free(*cmd);
+	*cmd = NULL;
 }

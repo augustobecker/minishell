@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/11/03 12:14:03 by gnuncio-         ###   ########.fr        #
+#    Updated: 2022/11/04 13:02:53 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS_PATH	= ./sources
 LIBFT_PATH	= $(LIBS_PATH)/Libft
 LIBFT		= $(LIBFT_PATH)/libft.a
 
-SRCS 		= $(wildcard $(SRCS_PATH)/*.c)
+SRCS 		= $(wildcard $(SRCS_PATH)/*.c) $(wildcard $(SRCS_PATH)/*/*.c)
 OBJS 		= $(SRCS:.c=.o)
 
 COMPILER 	= gcc -g -c
@@ -36,6 +36,8 @@ CLEANUP 	= rm -rf
 # ldconfig -p | grep libreadline
 
 all:		$(NAME)
+teste:
+	@echo $(OBJS)
 
 $(NAME): 	$(LIBFT) $(OBJS)
 			@$(LINKER) $(CFLAGS) $(OBJS) -lreadline -L$(LIBFT_PATH) -lft -o $@

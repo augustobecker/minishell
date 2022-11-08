@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   array_destroy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 19:18:49 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/01 15:06:10 by acesar-l         ###   ########.fr       */
+/*   Created: 2022/11/04 12:54:27 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/04 12:58:27 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+// Free memory from NULL terminated array of strings and itself.
+void	array_destroy(char **array)
 {
-	t_data	*data;
+	size_t	i;
 
-	data = malloc(sizeof(t_data));
-	handle_signal();
-	while (true)
+	i = 0;
+	while (array && array[i])
 	{
-		prompt();
+		free(array[i]);
+		i++;
 	}
+	free(array);
 }

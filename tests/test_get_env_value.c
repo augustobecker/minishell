@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 08:52:33 by gasouza           #+#    #+#             */
-/*   Updated: 2022/10/31 11:45:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:16:43 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,27 @@ static char *envp[] = {"test=ok", "user=gabriel", NULL};
 TEST_SETUP(get_env_value) {}
 TEST_TEAR_DOWN(get_env_value) {}
 
+static void check_is_null(char *name, char **envp)
+{
+	char *result = get_env_value(name, envp);
+	TEST_ASSERT_NULL(get_env_value(NULL, envp));
+	free(result);
+}
+
 TEST(get_env_value, Null_params) {
 	char *empty_envp[] = {NULL};
 	
-	TEST_ASSERT_NULL(get_env_value("test", NULL));
-	TEST_ASSERT_NULL(get_env_value("test", empty_envp));
-	TEST_ASSERT_NULL(get_env_value(NULL, envp));
-	TEST_ASSERT_NULL(get_env_value(NULL, NULL));
+	check_is_null("test", NULL);
+	check_is_null("test", empty_envp);
+	check_is_null(NULL, envp);
+	check_is_null(NULL, NULL);
 }
 
 TEST(get_env_value, Name_not_defined) {
-	TEST_ASSERT_NULL(get_env_value("", envp));
-	TEST_ASSERT_NULL(get_env_value("test2", envp));
-	TEST_ASSERT_NULL(get_env_value("not_exist", envp));
-	TEST_ASSERT_NULL(get_env_value("use", envp));
+	check_is_null("", envp);
+	check_is_null("test2", envp);
+	check_is_null("not_exist", envp);
+	check_is_null("use", envp);
 }
 
 TEST(get_env_value, Name_defined) {

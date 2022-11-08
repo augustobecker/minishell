@@ -1,0 +1,65 @@
+name: Main branch CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  norminette:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+    
+    - name: Install norminette
+      run: python3 -m pip install --upgrade pip setuptools && python3 -m pip install norminette
+    
+    - name: Remove test files
+      run: rm -rf tests libraries/Unity
+    
+    - name: Running Norminette
+      run: norminette
+      
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      
+    - name: Building Binaries
+      run: make
+    
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      
+    - name: Build Tests
+      run: make -s -C tests
+
+    - name: Running Tests
+      run: ./tests/Tests_Runner -v 
+
+  valgrind:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Tests
+      run: make -s -C tests
+  
+    - name: Install Valgrind
+      run: sudo apt install valgrind
+      
+    - name: Running Valgrind
+      run: valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./tests/Tests_Runner -v 
