@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/08 14:00:07 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:24:26 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-void	prompt(void);
+void	prompt(t_data *data);
 t_bool	is_prompt_valid(char *prompt);
 char	*current_path(void);
 t_bool	is_syntax_valid(char *expression);
@@ -46,6 +46,7 @@ t_command 	*command_parse_str(const char *str);
 // Utils
 size_t		array_size(char *const *array);
 void		array_destroy(char **array);
+t_bool	ft_strcmp(const char *str1, const char *str2);
 
 // Builtins
 int			echo(char **arguments);

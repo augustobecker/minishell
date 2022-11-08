@@ -1,39 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 19:18:49 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/08 16:54:06 by gnuncio-         ###   ########.fr       */
+/*   Created: 2022/11/08 16:12:10 by gnuncio-          #+#    #+#             */
+/*   Updated: 2022/11/08 16:12:19 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
-
-// void printenvp(char **envp)
-// {
-// 	while(envp && *envp)
-// 	{
-// 		printf("%s\n", *envp);
-// 		envp++;
-// 	}
-// }
-
-int	main(int argc, char **argv, char **envp)
+t_bool	ft_strcmp(const char *str1, const char *str2)
 {
-	if (argc != 1 || ft_strcmp(argv[0], "minishell"))
-		exit(EXIT_FAILURE);
-	g_data.env = envp;
-
-	// printenvp(envp);
-
-	handle_signal();
-	while (true)
-	{
-		prompt(&g_data);
-	}
+	return (ft_strncmp(str1, str2, ft_strlen(str2) + 1) == 0);
 }

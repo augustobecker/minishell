@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_create.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 19:24:24 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/08 09:50:37 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 17:58:48 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_command	*command_create(void)
 		cmd->outfile = NULL;
 		cmd->exit_code = FALSE;
 		cmd->is_append = FALSE;
+		cmd->is_heredoc = FALSE;
 	}
 	return (cmd);
 }

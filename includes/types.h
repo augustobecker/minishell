@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/08 09:01:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 17:54:11 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef struct s_data
 {
+	char	**env;
 	int	last_exit_code;
 
 }	t_data;
@@ -28,15 +29,25 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
+typedef enum e_ftype {
+	COMMON,
+	APPEND,
+	HEREDOC
+}	t_ftype;
+
+typedef struct s_file {
+	char *path;
+	int	fd;
+	t_ftype type;
+}	t_file;
+
 typedef struct s_command
 {
 	char	*command;
 	char	**args;
-	char	*infile;
-	t_bool	is_heredoc;
-	char	*outfile;
-	t_bool	is_append;
-	int		*exit_code;
+	t_file	*infile;
+	t_file	*outfile;
 }	t_command;
+
 
 #endif

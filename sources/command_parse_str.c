@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_parse_str.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:20:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/08 09:08:03 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 17:29:14 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_command	*command_parse_str(const char *str)
 	char		*token;
 	char		*prompt;
 	char		*prompt_cpy;
-	
+
 	if (!str || !*str)
 		return (NULL);
 	cmd = command_create();
@@ -60,7 +60,7 @@ t_command	*command_parse_str(const char *str)
 static char *get_infile_outfile(char **prompt, t_command *cmd)
 {
 	char	*token;
-	
+
 	token = get_next_token(prompt);
 	while (is_infile_token(token) || is_outfile_token(token))
 	{
@@ -68,16 +68,22 @@ static char *get_infile_outfile(char **prompt, t_command *cmd)
 		{
 			free(cmd->infile);
 			cmd->infile = get_next_token(prompt);
-			cmd->is_heredoc = ft_strncmp("<<", token, ft_strlen(token) + 1) == 0;
-			cmd->is_append = FALSE;
+			if (ft_strncmp("<<", token, ft_strlen(token) + 1) == 0)
+				cmd->is_heredoc = 1;
+			else
+				cmd->is_heredoc = 0;
+			cmd->is_append = 0;
 			free(token);
 			token = get_next_token(prompt);
 		}
 		if (is_outfile_token(token))
 		{
 			free(cmd->outfile);
-			cmd->is_append = ft_strncmp(">>", token, ft_strlen(token) + 1) == 0;
-			cmd->is_heredoc = FALSE;
+			if (ft_strncmp(">>", token, ft_strlen(token) + 1) == 0)
+				cmd->is_append = 1;
+			else
+				cmd->is_append = 0;
+			cmd->is_heredoc = 0;
 			cmd->outfile = get_next_token(prompt);
 			free(token);
 			token = get_next_token(prompt);
