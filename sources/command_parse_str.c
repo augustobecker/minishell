@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:20:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/06 19:43:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 09:08:03 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char			*get_next_token(char **str);
 static int			has_token(char *str);
-static int 			is_infile_token(const char *token);
-static int 			is_outfile_token(const char *token);
+static t_bool 		is_infile_token(const char *token);
+static t_bool 		is_outfile_token(const char *token);
 static void			skip_spaces(char **str);
 static char 		*get_infile_outfile(char **prompt, t_command *cmd);
 
@@ -68,12 +68,16 @@ static char *get_infile_outfile(char **prompt, t_command *cmd)
 		{
 			free(cmd->infile);
 			cmd->infile = get_next_token(prompt);
+			cmd->is_heredoc = ft_strncmp("<<", token, ft_strlen(token) + 1) == 0;
+			cmd->is_append = FALSE;
 			free(token);
 			token = get_next_token(prompt);
 		}
 		if (is_outfile_token(token))
 		{
 			free(cmd->outfile);
+			cmd->is_append = ft_strncmp(">>", token, ft_strlen(token) + 1) == 0;
+			cmd->is_heredoc = FALSE;
 			cmd->outfile = get_next_token(prompt);
 			free(token);
 			token = get_next_token(prompt);
@@ -116,18 +120,26 @@ static int	has_token(char *str)
 	while (str && *str)
 	{
 		if (*str != ' ')
-			return (1);
+			return (TRUE);
 		str++;
 	}
-	return (0);
+	return (FALSE);
 }
 
-static int is_infile_token(const char *token)
+static t_bool is_infile_token(const char *token)
 {
-	return (token && ft_strncmp("<", token, ft_strlen(token) + 1) == 0);
+	if (token && ft_strncmp("<", token, ft_strlen(token) + 1) == 0)
+		return (TRUE);
+	if (token && ft_strncmp("<<", token, ft_strlen(token) + 1) == 0)
+		return (TRUE);
+	return (FALSE);
 }
 
-static int is_outfile_token(const char *token)
+static t_bool is_outfile_token(const char *token)
 {
-	return (token && ft_strncmp(">", token, ft_strlen(token) + 1) == 0);
+	if (token && ft_strncmp(">", token, ft_strlen(token) + 1) == 0)
+		return (TRUE);
+	if (token && ft_strncmp(">>", token, ft_strlen(token) + 1) == 0)
+		return (TRUE);
+	return (FALSE);
 }

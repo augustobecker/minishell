@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 21:44:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/08 08:53:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 09:49:44 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,36 @@ TEST_GROUP(command_parse_str);
 
 TEST_SETUP(command_parse_str) {}
 TEST_TEAR_DOWN(command_parse_str) {}
+
+static void asstert_in_out(char *prompt, char *infile, char *outfile)
+{	
+	t_command *cmd;
+
+	cmd = command_parse_str(prompt);
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
+	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+}
+
+static void asstert_in_out_args(char *prompt, char *infile, char *outfile)
+{	
+	t_command *cmd;
+
+	cmd = command_parse_str(prompt);
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
+	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
+	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
+	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
+	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
+	TEST_ASSERT_EQUAL_STRING("-e", cmd->args[2]);
+	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
+	command_destroy(&cmd);
+}
 
 TEST(command_parse_str, Null_str)
 {
@@ -30,21 +60,9 @@ TEST(command_parse_str, Empty_string)
 
 TEST(command_parse_str, Without_args)
 {
-	t_command *cmd;
-
-	cmd = command_parse_str(" ls ");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_NULL(cmd->args);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	TEST_ASSERT_NOT_NULL(cmd->command);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	command_destroy(&cmd);
-
-	cmd = command_parse_str("   ls   ");
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	command_destroy(&cmd);
+	asstert_in_out("ls", NULL, NULL);
+	asstert_in_out(" ls", NULL, NULL);
+	asstert_in_out(" ls  ", NULL, NULL);
 }
 
 TEST(command_parse_str, With_args)
@@ -61,14 +79,7 @@ TEST(command_parse_str, With_args)
 	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
 	command_destroy(&cmd);
 
-	cmd = command_parse_str("ls -l -a -e");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
-	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
-	TEST_ASSERT_EQUAL_STRING("-e", cmd->args[2]);
-	command_destroy(&cmd);
+	asstert_in_out_args(" ls  -l -a -e", NULL, NULL);
 
 	cmd = command_parse_str(" echo \"testando\"  ");
 	TEST_ASSERT_NOT_NULL(cmd);
@@ -130,35 +141,6 @@ TEST(command_parse_str, With_outfile)
 	command_destroy(&cmd);
 }
 
-static void asstert_in_out(char *prompt, char *infile, char *outfile)
-{	t_command *cmd;
-
-	cmd = command_parse_str(prompt);
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
-	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-}
-
-static void asstert_in_out_args(char *prompt, char *infile, char *outfile)
-{	
-	t_command *cmd;
-
-	cmd = command_parse_str(prompt);
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
-	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
-	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
-	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
-	TEST_ASSERT_EQUAL_STRING("-e", cmd->args[2]);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	command_destroy(&cmd);
-}
-
 TEST(command_parse_str, With_infile_and_outfile)
 {
 	asstert_in_out("< infile ls >   outfile", "infile", "outfile");
@@ -211,6 +193,116 @@ TEST(command_parse_str, With_multi_in_and_out_files)
 	asstert_in_out_args("ls -l -a -e < infile1 > outfile1 < infile2 > outfile2", "infile2", "outfile2");
 }
 
+TEST(command_parse_str, With_outfile_append)
+{
+	t_command *cmd;
+
+	cmd = command_parse_str("ls >> outfile");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_NULL(cmd->infile);
+	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_append);
+	TEST_ASSERT_FALSE(cmd->is_heredoc);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+
+	cmd = command_parse_str(" >> outfile ls ");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_NULL(cmd->infile);
+	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_append);
+	TEST_ASSERT_FALSE(cmd->is_heredoc);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+
+	cmd = command_parse_str(" >> outfile1 ls >> outfile2");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_NULL(cmd->infile);
+	TEST_ASSERT_EQUAL_STRING("outfile2", cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_append);
+	TEST_ASSERT_FALSE(cmd->is_heredoc);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+
+	cmd = command_parse_str(" > outfile1 ls >> outfile2");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_NULL(cmd->infile);
+	TEST_ASSERT_EQUAL_STRING("outfile2", cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_append);
+	TEST_ASSERT_FALSE(cmd->is_heredoc);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+	
+	cmd = command_parse_str(" >> outfile1 ls > outfile2");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_NULL(cmd->infile);
+	TEST_ASSERT_EQUAL_STRING("outfile2", cmd->outfile);
+	TEST_ASSERT_FALSE(cmd->is_append);
+	TEST_ASSERT_FALSE(cmd->is_heredoc);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+}
+
+TEST(command_parse_str, With_infile_heredoc)
+{
+	t_command *cmd;
+
+	cmd = command_parse_str("ls << infile");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
+	TEST_ASSERT_NULL(cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_heredoc);
+	TEST_ASSERT_FALSE(cmd->is_append);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+
+	cmd = command_parse_str(" << infile ls");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
+	TEST_ASSERT_NULL(cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_heredoc);
+	TEST_ASSERT_FALSE(cmd->is_append);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+	
+	cmd = command_parse_str(" << infile1 ls  << infile2");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING("infile2", cmd->infile);
+	TEST_ASSERT_NULL(cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_heredoc);
+	TEST_ASSERT_FALSE(cmd->is_append);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+	
+	cmd = command_parse_str(" < infile1 ls  << infile2");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING("infile2", cmd->infile);
+	TEST_ASSERT_NULL(cmd->outfile);
+	TEST_ASSERT_TRUE(cmd->is_heredoc);
+	TEST_ASSERT_FALSE(cmd->is_append);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+	
+	cmd = command_parse_str(" << infile1 ls < infile2");
+	TEST_ASSERT_NOT_NULL(cmd);
+	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
+	TEST_ASSERT_EQUAL_STRING("infile2", cmd->infile);
+	TEST_ASSERT_NULL(cmd->outfile);
+	TEST_ASSERT_FALSE(cmd->is_heredoc);
+	TEST_ASSERT_FALSE(cmd->is_append);
+	TEST_ASSERT_NULL(cmd->args);
+	command_destroy(&cmd);
+}
+
 
 // Testar sem informar o commando, somente infile / outfile
 // Outfile Append
@@ -229,4 +321,6 @@ TEST_GROUP_RUNNER(command_parse_str)
 	RUN_TEST_CASE(command_parse_str, With_multi_infiles);
 	RUN_TEST_CASE(command_parse_str, With_multi_outfiles);
 	RUN_TEST_CASE(command_parse_str, With_multi_in_and_out_files);
+	RUN_TEST_CASE(command_parse_str, With_outfile_append);
+	RUN_TEST_CASE(command_parse_str, With_infile_heredoc);
 }

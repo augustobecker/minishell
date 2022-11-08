@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 19:24:24 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/06 19:49:16 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 09:50:37 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_command	*command_create(void)
 		cmd->args = NULL;
 		cmd->infile = NULL;
 		cmd->outfile = NULL;
-		cmd->exit_code = 0;
+		cmd->exit_code = FALSE;
+		cmd->is_append = FALSE;
 	}
 	return (cmd);
 }
