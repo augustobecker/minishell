@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 21:44:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/06 19:48:13 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/08 08:53:45 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,26 +130,27 @@ TEST(command_parse_str, With_outfile)
 	command_destroy(&cmd);
 }
 
-static void assert_infile_and_outfile(char *prompt)
+static void asstert_in_out(char *prompt, char *infile, char *outfile)
 {	t_command *cmd;
 
 	cmd = command_parse_str(prompt);
 	TEST_ASSERT_NOT_NULL(cmd);
 	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
+	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
+	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
 	TEST_ASSERT_NULL(cmd->args);
 	command_destroy(&cmd);
 }
 
-static void assert_infile_and_outfile_args(char *prompt)
-{	t_command *cmd;
+static void asstert_in_out_args(char *prompt, char *infile, char *outfile)
+{	
+	t_command *cmd;
 
 	cmd = command_parse_str(prompt);
 	TEST_ASSERT_NOT_NULL(cmd);
 	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
+	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
+	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
 	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
 	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
 	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
@@ -160,26 +161,61 @@ static void assert_infile_and_outfile_args(char *prompt)
 
 TEST(command_parse_str, With_infile_and_outfile)
 {
-	assert_infile_and_outfile("< infile ls >   outfile");
-	assert_infile_and_outfile(">   outfile ls < infile");
-	assert_infile_and_outfile("< infile > outfile ls  ");
-	assert_infile_and_outfile("> outfile < infile ls    ");
-	assert_infile_and_outfile("ls >    outfile < infile");
-	assert_infile_and_outfile("  ls < infile > outfile   ");
+	asstert_in_out("< infile ls >   outfile", "infile", "outfile");
+	asstert_in_out(">   outfile ls < infile", "infile", "outfile");
+	asstert_in_out("< infile > outfile ls  ", "infile", "outfile");
+	asstert_in_out("> outfile < infile ls    ", "infile", "outfile");
+	asstert_in_out("ls >    outfile < infile", "infile", "outfile");
+	asstert_in_out("  ls < infile > outfile   ", "infile", "outfile");
 
-	assert_infile_and_outfile_args("< infile ls -l -a -e >   outfile");
-	assert_infile_and_outfile_args(">   outfile ls -l -a -e < infile");
-	assert_infile_and_outfile_args("< infile > outfile ls -l -a -e  ");
-	assert_infile_and_outfile_args("> outfile < infile ls -l -a -e   ");
-	assert_infile_and_outfile_args("ls -l -a -e >    outfile < infile");
-	assert_infile_and_outfile_args("  ls  -l -a -e < infile > outfile   ");
+	asstert_in_out_args("< infile ls -l -a -e >   outfile", "infile", "outfile");
+	asstert_in_out_args(">   outfile ls -l -a -e < infile", "infile", "outfile");
+	asstert_in_out_args("< infile > outfile ls -l -a -e  ", "infile", "outfile");
+	asstert_in_out_args("> outfile < infile ls -l -a -e   ", "infile", "outfile");
+	asstert_in_out_args("ls -l -a -e >    outfile < infile", "infile", "outfile");
+	asstert_in_out_args("  ls  -l -a -e < infile > outfile   ", "infile", "outfile");
+}
+
+TEST(command_parse_str, With_multi_infiles)
+{
+	asstert_in_out("< infile1 < infile2 ls", "infile2", NULL);
+	asstert_in_out("< infile1 < infile2 < infile3 ls", "infile3", NULL);
+	asstert_in_out(" < infile1 ls < infile2", "infile2", NULL);
+	asstert_in_out("ls < infile1 < infile2 ", "infile2", NULL);
+	asstert_in_out("ls < infile1 < infile2 < infile3 ", "infile3", NULL);
+	
+	asstert_in_out_args("< infile1 < infile2 ls -l -a -e", "infile2", NULL);
+	asstert_in_out_args("< infile1 ls -l -a -e  < infile2", "infile2", NULL);
+	asstert_in_out_args("ls -l -a -e < infile1  < infile2", "infile2", NULL);
+}
+
+TEST(command_parse_str, With_multi_outfiles)
+{
+	asstert_in_out("> outfile1 > outfile2 ls", NULL, "outfile2");
+	asstert_in_out(" > outfile1 ls > outfile2", NULL, "outfile2");
+	asstert_in_out("ls > outfile1 > outfile2 ", NULL, "outfile2");
+	
+	asstert_in_out_args("> outfile1 > outfile2 ls -l -a -e", NULL, "outfile2");
+	asstert_in_out_args("> outfile1 ls -l -a -e  > outfile2", NULL, "outfile2");
+	asstert_in_out_args("ls -l -a -e > outfile1  > outfile2", NULL, "outfile2");
+}
+
+TEST(command_parse_str, With_multi_in_and_out_files)
+{
+	asstert_in_out("> outfile1 > outfile2 ls < infile1 < infile2", "infile2", "outfile2");
+	asstert_in_out("< infile1 > outfile1 ls > outfile2 < infile2", "infile2", "outfile2");
+	asstert_in_out("ls > outfile1 < infile1 > outfile2 < infile2", "infile2", "outfile2");
+	
+	asstert_in_out_args("> outfile1 > outfile2 ls -l -a -e < infile1 < infile2", "infile2", "outfile2");
+	asstert_in_out_args("> outfile1 < infile1 ls -l -a -e  > outfile2 < infile2", "infile2", "outfile2");
+	asstert_in_out_args("ls -l -a -e < infile1 > outfile1 < infile2 > outfile2", "infile2", "outfile2");
 }
 
 
 // Testar sem informar o commando, somente infile / outfile
 // Outfile Append
 // Infile << heredoc
-
+// infile e outfile sem espaço antes <infile >outfile
 
 TEST_GROUP_RUNNER(command_parse_str)
 {
@@ -190,4 +226,7 @@ TEST_GROUP_RUNNER(command_parse_str)
 	RUN_TEST_CASE(command_parse_str, With_infile);
 	RUN_TEST_CASE(command_parse_str, With_outfile);
 	RUN_TEST_CASE(command_parse_str, With_infile_and_outfile);
+	RUN_TEST_CASE(command_parse_str, With_multi_infiles);
+	RUN_TEST_CASE(command_parse_str, With_multi_outfiles);
+	RUN_TEST_CASE(command_parse_str, With_multi_in_and_out_files);
 }
