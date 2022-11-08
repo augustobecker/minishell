@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:18:59 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/11/07 22:58:31 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/08 14:03:01 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ char	*replace_pipe(char *command, t_stack **head)
 	}
 }
 
-char	*parse_pipe(char *prompt)
+char	**parse_pipe(char *prompt)
 {
 	int		i;
 	char	*command;
+	char	**list_commands;
 	t_stack	**head;
 
 	if (!prompt)
@@ -68,5 +69,7 @@ char	*parse_pipe(char *prompt)
 	command = ft_strdup(prompt);
 	replace_pipe(command, head);
 	free(head);
-	return (command);
+	list_commands = ft_split(command, '&');
+	free (command);
+	return (list_commands);
 }

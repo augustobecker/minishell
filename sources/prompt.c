@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/07 14:10:41 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/08 14:02:37 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	prompt(void)
 	char	*prompt;
 	char	*token_prompt;
 	char	*current;
-	char	*command_line;
+	char	**command_line;
 
 	current = current_path();
 
@@ -28,9 +28,10 @@ void	prompt(void)
 	free(current);
 	if (ft_strnstr(prompt, "command", ft_strlen(prompt)))
 	{
-		command_line =  parse_pipe(prompt);
-		printf("%s\n", command_line);
-		free(command_line);
+		command_line = parse_pipe(prompt);
+		printf("%s\n", command_line[0]);
+		printf("%s\n", command_line[1]);
+		array_destroy(command_line);
 		return;
 	}
 	if (there_is_a_valid_char(prompt, "\0") == false)
