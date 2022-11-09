@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 16:53:29 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/03 14:47:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/09 07:13:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
 # endif
-
-typedef enum e_bool
-{
-	false,
-	true
-}	t_bool;
 
 typedef struct s_list
 {

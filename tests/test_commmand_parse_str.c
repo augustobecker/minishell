@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 21:44:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/08 09:49:44 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/09 07:22:36 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,303 +18,256 @@ TEST_GROUP(command_parse_str);
 TEST_SETUP(command_parse_str) {}
 TEST_TEAR_DOWN(command_parse_str) {}
 
-static void asstert_in_out(char *prompt, char *infile, char *outfile)
-{	
-	t_command *cmd;
+static void assert_cmd(const char *prompt, t_cmd *cmp)
+{
+	t_cmd *cmd;
 
-	cmd = command_parse_str(prompt);
+	cmd = cmd_parse_str(prompt);
 	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
-	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-}
-
-static void asstert_in_out_args(char *prompt, char *infile, char *outfile)
-{	
-	t_command *cmd;
-
-	cmd = command_parse_str(prompt);
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING(infile, cmd->infile);
-	TEST_ASSERT_EQUAL_STRING(outfile, cmd->outfile);
-	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
-	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
-	TEST_ASSERT_EQUAL_STRING("-e", cmd->args[2]);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	command_destroy(&cmd);
+	TEST_ASSERT_EQUAL_STRING(cmp->command, cmd->command);
+	if (cmp->infile)
+	{
+		TEST_ASSERT_NOT_NULL(cmd->infile);
+		TEST_ASSERT_EQUAL_STRING(cmp->infile->path, cmd->infile->path);
+		TEST_ASSERT_EQUAL_INT(cmp->infile->fd, cmd->infile->fd);
+		TEST_ASSERT_EQUAL_INT(cmp->infile->type, cmd->infile->type);
+	}
+	else
+	{
+		TEST_ASSERT_NULL(cmd->infile);
+	}
+	if (cmp->outfile)
+	{
+		TEST_ASSERT_NOT_NULL(cmd->outfile);
+		TEST_ASSERT_EQUAL_STRING(cmp->outfile->path, cmd->outfile->path);
+		TEST_ASSERT_EQUAL_INT(cmp->outfile->fd, cmd->outfile->fd);
+		TEST_ASSERT_EQUAL_INT(cmp->outfile->type, cmd->outfile->type);
+	}
+	else
+	{
+		TEST_ASSERT_NULL(cmd->outfile);
+	}
+	if (cmp->args)
+	{
+		TEST_ASSERT_EQUAL_INT(array_size(cmp->args), array_size(cmd->args));
+		size_t i = 0;
+		while (cmp->args[i])
+		{
+			TEST_ASSERT_EQUAL_STRING(cmp->args[i], cmd->args[i]);
+			i++;
+		}
+	}
+	else
+	{	
+		TEST_ASSERT_NULL(cmd->args);
+	}
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, Null_str)
 {
-	TEST_ASSERT_NULL(command_parse_str(NULL));
+	TEST_ASSERT_NULL(cmd_parse_str(NULL));
 }
 
 TEST(command_parse_str, Empty_string)
 {
-	TEST_ASSERT_NULL(command_parse_str(""));
+	TEST_ASSERT_NULL(cmd_parse_str(""));
+}
+
+TEST(command_parse_str, Without_command)
+{
+	t_file *infile = file_create("infile", 0, COMMON_FILE);
+	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("", NULL, infile, outfile);
+	
+	assert_cmd("< infile > outfile", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, Without_args)
 {
-	asstert_in_out("ls", NULL, NULL);
-	asstert_in_out(" ls", NULL, NULL);
-	asstert_in_out(" ls  ", NULL, NULL);
+	t_cmd *cmd = cmd_create("ls", NULL, NULL, NULL);
+	
+	assert_cmd("ls", cmd);
+	assert_cmd(" ls ", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_args)
 {
-	t_command *cmd;
+	char *args[] = {"-l", "-a", "-e", NULL};
+	t_cmd *cmd = cmd_create("ls", args, NULL, NULL);
 
-	cmd = command_parse_str("ls -l");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_INT(1, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
-	command_destroy(&cmd);
+	assert_cmd("ls -l -a -e", cmd);
 
-	asstert_in_out_args(" ls  -l -a -e", NULL, NULL);
+	cmd_destroy(&cmd);
+}
 
-	cmd = command_parse_str(" echo \"testando\"  ");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("echo", cmd->command);
-	TEST_ASSERT_EQUAL_INT(1, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("\"testando\"", cmd->args[0]);
-	command_destroy(&cmd);
+TEST(command_parse_str, With_string_args)
+{
+	char *args[] = {" string args ", NULL};
+	t_cmd *cmd = cmd_create("echo", args, NULL, NULL);
+
+	assert_cmd(" echo \" string args \"  ", cmd);
+	assert_cmd(" echo \"\"\" string args \"\"\"  ", cmd);
+	assert_cmd(" echo ' string args '  ", cmd);
+	assert_cmd(" echo ''' string args '''  ", cmd);
+
+	char *args2[] = {" ' string args ' ", NULL};
+	array_destroy(cmd->args);
+	cmd->args = array_dup(args2);
+
+	assert_cmd(" echo \"' string args '\"  ", cmd);
+	
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_infile)
 {
-	t_command *cmd;
+	t_file *infile = file_create("infile", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, infile, NULL);
 
-	cmd = command_parse_str("< infile ls");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_NULL(cmd->args);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	command_destroy(&cmd);
+	assert_cmd("< infile ls", cmd);
+	assert_cmd(" ls < infile", cmd);
 
-	cmd = command_parse_str("< infile ls -l -a -e");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
-	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
-	TEST_ASSERT_EQUAL_STRING("-e", cmd->args[2]);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	command_destroy(&cmd);
+	cmd->args = ft_split("-l -a -e", ' ');
+	assert_cmd("< infile ls -l -a -e", cmd);
+	assert_cmd(" ls -l  -a  -e < infile ", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_outfile)
 {
-	t_command *cmd;
+	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, NULL, outfile);
 
-	cmd = command_parse_str("> outfile ls");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_NULL(cmd->args);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	command_destroy(&cmd);
+	assert_cmd(" ls > outfile", cmd);
+	assert_cmd("> outfile ls", cmd);
 
-	cmd = command_parse_str("> outfile ls -l -a -e");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_EQUAL_INT(3, array_size(cmd->args));
-	TEST_ASSERT_EQUAL_STRING("-l", cmd->args[0]);
-	TEST_ASSERT_EQUAL_STRING("-a", cmd->args[1]);
-	TEST_ASSERT_EQUAL_STRING("-e", cmd->args[2]);
-	TEST_ASSERT_EQUAL_INT(0, cmd->exit_code);
-	command_destroy(&cmd);
+	cmd->args = ft_split("-l -a -e", ' ');
+	assert_cmd(" ls -l  -a  -e > outfile ", cmd);
+	assert_cmd("> outfile ls -l -a -e", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_infile_and_outfile)
 {
-	asstert_in_out("< infile ls >   outfile", "infile", "outfile");
-	asstert_in_out(">   outfile ls < infile", "infile", "outfile");
-	asstert_in_out("< infile > outfile ls  ", "infile", "outfile");
-	asstert_in_out("> outfile < infile ls    ", "infile", "outfile");
-	asstert_in_out("ls >    outfile < infile", "infile", "outfile");
-	asstert_in_out("  ls < infile > outfile   ", "infile", "outfile");
+	t_file *infile = file_create("infile", 0, COMMON_FILE);
+	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, infile, outfile);
+	
+	assert_cmd("< infile ls >   outfile", cmd);
+	assert_cmd(">   outfile ls < infile", cmd);
+	assert_cmd("< infile > outfile ls  ", cmd);
+	assert_cmd("> outfile < infile ls    ", cmd);
+	assert_cmd("ls >    outfile < infile", cmd);
+	assert_cmd("  ls < infile > outfile   ", cmd);
 
-	asstert_in_out_args("< infile ls -l -a -e >   outfile", "infile", "outfile");
-	asstert_in_out_args(">   outfile ls -l -a -e < infile", "infile", "outfile");
-	asstert_in_out_args("< infile > outfile ls -l -a -e  ", "infile", "outfile");
-	asstert_in_out_args("> outfile < infile ls -l -a -e   ", "infile", "outfile");
-	asstert_in_out_args("ls -l -a -e >    outfile < infile", "infile", "outfile");
-	asstert_in_out_args("  ls  -l -a -e < infile > outfile   ", "infile", "outfile");
+	cmd->args = ft_split("-l -a -e", ' ');
+	assert_cmd("< infile ls -l -a -e >   outfile", cmd);
+	assert_cmd(">   outfile ls -l -a -e < infile", cmd);
+	assert_cmd("< infile > outfile ls -l -a -e  ", cmd);
+	assert_cmd("> outfile < infile ls -l -a -e   ", cmd);
+	assert_cmd("ls -l -a -e >    outfile < infile", cmd);
+	assert_cmd("  ls  -l -a -e < infile > outfile   ", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_multi_infiles)
 {
-	asstert_in_out("< infile1 < infile2 ls", "infile2", NULL);
-	asstert_in_out("< infile1 < infile2 < infile3 ls", "infile3", NULL);
-	asstert_in_out(" < infile1 ls < infile2", "infile2", NULL);
-	asstert_in_out("ls < infile1 < infile2 ", "infile2", NULL);
-	asstert_in_out("ls < infile1 < infile2 < infile3 ", "infile3", NULL);
+	t_file *infile = file_create("infile2", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, infile, NULL);
+
+	assert_cmd("< infile1 < infile2 ls", cmd);
+	assert_cmd(" < infile1 ls < infile2", cmd);
+	assert_cmd("ls < infile1 < infile2 ", cmd);
 	
-	asstert_in_out_args("< infile1 < infile2 ls -l -a -e", "infile2", NULL);
-	asstert_in_out_args("< infile1 ls -l -a -e  < infile2", "infile2", NULL);
-	asstert_in_out_args("ls -l -a -e < infile1  < infile2", "infile2", NULL);
+	cmd->args = ft_split("-l -a -e", ' ');
+	assert_cmd("< infile1 < infile2 ls -l -a -e", cmd);
+	assert_cmd("< infile1 ls -l -a -e  < infile2", cmd);
+	assert_cmd("ls -l -a -e < infile1  < infile2", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_multi_outfiles)
 {
-	asstert_in_out("> outfile1 > outfile2 ls", NULL, "outfile2");
-	asstert_in_out(" > outfile1 ls > outfile2", NULL, "outfile2");
-	asstert_in_out("ls > outfile1 > outfile2 ", NULL, "outfile2");
+	t_file *outfile = file_create("outfile2", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, NULL, outfile);
 	
-	asstert_in_out_args("> outfile1 > outfile2 ls -l -a -e", NULL, "outfile2");
-	asstert_in_out_args("> outfile1 ls -l -a -e  > outfile2", NULL, "outfile2");
-	asstert_in_out_args("ls -l -a -e > outfile1  > outfile2", NULL, "outfile2");
+	assert_cmd("> outfile1 > outfile2 ls", cmd);
+	assert_cmd(" > outfile1 ls > outfile2", cmd);
+	assert_cmd("ls > outfile1 > outfile2 ", cmd);
+	assert_cmd("ls >> outfile1 > outfile2 ", cmd);
+	
+	cmd->args = ft_split("-l -a -e", ' ');
+	assert_cmd("> outfile1 > outfile2 ls -l -a -e", cmd);
+	assert_cmd("> outfile1 ls -l -a -e  > outfile2", cmd);
+	assert_cmd("ls -l -a -e > outfile1  > outfile2", cmd);
+	assert_cmd(">> outfile1 ls -l -a -e  > outfile2", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_multi_in_and_out_files)
 {
-	asstert_in_out("> outfile1 > outfile2 ls < infile1 < infile2", "infile2", "outfile2");
-	asstert_in_out("< infile1 > outfile1 ls > outfile2 < infile2", "infile2", "outfile2");
-	asstert_in_out("ls > outfile1 < infile1 > outfile2 < infile2", "infile2", "outfile2");
+	t_file *infile = file_create("infile2", 0, COMMON_FILE);
+	t_file *outfile = file_create("outfile2", 0, COMMON_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, infile, outfile);
 	
-	asstert_in_out_args("> outfile1 > outfile2 ls -l -a -e < infile1 < infile2", "infile2", "outfile2");
-	asstert_in_out_args("> outfile1 < infile1 ls -l -a -e  > outfile2 < infile2", "infile2", "outfile2");
-	asstert_in_out_args("ls -l -a -e < infile1 > outfile1 < infile2 > outfile2", "infile2", "outfile2");
+	assert_cmd("> outfile1 > outfile2 ls < infile1 < infile2", cmd);
+	assert_cmd("< infile1 > outfile1 ls > outfile2 < infile2", cmd);
+	assert_cmd("ls > outfile1 < infile1 > outfile2 < infile2", cmd);
+	
+	cmd->args = ft_split("-l -a -e", ' ');
+	assert_cmd("> outfile1 > outfile2 ls -l -a -e < infile1 < infile2", cmd);
+	assert_cmd("> outfile1 < infile1 ls -l -a -e  > outfile2 < infile2", cmd);
+	assert_cmd("ls -l -a -e < infile1 > outfile1 < infile2 > outfile2", cmd);
+
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_outfile_append)
 {
-	t_command *cmd;
+	t_file *outfile = file_create("outfile", 0, APPEND_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, NULL, outfile);
 
-	cmd = command_parse_str("ls >> outfile");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_append);
-	TEST_ASSERT_FALSE(cmd->is_heredoc);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
+	assert_cmd("ls >> outfile", cmd);
+	assert_cmd(" >> outfile ls ", cmd);
+	assert_cmd(" >> outfile_ ls >> outfile", cmd);
+	assert_cmd(" > outfile_ ls >> outfile", cmd);
 
-	cmd = command_parse_str(" >> outfile ls ");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile", cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_append);
-	TEST_ASSERT_FALSE(cmd->is_heredoc);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-
-	cmd = command_parse_str(" >> outfile1 ls >> outfile2");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile2", cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_append);
-	TEST_ASSERT_FALSE(cmd->is_heredoc);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-
-	cmd = command_parse_str(" > outfile1 ls >> outfile2");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile2", cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_append);
-	TEST_ASSERT_FALSE(cmd->is_heredoc);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-	
-	cmd = command_parse_str(" >> outfile1 ls > outfile2");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_NULL(cmd->infile);
-	TEST_ASSERT_EQUAL_STRING("outfile2", cmd->outfile);
-	TEST_ASSERT_FALSE(cmd->is_append);
-	TEST_ASSERT_FALSE(cmd->is_heredoc);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
+	cmd_destroy(&cmd);
 }
 
 TEST(command_parse_str, With_infile_heredoc)
 {
-	t_command *cmd;
+	t_file *infile = file_create("heredoc", 0, HEREDOC_FILE);
+	t_cmd *cmd = cmd_create("ls", NULL, infile, NULL);
+	
+	assert_cmd("ls << heredoc", cmd);
+	assert_cmd(" << heredoc ls", cmd);
+	assert_cmd("<< heredoc__ ls  << heredoc", cmd);
+	assert_cmd("< infile ls  << heredoc", cmd);
 
-	cmd = command_parse_str("ls << infile");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_heredoc);
-	TEST_ASSERT_FALSE(cmd->is_append);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-
-	cmd = command_parse_str(" << infile ls");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_heredoc);
-	TEST_ASSERT_FALSE(cmd->is_append);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-	
-	cmd = command_parse_str(" << infile1 ls  << infile2");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile2", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_heredoc);
-	TEST_ASSERT_FALSE(cmd->is_append);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-	
-	cmd = command_parse_str(" < infile1 ls  << infile2");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile2", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_TRUE(cmd->is_heredoc);
-	TEST_ASSERT_FALSE(cmd->is_append);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
-	
-	cmd = command_parse_str(" << infile1 ls < infile2");
-	TEST_ASSERT_NOT_NULL(cmd);
-	TEST_ASSERT_EQUAL_STRING("ls", cmd->command);
-	TEST_ASSERT_EQUAL_STRING("infile2", cmd->infile);
-	TEST_ASSERT_NULL(cmd->outfile);
-	TEST_ASSERT_FALSE(cmd->is_heredoc);
-	TEST_ASSERT_FALSE(cmd->is_append);
-	TEST_ASSERT_NULL(cmd->args);
-	command_destroy(&cmd);
+	cmd_destroy(&cmd);
 }
 
-
-// Testar sem informar o commando, somente infile / outfile
-// Outfile Append
-// Infile << heredoc
-// infile e outfile sem espaço antes <infile >outfile
+// TODO Parametros entre aspas e com espaços
 
 TEST_GROUP_RUNNER(command_parse_str)
 {
 	RUN_TEST_CASE(command_parse_str, Null_str);
 	RUN_TEST_CASE(command_parse_str, Empty_string);
+	RUN_TEST_CASE(command_parse_str, Without_command);
 	RUN_TEST_CASE(command_parse_str, Without_args);
 	RUN_TEST_CASE(command_parse_str, With_args);
+	RUN_TEST_CASE(command_parse_str, With_string_args);
 	RUN_TEST_CASE(command_parse_str, With_infile);
 	RUN_TEST_CASE(command_parse_str, With_outfile);
 	RUN_TEST_CASE(command_parse_str, With_infile_and_outfile);

@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   array_dup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 16:12:10 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/11/09 08:24:34 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/08 22:02:59 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/09 08:24:16 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	ft_strcmp(const char *str1, const char *str2)
+char	**array_dup(char *const *array)
 {
-	return (ft_strncmp(str1, str2, ft_strlen(str2) + 1) == 0);
+	size_t	size;
+	char	**new_array;
+
+	new_array = NULL;
+	size = array_size(array);
+	if (array && size)
+	{
+		new_array = (char **) malloc(sizeof(char *) * (size + 1));
+		new_array[size] = NULL;
+		while (size--)
+			new_array[size] = ft_strdup(array[size]);
+	}
+	return (new_array);
 }

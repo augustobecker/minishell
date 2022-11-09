@@ -6,16 +6,11 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 07:20:31 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/04 13:20:07 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/09 07:11:14 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	clear_stack(t_stack **stack);
-t_stack	*stack_new(char c);
-void	stack_push(t_stack **stack, t_stack *new);
-void	stack_pop(t_stack **stack);
 
 void	clear_stack(t_stack **stack)
 {

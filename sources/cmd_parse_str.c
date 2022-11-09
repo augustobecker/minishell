@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_parse_str.c                                :+:      :+:    :+:   */
+/*   cmd_parse_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:20:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/08 17:29:14 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/08 21:55:17 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static int			has_token(char *str);
 static t_bool 		is_infile_token(const char *token);
 static t_bool 		is_outfile_token(const char *token);
 static void			skip_spaces(char **str);
-static char 		*get_infile_outfile(char **prompt, t_command *cmd);
+static char 		*get_infile_outfile(char **prompt, t_cmd *cmd);
 
-t_command	*command_parse_str(const char *str)
+t_cmd	*cmd_parse_str(const char *str)
 {
-	t_command	*cmd;
+	t_cmd		*cmd;
 	char		*token;
 	char		*prompt;
 	char		*prompt_cpy;
 
 	if (!str || !*str)
 		return (NULL);
-	cmd = command_create();
+	cmd = cmd_create("", NULL, NULL, NULL);
 	prompt = ft_strtrim(str, " ");
 	prompt_cpy = prompt;
 	if (cmd && prompt)
@@ -57,7 +57,7 @@ t_command	*command_parse_str(const char *str)
 	return (cmd);
 }
 
-static char *get_infile_outfile(char **prompt, t_command *cmd)
+static char *get_infile_outfile(char **prompt, t_cmd *cmd)
 {
 	char	*token;
 
@@ -66,28 +66,24 @@ static char *get_infile_outfile(char **prompt, t_command *cmd)
 	{
 		if (is_infile_token(token))
 		{
-			free(cmd->infile);
-			cmd->infile = get_next_token(prompt);
-			if (ft_strncmp("<<", token, ft_strlen(token) + 1) == 0)
-				cmd->is_heredoc = 1;
-			else
-				cmd->is_heredoc = 0;
-			cmd->is_append = 0;
-			free(token);
-			token = get_next_token(prompt);
+			file_destroy(&cmd->infile);
+			cmd->infile = file_create(get_next_token(prompt), 0, COMMON_FILE) ;
+			if (ft_strcmp("<<", token) && cmd->infile)
+				cmd->infile->type = HEREDOC_FILE;
+			// free(token);
+			// token = get_next_token(prompt);
 		}
 		if (is_outfile_token(token))
 		{
-			free(cmd->outfile);
-			if (ft_strncmp(">>", token, ft_strlen(token) + 1) == 0)
-				cmd->is_append = 1;
-			else
-				cmd->is_append = 0;
-			cmd->is_heredoc = 0;
-			cmd->outfile = get_next_token(prompt);
-			free(token);
-			token = get_next_token(prompt);
+			file_destroy(&cmd->outfile);
+			cmd->outfile = file_create(get_next_token(prompt), 0, COMMON_FILE) ;
+			if (ft_strcmp(">>", token) && cmd->outfile)
+				cmd->outfile->type = APPEND_FILE;
+			// free(token);
+			// token = get_next_token(prompt);
 		}
+		free(token);
+		token = get_next_token(prompt);
 	}
 	return (token);
 }
@@ -126,26 +122,26 @@ static int	has_token(char *str)
 	while (str && *str)
 	{
 		if (*str != ' ')
-			return (TRUE);
+			return (true);
 		str++;
 	}
-	return (FALSE);
+	return (false);
 }
 
 static t_bool is_infile_token(const char *token)
 {
 	if (token && ft_strncmp("<", token, ft_strlen(token) + 1) == 0)
-		return (TRUE);
+		return (true);
 	if (token && ft_strncmp("<<", token, ft_strlen(token) + 1) == 0)
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }
 
 static t_bool is_outfile_token(const char *token)
 {
 	if (token && ft_strncmp(">", token, ft_strlen(token) + 1) == 0)
-		return (TRUE);
+		return (true);
 	if (token && ft_strncmp(">>", token, ft_strlen(token) + 1) == 0)
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }

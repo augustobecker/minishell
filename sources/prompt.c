@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/08 17:33:30 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/08 21:04:30 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	prompt(t_data *data);
 char	*current_path(void);
-void print_cmds(char **cmds);
 
 void array_print(char **envp)
 {
@@ -62,13 +61,7 @@ void	prompt(t_data *data)
 	commands = parse_pipe(prompt_exp);
 
 	array_print(commands);
-
-	print_cmds(commands);
-
 	array_destroy(commands);
-
-
-
 
 	free(prompt_exp);
 	free(path);
@@ -88,36 +81,6 @@ char	*current_path(void)
 		path = ft_strappend(&path, " ");
 		path = ft_strappend(&path, RESET);
 		return (path);
-	}
-}
-
-
-void print_cmds(char **cmds)
-{
-	t_command *cmd;
-
-	while (cmds && *cmds)
-	{
-		cmd = command_parse_str(*cmds);
-		if (cmd)
-		{
-			char **args;
-			printf("Comando: %s\n", cmd->command);
-			printf("Args: ");
-
-			args = cmd->args;
-			while(args && *args)
-			{
-				printf("%s ", *args);
-				args++;
-			}
-
-			printf("\n");
-			printf("Infile: %s | Heredoc: %d\n", cmd->infile, cmd->is_heredoc);
-			printf("Outfile: %s | Append: %d\n\n", cmd->outfile, cmd->is_append);
-		}
-		command_destroy(&cmd);
-		cmds++;
 	}
 }
 
