@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AllTests.c                                         :+:      :+:    :+:   */
+/*   token_destroy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/09 20:43:53 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/09 19:25:31 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/09 19:26:53 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unity_fixture.h"
+#include "minishell.h"
+#include "lexical.h"
 
-static	void	runAllTests(void)
+void	token_destroy(t_token *token)
 {
-	RUN_TEST_GROUP(get_env_value);
-	// RUN_TEST_GROUP(parse_pipe);
-	RUN_TEST_GROUP(expand_vars);
-	RUN_TEST_GROUP(cmd_parse_str);
-	RUN_TEST_GROUP(get_next_token);
-}
-
-int	main(int argc, const char **argv)
-{
-	return UnityMain(argc, argv, runAllTests);
+	if (!token)
+		return ;
+	free(token->value);
+	free(token);
 }

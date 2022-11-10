@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_commmand_parse_str.c                          :+:      :+:    :+:   */
+/*   test_cmd_parse_str.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 21:44:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/09 15:36:49 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/09 20:46:14 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unity_fixture.h"
 #include "minishell.h"
 
-TEST_GROUP(command_parse_str);
+TEST_GROUP(cmd_parse_str);
 
-TEST_SETUP(command_parse_str) {}
-TEST_TEAR_DOWN(command_parse_str) {}
+TEST_SETUP(cmd_parse_str) {}
+TEST_TEAR_DOWN(cmd_parse_str) {}
 
 static void assert_cmd(const char *prompt, t_cmd *cmp)
 {
@@ -64,17 +64,17 @@ static void assert_cmd(const char *prompt, t_cmd *cmp)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, Null_str)
+TEST(cmd_parse_str, Null_str)
 {
 	TEST_ASSERT_NULL(cmd_parse_str(NULL));
 }
 
-TEST(command_parse_str, Empty_string)
+TEST(cmd_parse_str, Empty_string)
 {
 	TEST_ASSERT_NULL(cmd_parse_str(""));
 }
 
-TEST(command_parse_str, Without_command)
+TEST(cmd_parse_str, Without_command)
 {
 	t_file *infile = file_create("infile", 0, COMMON_FILE);
 	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
@@ -85,7 +85,7 @@ TEST(command_parse_str, Without_command)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, Without_args)
+TEST(cmd_parse_str, Without_args)
 {
 	t_cmd *cmd = cmd_create("ls", NULL, NULL, NULL);
 	
@@ -95,7 +95,7 @@ TEST(command_parse_str, Without_args)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_args)
+TEST(cmd_parse_str, With_args)
 {
 	char *args[] = {"-l", "-a", "-e", NULL};
 	t_cmd *cmd = cmd_create("ls", args, NULL, NULL);
@@ -105,7 +105,7 @@ TEST(command_parse_str, With_args)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_string_args)
+TEST(cmd_parse_str, With_string_args)
 {
 	char *args[] = {" string args ", NULL};
 	t_cmd *cmd = cmd_create("echo", args, NULL, NULL);
@@ -124,7 +124,7 @@ TEST(command_parse_str, With_string_args)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_infile)
+TEST(cmd_parse_str, With_infile)
 {
 	t_file *infile = file_create("infile", 0, COMMON_FILE);
 	t_cmd *cmd = cmd_create("ls", NULL, infile, NULL);
@@ -139,7 +139,7 @@ TEST(command_parse_str, With_infile)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_outfile)
+TEST(cmd_parse_str, With_outfile)
 {
 	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
 	t_cmd *cmd = cmd_create("ls", NULL, NULL, outfile);
@@ -154,7 +154,7 @@ TEST(command_parse_str, With_outfile)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_infile_and_outfile)
+TEST(cmd_parse_str, With_infile_and_outfile)
 {
 	t_file *infile = file_create("infile", 0, COMMON_FILE);
 	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
@@ -178,7 +178,7 @@ TEST(command_parse_str, With_infile_and_outfile)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_multi_infiles)
+TEST(cmd_parse_str, With_multi_infiles)
 {
 	t_file *infile = file_create("infile2", 0, COMMON_FILE);
 	t_cmd *cmd = cmd_create("ls", NULL, infile, NULL);
@@ -195,7 +195,7 @@ TEST(command_parse_str, With_multi_infiles)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_multi_outfiles)
+TEST(cmd_parse_str, With_multi_outfiles)
 {
 	t_file *outfile = file_create("outfile2", 0, COMMON_FILE);
 	t_cmd *cmd = cmd_create("ls", NULL, NULL, outfile);
@@ -214,7 +214,7 @@ TEST(command_parse_str, With_multi_outfiles)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_multi_in_and_out_files)
+TEST(cmd_parse_str, With_multi_in_and_out_files)
 {
 	t_file *infile = file_create("infile2", 0, COMMON_FILE);
 	t_file *outfile = file_create("outfile2", 0, COMMON_FILE);
@@ -232,7 +232,7 @@ TEST(command_parse_str, With_multi_in_and_out_files)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_outfile_append)
+TEST(cmd_parse_str, With_outfile_append)
 {
 	t_file *outfile = file_create("outfile", 0, APPEND_FILE);
 	t_cmd *cmd = cmd_create("ls", NULL, NULL, outfile);
@@ -245,7 +245,7 @@ TEST(command_parse_str, With_outfile_append)
 	cmd_destroy(&cmd);
 }
 
-TEST(command_parse_str, With_infile_heredoc)
+TEST(cmd_parse_str, With_infile_heredoc)
 {
 	t_file *infile = file_create("heredoc", 0, HEREDOC_FILE);
 	t_cmd *cmd = cmd_create("ls", NULL, infile, NULL);
@@ -260,20 +260,20 @@ TEST(command_parse_str, With_infile_heredoc)
 
 // TODO Parametros entre aspas e com espaços
 
-TEST_GROUP_RUNNER(command_parse_str)
+TEST_GROUP_RUNNER(cmd_parse_str)
 {
-	RUN_TEST_CASE(command_parse_str, Null_str);
-	RUN_TEST_CASE(command_parse_str, Empty_string);
-	RUN_TEST_CASE(command_parse_str, Without_command);
-	RUN_TEST_CASE(command_parse_str, Without_args);
-	RUN_TEST_CASE(command_parse_str, With_args);
-	// RUN_TEST_CASE(command_parse_str, With_string_args);
-	RUN_TEST_CASE(command_parse_str, With_infile);
-	RUN_TEST_CASE(command_parse_str, With_outfile);
-	RUN_TEST_CASE(command_parse_str, With_infile_and_outfile);
-	RUN_TEST_CASE(command_parse_str, With_multi_infiles);
-	RUN_TEST_CASE(command_parse_str, With_multi_outfiles);
-	RUN_TEST_CASE(command_parse_str, With_multi_in_and_out_files);
-	RUN_TEST_CASE(command_parse_str, With_outfile_append);
-	RUN_TEST_CASE(command_parse_str, With_infile_heredoc);
+	RUN_TEST_CASE(cmd_parse_str, Null_str);
+	RUN_TEST_CASE(cmd_parse_str, Empty_string);
+	RUN_TEST_CASE(cmd_parse_str, Without_command);
+	RUN_TEST_CASE(cmd_parse_str, Without_args);
+	RUN_TEST_CASE(cmd_parse_str, With_args);
+	// RUN_TEST_CASE(cmd_parse_str, With_string_args);
+	RUN_TEST_CASE(cmd_parse_str, With_infile);
+	RUN_TEST_CASE(cmd_parse_str, With_outfile);
+	RUN_TEST_CASE(cmd_parse_str, With_infile_and_outfile);
+	RUN_TEST_CASE(cmd_parse_str, With_multi_infiles);
+	RUN_TEST_CASE(cmd_parse_str, With_multi_outfiles);
+	RUN_TEST_CASE(cmd_parse_str, With_multi_in_and_out_files);
+	RUN_TEST_CASE(cmd_parse_str, With_outfile_append);
+	RUN_TEST_CASE(cmd_parse_str, With_infile_heredoc);
 }

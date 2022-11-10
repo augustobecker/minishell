@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AllTests.c                                         :+:      :+:    :+:   */
+/*   token_create.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/09 20:43:53 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/09 19:21:29 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/10 06:11:14 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unity_fixture.h"
+#include "minishell.h"
+#include "lexical.h"
 
-static	void	runAllTests(void)
+t_token *token_create(char *value, t_tokentype type)
 {
-	RUN_TEST_GROUP(get_env_value);
-	// RUN_TEST_GROUP(parse_pipe);
-	RUN_TEST_GROUP(expand_vars);
-	RUN_TEST_GROUP(cmd_parse_str);
-	RUN_TEST_GROUP(get_next_token);
-}
+	t_token	*token;
 
-int	main(int argc, const char **argv)
-{
-	return UnityMain(argc, argv, runAllTests);
+	token = (t_token *) malloc(sizeof(t_token));
+	if (token)
+	{
+		if (!value)
+			token->value = ft_strdup("");
+		if (value)
+			token->value = value;
+		token->type = type; 	
+	}
+	return (token);
 }
