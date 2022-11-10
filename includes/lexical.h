@@ -6,14 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:54 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/10 06:11:33 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/10 07:17:12 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
 #ifndef LEXICAL_H
 # define LEXICAL_H
+# include "minishell.h"
 
 typedef enum e_tokentype
 {
@@ -32,11 +31,16 @@ typedef enum e_tokentype
 typedef struct s_token
 {
 	char		*value;
-	t_tokentype type;
+	t_tokentype	type;
 }	t_token;
 
-t_token *token_create(char *value, t_tokentype type);
+t_token	*token_create(char *value, t_tokentype type);
 void	token_destroy(t_token *token);
 t_token	*get_next_token(char **str);
+t_token	*get_string_double_quotes_token(char *start, char **str);
+t_token	*get_string_single_quotes_token(char *start, char **str);
+t_token	*get_string_unquoted_token(char *start, char **str);
+t_token	*get_infile_token(char *start, char **str);
+t_token	*get_outfile_token(char *start, char **str);
 
 #endif
