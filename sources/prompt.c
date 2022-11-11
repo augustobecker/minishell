@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 16:23:00 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 19:58:19 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	prompt(t_data *data);
 char	*current_path(void);
-t_list	*cmd_create_list(char *const *cmds);
 void 	print_list(t_list *list);
 void	print_cmd(t_cmd *cmd);
 
@@ -48,6 +47,16 @@ t_bool syntatic_validations(char *prompt)
 	return (true);
 }
 
+static void prompt_null(char *prompt, char *path)
+{
+	if (prompt == NULL)
+	{
+		free(path);
+		free(prompt);
+		exit(0);
+	}
+}
+
 void	prompt(t_data *data)
 {
 	char	*prompt;
@@ -56,10 +65,11 @@ void	prompt(t_data *data)
 	char	**commands;
 	t_list	*list;
 
-
 	path = current_path();
 	prompt = readline(path);
 
+	if (prompt == NULL)
+		prompt_null(prompt, path);
 	if (syntatic_validations(prompt) == false) // Token + sintaxe
 		return;
 	prompt_exp = expand_vars(prompt, data->env); // PATH, USERNAME, PAPERSIZE, GDMSESSION
@@ -71,31 +81,6 @@ void	prompt(t_data *data)
 	array_destroy(commands);
 	free(prompt_exp);
 	free(path);
-}
-
-
-// NULL
-// {NULL}
-
-t_list *cmd_create_list(char *const *cmds)
-{
-	t_list	*list_cmds;
-	t_list	*node;
-	t_cmd	*cmd;
-	
-	list_cmds = NULL;
-	while(cmds && *cmds)
-	{
-		cmd = cmd_parse_str(*cmds);		// Pode ser NULL
-		node = ft_lstnew(cmd);			// Pode ser NULL
-		
-		if(list_cmds == NULL)
-			list_cmds = node;
-		else
-			ft_lstadd_back(&list_cmds, node);
-		cmds++;
-	}
-	return (list_cmds);
 }
 
 void print_list(t_list *list)

@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   cmd_create_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 19:42:16 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/11 19:45:21 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/11 19:48:42 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/11 19:49:22 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_sigint(int signal);
-
-void	handle_signal(void)
+t_list *cmd_create_list(char *const *cmds)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-static void	handle_sigint(int signal)
-{
-	(void)signal;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	ft_printf(PURPLE);
-	rl_on_new_line();
-	rl_redisplay();
+	t_list	*list_cmds;
+	t_list	*node;
+	t_cmd	*cmd;
+	
+	list_cmds = NULL;
+	while(cmds && *cmds)
+	{
+		cmd = cmd_parse_str(*cmds);		// TODO Pode ser NULL
+		node = ft_lstnew(cmd);			// TODO Pode ser NULL
+		
+		if(list_cmds == NULL)
+			list_cmds = node;
+		else
+			ft_lstadd_back(&list_cmds, node);
+		cmds++;
+	}
+	return (list_cmds);
 }

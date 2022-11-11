@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 08:26:52 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 19:45:42 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	**parse_pipe(char *prompt);
 char	*expand_vars(const char *prompt, char *const *envp);
 void	handle_signal(void);
 char	*command_creator(char *prompt);
+t_list	*cmd_create_list(char *const *cmds);
+void	handle_signal(void);
 
 // Builtins
 int		echo(char **arguments);
