@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/11 17:48:34 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:25:03 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_list	*cmd_create_list(char *const *cmds);
 void	handle_signal(void);
 char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
+char	**for_unset(char **envp, char *var_name);
 
 // Builtins
 int		echo(char **arguments);

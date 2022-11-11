@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:32:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/04 09:53:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 17:21:10 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void		append_str(char **dst, const char *src, size_t start, size_t s);
 static size_t	append_var(char **dst, const char *prompt, char *const *envp);
-static char		*get_var_name(const char *str);
+static char		*get_var_name_temp(const char *str);
 
 // Replaces the $var declaration of prompt string to the respective
 // value of the environment variable name.
 char	*expand_vars(const char *prompt, char *const *envp)
-{	
+{
 	char	*var_name;
 	char	*var_value;
 	char	*newstr;
@@ -75,7 +75,7 @@ static size_t	append_var(char **dst, const char *prompt, char *const *envp)
 
 	if (!dst || !prompt)
 		return (0);
-	var_name = get_var_name(prompt);
+	var_name = get_var_name_temp(prompt);
 	var_value = get_env_value(var_name, envp);
 	name_len = ft_strlen(var_name);
 	free(var_name);
@@ -86,9 +86,9 @@ static size_t	append_var(char **dst, const char *prompt, char *const *envp)
 }
 
 // Return the variable name.
-// It walk throwly the str and stops at the firt invalid 
+// It walk throwly the str and stops at the firt invalid
 // variable name character, returnign the catched characters.
-static char	*get_var_name(const char *str)
+static char	*get_var_name_temp(const char *str)
 {
 	size_t	i;
 
