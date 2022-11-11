@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 06:42:04 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/10 06:51:09 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 09:13:33 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*get_string_double_quotes_token(char *start, char **str)
 				));
 		}
 		*str = ft_strchr(*str, '\0');
-		return (token_create(ft_strdup(start), STRING_DQ_UNCLOSED));
+		return (token_create(ft_strdup(start + 1), STRING_DQ_UNCLOSED));
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 20:40:30 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/10 06:12:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 09:20:01 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ TEST(get_next_token, String_double_quoted_unclosed)
 	t_token *token = get_next_token(&str);
 	
 	TEST_ASSERT_NOT_NULL(token);
-	TEST_ASSERT_EQUAL_STRING("\"gabriel | ' ' < << >> > ", token->value);
+	TEST_ASSERT_EQUAL_STRING("gabriel | ' ' < << >> > ", token->value);
 	TEST_ASSERT_EQUAL_INT(STRING_DQ_UNCLOSED, token->type);
 	TEST_ASSERT_POINTERS_EQUAL(tmp, str);
 
@@ -90,7 +90,7 @@ TEST(get_next_token, String_single_quoted_unclosed)
 	t_token *token = get_next_token(&str);
 	
 	TEST_ASSERT_NOT_NULL(token);
-	TEST_ASSERT_EQUAL_STRING("'gabriel ", token->value);
+	TEST_ASSERT_EQUAL_STRING("gabriel ", token->value);
 	TEST_ASSERT_EQUAL_INT(STRING_SQ_UNCLOSED, token->type);
 	TEST_ASSERT_POINTERS_EQUAL(tmp, str);
 

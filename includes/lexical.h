@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:54 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/10 07:17:12 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 09:19:52 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef enum e_tokentype
 	STRING_SQ_CLOSED,
 	STRING_SQ_UNCLOSED,
 	STRING_DQ_CLOSED,
-	STRING_DQ_UNCLOSED,
+	STRING_DQ_UNCLOSED,	
 	STRING_UNQUOTED,
 	INFILE,
 	INFILE_HEREDOC,
