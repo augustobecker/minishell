@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AllTests.c                                         :+:      :+:    :+:   */
+/*   get_var_name.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/11 17:49:31 by gnuncio-         ###   ########.fr       */
+/*   Created: 2022/11/11 17:13:32 by gnuncio-          #+#    #+#             */
+/*   Updated: 2022/11/11 17:42:54 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unity_fixture.h"
+#include "minishell.h"
 
-static	void	runAllTests(void)
+// usuario=gabriel  -> usuario
+char	*get_var_name(const char *string)
 {
-	RUN_TEST_GROUP(get_env_value);
-	// RUN_TEST_GROUP(parse_pipe);
-	RUN_TEST_GROUP(expand_vars);
-	RUN_TEST_GROUP(cmd_parse_str);
-	RUN_TEST_GROUP(get_next_token);
-	RUN_TEST_GROUP(get_var_name);
-	RUN_TEST_GROUP(get_var_value);
+	char *var_name;
+	char *equal_char_at;
+
+	if(string == NULL)
+		return (NULL);
+
+	equal_char_at = ft_strchr(string, '=');
+	if (equal_char_at)
+	{
+		return ft_substr(string, 0, equal_char_at - string);
+	}
+
+	return (NULL);
 }
 
-int	main(int argc, const char **argv)
-{
-	return UnityMain(argc, argv, runAllTests);
-}

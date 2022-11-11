@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/11 19:45:42 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/11 17:48:34 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	handle_signal(void);
 char	*command_creator(char *prompt);
 t_list	*cmd_create_list(char *const *cmds);
 void	handle_signal(void);
+char	*get_var_name(const char *string);
+char	*get_var_value(const char *string);
 
 // Builtins
 int		echo(char **arguments);
