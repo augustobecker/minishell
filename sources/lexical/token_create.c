@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:21:29 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/10 06:52:23 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/12 08:40:44 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_token	*token_create(char *value, t_tokentype type)
 		if (!value)
 			token->value = ft_strdup("");
 		if (value)
-			token->value = value;
+			token->value = ft_strdup(value);
 		token->type = type;
 	}
 	return (token);
