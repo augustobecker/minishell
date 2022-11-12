@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/11 19:58:19 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/12 14:29:56 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,6 @@ void	prompt(t_data *data);
 char	*current_path(void);
 void 	print_list(t_list *list);
 void	print_cmd(t_cmd *cmd);
-
-void array_print(char **envp)
-{
-	while(envp && *envp)
-	{
-		printf("%s ", *envp);
-		envp++;
-	}
-	printf("\n");
-}
 
 t_bool syntatic_validations(char *prompt)
 {

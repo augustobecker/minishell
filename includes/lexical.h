@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:54 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/12 08:34:21 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/12 09:22:21 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,8 @@ t_token	*get_string_unquoted_token(char *start, char **str);
 t_token	*get_infile_token(char *start, char **str);
 t_token	*get_outfile_token(char *start, char **str);
 char	*token_to_str(t_token *token);
+t_bool	is_string_token(t_token *token);
+t_bool	is_infile_token(t_token *token);
+t_bool	is_outfile_token(t_token *token);
 
 #endif

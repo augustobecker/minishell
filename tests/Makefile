@@ -6,7 +6,7 @@
 #    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/31 16:26:12 by gasouza           #+#    #+#              #
-#    Updated: 2022/11/04 13:14:01 by gasouza          ###   ########.fr        #
+#    Updated: 2022/11/12 14:31:17 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ UNITY_INCS	= -I$(UNITY_PATH)/src								\
 UNITY_SRCS	= $(UNITY_PATH)/extras/fixture/src/unity_fixture.c	\
 			$(UNITY_PATH)/src/unity.c							\
 
-TESTS_SRCS	= $(wildcard *.c)
+TESTS_SRCS	= $(wildcard *.c) $(wildcard ./*/*.c)
 TESTS_INCS	= -I$(INCS_PATH)
 
 all: 		$(NAME)
