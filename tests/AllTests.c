@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AllTests.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/11 18:25:38 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/12 07:19:06 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	void	runAllTests(void)
 	RUN_TEST_GROUP(get_next_token);
 	RUN_TEST_GROUP(get_var_name);
 	RUN_TEST_GROUP(get_var_value);
-	RUN_TEST_GROUP(for_unset);
+	// RUN_TEST_GROUP(for_unset);
 }
 
 int	main(int argc, const char **argv)
