@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:20:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/14 17:27:54 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/14 21:27:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,22 @@ t_cmd	*cmd_parse_str(const char *str)
 	t_token	*next;
 	t_cmd	*cmd;
 	char	*prompt;
-	char	*copy;
 
 	if (!str)
 		return (NULL);
-	prompt = ft_strdup(str);
-	copy = prompt;
+	prompt = (char *) str;
 	current = get_next_token(&prompt);
 	if (!current)
 		return (NULL);
 	cmd = cmd_create("", NULL, NULL, NULL);
 	while (current && current->type != PIPE)
 	{
-		if (set_string(cmd, &current, &prompt))
-			continue ;
-		if (set_in_out(cmd, &current, &next, &prompt))
+		if (set_string(cmd, &current, &prompt) || \
+			set_in_out(cmd, &current, &next, &prompt))
 			continue ;
 		token_destroy(current);
 		current = next;
 	}
-	free(copy);
 	token_destroy(current);
 	return (cmd);
 }
@@ -52,7 +48,10 @@ static t_bool	set_string(t_cmd *cmd, t_token **current, char **prompt)
 	if (is_string_token(*current))
 	{
 		if (ft_strcmp("", cmd->command))
+		{
+			free(cmd->command);
 			cmd->command = ft_strdup((*current)->value);
+		}
 		array_append(&cmd->args, ft_strdup((*current)->value));
 		token_destroy(*current);
 		*current = get_next_token(prompt);

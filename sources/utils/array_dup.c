@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 22:02:59 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/09 08:24:16 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/14 21:05:50 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ char	**array_dup(char *const *array)
 	if (array && size)
 	{
 		new_array = (char **) malloc(sizeof(char *) * (size + 1));
-		new_array[size] = NULL;
-		while (size--)
-			new_array[size] = ft_strdup(array[size]);
+		if (new_array)
+		{
+			new_array[size] = NULL;
+			while (size--)
+				new_array[size] = ft_strdup(array[size]);
+		}
 	}
 	return (new_array);
 }

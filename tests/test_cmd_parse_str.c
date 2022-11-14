@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 21:44:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/12 15:50:04 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/14 21:07:47 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ TEST(cmd_parse_str, With_infile)
 	assert_cmd(" ls < \"infile\"", cmd);
 	assert_cmd(" ls<\"infile\"", cmd);
 
+	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("< infile ls -l -a -e", cmd);
 	assert_cmd("<infile ls -l -a -e", cmd);
@@ -226,6 +227,7 @@ TEST(cmd_parse_str, With_outfile)
 	assert_cmd("> 'outfile' ls", cmd);
 	assert_cmd("> \"outfile\" ls", cmd);
 
+	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd(" ls -l  -a  -e >outfile ", cmd);
 	assert_cmd(" ls -l  -a  -e> 'outfile' ", cmd);
@@ -251,6 +253,7 @@ TEST(cmd_parse_str, With_infile_and_outfile)
 	assert_cmd("ls >    outfile < infile", cmd);
 	assert_cmd("  ls < infile > outfile   ", cmd);
 
+	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("< 'infile' ls -l -a -e >   outfile", cmd);
 	assert_cmd(">   'outfile' ls -l -a -e < infile", cmd);
@@ -272,6 +275,7 @@ TEST(cmd_parse_str, With_multi_infiles)
 	assert_cmd(" < infile1 ls < infile2", cmd);
 	assert_cmd("ls < infile1 < infile2 ", cmd);
 	
+	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("< infile1 < infile2 ls -l -a -e", cmd);
 	assert_cmd("< infile1 ls -l -a -e  < infile2", cmd);
@@ -291,6 +295,7 @@ TEST(cmd_parse_str, With_multi_outfiles)
 	assert_cmd("ls > outfile1 > outfile2 ", cmd);
 	assert_cmd("ls >> outfile1 > outfile2 ", cmd);
 	
+	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("> outfile1 > outfile2 ls -l -a -e", cmd);
 	assert_cmd("> outfile1 ls -l -a -e  > outfile2", cmd);
@@ -311,6 +316,7 @@ TEST(cmd_parse_str, With_multi_in_and_out_files)
 	assert_cmd("< infile1 > outfile1 ls > outfile2 < infile2", cmd);
 	assert_cmd("ls > outfile1 < 'infile1' > outfile2 < infile2", cmd);
 	
+	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("> outfile1 > \"outfile2\" ls -l -a -e < infile1 < infile2", cmd);
 	assert_cmd("> outfile1 < \"infile1\" ls -l -a -e  > 'outfile2' < \"infile2\"", cmd);
