@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 06:42:04 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/11 09:13:33 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:13:15 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 t_token	*get_string_double_quotes_token(char *start, char **str)
 {
 	char	*next_close_quote;
+	char	*tmp;
+	t_token	*token;
 
 	if (start && str && *str && *start == '"')
 	{
@@ -23,13 +25,16 @@ t_token	*get_string_double_quotes_token(char *start, char **str)
 		if (next_close_quote)
 		{
 			*str = next_close_quote + 1;
-			return (token_create(
-					ft_substr(start, 1, next_close_quote - start - 1),
-					STRING_DQ_CLOSED
-				));
+			tmp = ft_substr(start, 1, next_close_quote - start - 1);
+			token = token_create(tmp, STRING_DQ_CLOSED);
+			free(tmp);
+			return (token);
 		}
 		*str = ft_strchr(*str, '\0');
-		return (token_create(ft_strdup(start + 1), STRING_DQ_UNCLOSED));
+		tmp = ft_strdup(start + 1);
+		token = token_create(tmp, STRING_DQ_UNCLOSED);
+		free(tmp);
+		return (token);
 	}
 	return (NULL);
 }

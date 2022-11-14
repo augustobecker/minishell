@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:20:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/12 16:28:57 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/14 17:27:54 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ t_cmd	*cmd_parse_str(const char *str)
 	t_token	*next;
 	t_cmd	*cmd;
 	char	*prompt;
+	char	*copy;
 
 	if (!str)
 		return (NULL);
 	prompt = ft_strdup(str);
+	copy = prompt;
 	current = get_next_token(&prompt);
 	if (!current)
 		return (NULL);
@@ -40,6 +42,7 @@ t_cmd	*cmd_parse_str(const char *str)
 		token_destroy(current);
 		current = next;
 	}
+	free(copy);
 	token_destroy(current);
 	return (cmd);
 }
