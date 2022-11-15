@@ -6,11 +6,12 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/12 14:29:56 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/15 10:53:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 void	prompt(t_data *data);
 char	*current_path(void);
@@ -62,65 +63,61 @@ void	prompt(t_data *data)
 		prompt_null(prompt, path);
 	if (syntatic_validations(prompt) == false) // Token + sintaxe
 		return;
-	prompt_exp = expand_vars(prompt, data->env); // PATH, USERNAME, PAPERSIZE, GDMSESSION
-	commands = parse_pipe(prompt_exp);
+	prompt_exp = expand_vars(prompt, data->env);
+	print_tokens_colorized(prompt_exp);
+	// commands = parse_pipe(prompt_exp);
 
-	list = cmd_create_list(commands);
-	print_list(list);
+	// list = cmd_create_list(commands);
+	// print_list(list);
 	
-	array_destroy(commands);
+	// array_destroy(commands);
 	free(prompt_exp);
 	free(path);
 }
 
-void print_list(t_list *list)
-{
-	t_list	*node;
-	t_cmd	*cmd;
+// void print_list(t_list *list)
+// {
+// 	t_list	*node;
+// 	t_cmd	*cmd;
 
-	while (list)
-	{
-		cmd = (t_cmd *) list->content;
+// 	while (list)
+// 	{
+// 		cmd = (t_cmd *) list->content;
 		
-		if (cmd)
-		{
-			print_cmd(cmd);
-			printf("\n");
-		}
+// 		if (cmd)
+// 		{
+// 			print_cmd(cmd);
+// 			printf("\n");
+// 		}
 			
-		list = list->next;
-	}
-}
+// 		list = list->next;
+// 	}
+// }
 
-void	print_cmd(t_cmd *cmd)
-{
-	if (!cmd)
-		return ;
+// void	print_cmd(t_cmd *cmd)
+// {
+// 	if (!cmd)
+// 		return ;
 	
-	printf("Comando: %s\n", cmd->command);
-	printf("\tArgs: "); array_print(cmd->args);
+// 	printf("Comando: %s\n", cmd->command);
+// 	printf("\tArgs: "); array_print(cmd->args);
 	
-	if (cmd->infile)
-	{
-		printf("\tInfile: %s | ", cmd->infile->path);
-		printf("%s\n", (cmd->infile->type == COMMON_FILE)? "COMMON":"HEREDOC");
-	}
-	else 
-		printf("\tInfile: null\n");
+// 	if (cmd->infile)
+// 	{
+// 		printf("\tInfile: %s | ", cmd->infile->path);
+// 		printf("%s\n", (cmd->infile->type == COMMON_FILE)? "COMMON":"HEREDOC");
+// 	}
+// 	else 
+// 		printf("\tInfile: null\n");
 		
-	if (cmd->outfile)
-	{
-		printf("\tOutfile: %s | ", cmd->outfile->path);
-		printf("%s\n", (cmd->outfile->type == COMMON_FILE)? "COMMON":"APPEND");
-	}
-	else 
-		printf("\tOutfile: null\n");
-}
-
-// comando: ls
-// args: -l -a
-// infile: path | common heredoc
-// outfile: path | common ou append 
+// 	if (cmd->outfile)
+// 	{
+// 		printf("\tOutfile: %s | ", cmd->outfile->path);
+// 		printf("%s\n", (cmd->outfile->type == COMMON_FILE)? "COMMON":"APPEND");
+// 	}
+// 	else 
+// 		printf("\tOutfile: null\n");
+// }
 
 char	*current_path(void)
 {
