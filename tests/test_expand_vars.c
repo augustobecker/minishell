@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:12:43 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/04 12:02:22 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:51:56 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 TEST_GROUP(expand_vars);
 
-static char *envp[] = {"test=ok", "user=gabriel", NULL};
+static char *envp[] = {"test=ok", "user=gabriel", "_name_=pass", NULL};
 
 TEST_SETUP(expand_vars) {}
 TEST_TEAR_DOWN(expand_vars) {}
@@ -69,7 +69,73 @@ TEST(expand_vars, With_valid_var_name)
 	free(value);
 }
 
-// variavel com nome contendo _
+TEST(expand_vars, With_underline_var_name)
+{
+	char *value;
+	
+	value = expand_vars("valid $_name_", envp);
+	TEST_ASSERT_EQUAL_STRING("valid pass", value);
+	free(value);
+
+	value = expand_vars("valid $user and valid $_name_!", envp);
+	TEST_ASSERT_EQUAL_STRING("valid gabriel and valid pass!", value);
+	free(value);
+	
+	value = expand_vars("$user $test $ $_inva_lid!", envp);
+	TEST_ASSERT_EQUAL_STRING("gabriel ok $ !", value);
+	free(value);
+}
+
+TEST(expand_vars, Inside_double_quoted_string)
+{
+	char *value;
+	
+	value = expand_vars("valid \"$_name_\"", envp);
+	TEST_ASSERT_EQUAL_STRING("valid \"pass\"", value);
+	free(value);
+
+	value = expand_vars("valid \"$user\" and valid \"$_name_!\"", envp);
+	TEST_ASSERT_EQUAL_STRING("valid \"gabriel\" and valid \"pass!\"", value);
+	free(value);
+	
+	value = expand_vars("$user \"$test\" $ $_inva_lid!", envp);
+	TEST_ASSERT_EQUAL_STRING("gabriel \"ok\" $ !", value);
+	free(value);
+}
+
+TEST(expand_vars, Inside_single_quoted_string)
+{
+	char *value;
+	
+	value = expand_vars("valid '$_name_'", envp);
+	TEST_ASSERT_EQUAL_STRING("valid '$_name_'", value);
+	free(value);
+
+	value = expand_vars("valid '$user' and valid '$_name_!'", envp);
+	TEST_ASSERT_EQUAL_STRING("valid '$user' and valid '$_name_!'", value);
+	free(value);
+	
+	value = expand_vars("$user '$test' $ $_inva_lid!", envp);
+	TEST_ASSERT_EQUAL_STRING("gabriel '$test' $ !", value);
+	free(value);
+}
+
+TEST(expand_vars, Inside_multi_quoted_string)
+{
+	char *value;
+	
+	value = expand_vars("valid \"'$_name_'\"", envp);
+	TEST_ASSERT_EQUAL_STRING("valid \"'pass'\"", value);
+	free(value);
+
+	value = expand_vars("valid '\"$user\"' and valid \"'$_name_!'\"", envp);
+	TEST_ASSERT_EQUAL_STRING("valid '\"$user\"' and valid \"'pass!'\"", value);
+	free(value);
+	
+	value = expand_vars("$user '$test' \"$test\" $ $_inva_lid!", envp);
+	TEST_ASSERT_EQUAL_STRING("gabriel '$test' \"ok\" $ !", value);
+	free(value);
+}
 
 TEST_GROUP_RUNNER(expand_vars)
 {
@@ -77,4 +143,8 @@ TEST_GROUP_RUNNER(expand_vars)
 	RUN_TEST_CASE(expand_vars, Without_var);
 	RUN_TEST_CASE(expand_vars, With_invalid_var_name);
 	RUN_TEST_CASE(expand_vars, With_valid_var_name);
+	RUN_TEST_CASE(expand_vars, With_underline_var_name);
+	RUN_TEST_CASE(expand_vars, Inside_double_quoted_string);
+	RUN_TEST_CASE(expand_vars, Inside_single_quoted_string);
+	RUN_TEST_CASE(expand_vars, Inside_multi_quoted_string);
 }

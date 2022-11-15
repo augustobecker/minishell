@@ -3,49 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:32:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/11 17:21:10 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/15 09:37:12 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char		*var_name(const char *str);
+static void		expand_token(t_token *token, char *const *envp);
+static void		append_str(char **dst, const char *src, size_t start, size_t s);
 static void		append_str(char **dst, const char *src, size_t start, size_t s);
 static size_t	append_var(char **dst, const char *prompt, char *const *envp);
-static char		*get_var_name_temp(const char *str);
 
-// Replaces the $var declaration of prompt string to the respective
-// value of the environment variable name.
-char	*expand_vars(const char *prompt, char *const *envp)
+char	*expand_vars(const char *str, char *const *envp)
 {
-	char	*var_name;
-	char	*var_value;
+	char	*prompt;
+	char	*result;
+	t_token	*token;
+	char	*tmp;
+
+	if (!str)
+		return (NULL);
+	prompt = (char *) str;
+	token = get_next_token(&prompt);
+	result = NULL;
+	while (token)
+	{	
+		if (result)
+			append_str(&result, " ", 0, 2);
+		if (is_valid_expand_vars_token(token->type))
+			expand_token(token, envp);
+		tmp = token_to_str(token);
+		append_str(&result, tmp, 0, ft_strlen(tmp) + 1);
+		token_destroy(token);
+		free(tmp);
+		token = get_next_token(&prompt);
+	}
+	token_destroy(token);
+	return (result);
+}
+
+static void	expand_token(t_token *token, char *const *envp)
+{
 	char	*newstr;
 	size_t	i;
-	size_t	start_copy_index;
+	size_t	start_copy_at;
 
-	if (!prompt)
-		return (NULL);
 	newstr = NULL;
+	start_copy_at = 0;
 	i = 0;
-	start_copy_index = 0;
-	while (prompt[i])
+	while (token->value[i])
 	{
-		if (prompt[i] == '$' && ft_isalpha(prompt[i + 1]))
+		if (token->value[i] == '$' && \
+			(token->value[i + 1] == '_' || ft_isalpha(token->value[i + 1])))
 		{
-			append_str(&newstr, prompt, start_copy_index, i - start_copy_index);
-			i += append_var(&newstr, prompt + i + 1, envp);
-			start_copy_index = i + 1;
+			append_str(&newstr, token->value, start_copy_at, i - start_copy_at);
+			i += append_var(&newstr, token->value + i + 1, envp);
+			start_copy_at = i + 1;
 		}
 		i++;
 	}
-	append_str(&newstr, prompt, start_copy_index, i);
-	return (newstr);
+	append_str(&newstr, token->value, start_copy_at, i);
+	free(token->value);
+	token->value = newstr;
 }
 
-// Appends the src into dst and free the old dst content.
+static char	*var_name(const char *str)
+{
+	size_t	i;
+
+	if (!str || !*str)
+		return (ft_strdup(""));
+	i = 0;
+	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
+		i++;
+	return (ft_substr(str, 0, i));
+}
+
 static void	append_str(char **dst, const char *src, size_t start, size_t len)
 {
 	char	*tmp;
@@ -66,36 +103,23 @@ static void	append_str(char **dst, const char *src, size_t start, size_t len)
 	free(tmp);
 }
 
-// Append the variable value into dst and return de variable name size.
 static size_t	append_var(char **dst, const char *prompt, char *const *envp)
 {
-	char	*var_name;
-	char	*var_value;
+	char	*name;
+	char	*value;
 	size_t	name_len;
 
-	if (!dst || !prompt)
-		return (0);
-	var_name = get_var_name_temp(prompt);
-	var_value = get_env_value(var_name, envp);
-	name_len = ft_strlen(var_name);
-	free(var_name);
-	if (var_value)
-		append_str(dst, var_value, 0, ft_strlen(var_value));
-	free(var_value);
+	name_len = 0;
+	if (dst && prompt)
+	{
+		name = var_name(prompt);
+		value = get_env_value(name, envp);
+		if (name)
+			name_len = ft_strlen(name);
+		if (value)
+			append_str(dst, value, 0, ft_strlen(value));
+		free(name);
+		free(value);
+	}
 	return (name_len);
-}
-
-// Return the variable name.
-// It walk throwly the str and stops at the firt invalid
-// variable name character, returnign the catched characters.
-static char	*get_var_name_temp(const char *str)
-{
-	size_t	i;
-
-	if (!str || !*str)
-		return (ft_strdup(""));
-	i = 0;
-	while (str[i] && ft_isalnum(str[i]))
-		i++;
-	return (ft_substr(str, 0, i));
 }

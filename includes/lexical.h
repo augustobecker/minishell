@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:09:54 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/12 09:22:21 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:36:55 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ char	*token_to_str(t_token *token);
 t_bool	is_string_token(t_token *token);
 t_bool	is_infile_token(t_token *token);
 t_bool	is_outfile_token(t_token *token);
+t_bool	is_valid_expand_vars_token(t_tokentype type);
 
 #endif
