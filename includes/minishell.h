@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/12 07:43:55 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:24:46 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include "lexical.h"
 # include <limits.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <unistd.h>
 
 void	prompt(t_data *data);
 t_bool	is_prompt_valid(char *prompt);
@@ -42,6 +44,7 @@ void	handle_signal(void);
 char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
 char	**for_unset(char **envp, char *var_name);
+void	file_manager(t_file	*file);
 
 // Builtins
 int		echo(char **arguments);
