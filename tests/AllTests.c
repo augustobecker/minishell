@@ -21,10 +21,11 @@ static	void	runAllTests(void)
 	RUN_TEST_GROUP(get_next_token);
 	RUN_TEST_GROUP(get_var_name);
 	RUN_TEST_GROUP(get_var_value);
-	// RUN_TEST_GROUP(for_unset);
 	RUN_TEST_GROUP(token_to_str);
 	RUN_TEST_GROUP(array_append);
 	RUN_TEST_GROUP(file_manager);
+	RUN_TEST_GROUP(to_unset);
+	RUN_TEST_GROUP(set_env_value);
 }
 
 int	main(int argc, const char **argv)

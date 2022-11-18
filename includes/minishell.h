@@ -43,8 +43,9 @@ t_list	*cmd_create_list(char *const *cmds);
 void	handle_signal(void);
 char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
-char	**for_unset(char **envp, char *var_name);
+char	**to_unset(char **envp, char *var_name);
 void	file_manager(t_file	*file);
+char  **set_env_value(char *name, char *value, char **envp);
 
 // Builtins
 int		echo(char **arguments);

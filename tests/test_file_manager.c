@@ -46,21 +46,18 @@ TEST(file_manager, CommonFile)
 {
 	file_manager(file_2);
 	TEST_ASSERT_NOT_EQUAL_INT(-1, file_2->fd);
-	print_fd(file_2);
 }
 
 TEST(file_manager, AppendFile)
 {
 	file_manager(file_3);
 	TEST_ASSERT_NOT_EQUAL_INT(-1, file_3->fd);
-	print_fd(file_3);
 }
 
 TEST(file_manager, HereDoc)
 {
 	file_manager(file_4);
 	TEST_ASSERT_NOT_EQUAL_INT(-1, file_4->fd);
-	print_fd(file_4);
 }
 
 TEST_GROUP_RUNNER(file_manager)
