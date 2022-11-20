@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 00:56:09 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 12:57:01 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ void	file_manager(t_data *data, t_file	*file);
 char  **set_env_value(char *name, char *value, char **envp);
 
 // Builtins
+void execute_builtin(t_cmd *command, char *const *envp);
+t_bool	is_a_builtin(char *command);
 int		echo(char **arguments);
-int		pwd(int fd_out);
-int		cd(char *directory);
+int     pwd(void);
+int	    cd(char *directory, int argc, char *const *env);
 
 //execution
 void	init_files(t_data *data, t_list *list);

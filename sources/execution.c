@@ -90,7 +90,10 @@ int	execute(t_cmd *command, char *const *envp)
 	char	*cmd_and_path;
 	char	**paths;
 	int		i;
+
 	i = 0;
+	if (is_a_builtin(command->command))
+		execute_builtin(command, envp);
 	if (ft_count_occurrences(command->command, '/') > 1)
 		execve(command->command, command->args, envp);
 	paths = get_cmd_paths(envp);
