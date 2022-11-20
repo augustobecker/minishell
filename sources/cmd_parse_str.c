@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 23:20:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/14 21:27:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/20 00:53:13 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static t_bool	set_in_out(t_cmd *cmd, t_token **c, t_token **n, char **prompt)
 static void	set_outfile(t_cmd *cmd, t_token *current, t_token *next)
 {
 	file_destroy(&cmd->outfile);
-	cmd->outfile = file_create(next->value, 0, COMMON_FILE);
+	cmd->outfile = file_create(next->value, 0, COMMON_FILE_OUT);
 	if (cmd->outfile && current->type == OUTFILE_APPEND)
 		cmd->outfile->type = APPEND_FILE;
 }
@@ -93,7 +93,7 @@ static void	set_outfile(t_cmd *cmd, t_token *current, t_token *next)
 static void	set_infile(t_cmd *cmd, t_token *current, t_token *next)
 {
 	file_destroy(&cmd->infile);
-	cmd->infile = file_create(next->value, 0, COMMON_FILE);
+	cmd->infile = file_create(next->value, 0, COMMON_FILE_IN);
 	if (cmd->infile && current->type == INFILE_HEREDOC)
 		cmd->infile->type = HEREDOC_FILE;
 }

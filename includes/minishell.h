@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/17 11:24:46 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:56:09 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 void	prompt(t_data *data);
 t_bool	is_prompt_valid(char *prompt);
@@ -44,12 +46,22 @@ void	handle_signal(void);
 char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
 char	**to_unset(char **envp, char *var_name);
-void	file_manager(t_file	*file);
+void	file_manager(t_data *data, t_file	*file);
 char  **set_env_value(char *name, char *value, char **envp);
 
 // Builtins
 int		echo(char **arguments);
 int		pwd(int fd_out);
 int		cd(char *directory);
+
+//execution
+void	init_files(t_data *data, t_list *list);
+void	command_not_found(char *command);
+char    **get_cmd_paths(char *const *envp);
+void    execution_process(t_data *data, t_list *list);
+void    execute_single_cmd(t_data *data, t_cmd *command, int fd_pipe_in);
+int     execute_cmd_to_pipe(t_data *data, t_cmd *command, int fd_pipe_in);
+int     execute(t_cmd *command, char *const *envp);
+
 
 #endif

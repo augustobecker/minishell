@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/15 10:53:08 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/20 00:54:35 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ void	prompt(t_data *data)
 		return;
 	prompt_exp = expand_vars(prompt, data->env);
 	print_tokens_colorized(prompt_exp);
-	// commands = parse_pipe(prompt_exp);
-
-	// list = cmd_create_list(commands);
+	commands = parse_pipe(prompt_exp);
+	list = cmd_create_list(commands);
 	// print_list(list);
-	
-	// array_destroy(commands);
+	init_files(data, list);
+	execution_process(data, list);
+	array_destroy(commands);
 	free(prompt_exp);
 	free(path);
 }
