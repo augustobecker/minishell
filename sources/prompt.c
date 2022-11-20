@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 00:54:35 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 02:20:14 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	prompt(t_data *data)
 	if (syntatic_validations(prompt) == false) // Token + sintaxe
 		return;
 	prompt_exp = expand_vars(prompt, data->env);
-	print_tokens_colorized(prompt_exp);
+	//print_tokens_colorized(prompt_exp);
 	commands = parse_pipe(prompt_exp);
 	list = cmd_create_list(commands);
 	// print_list(list);

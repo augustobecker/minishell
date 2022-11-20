@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 08:15:15 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/11/20 00:53:38 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 02:19:50 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,38 +33,46 @@ void	init_files(t_data *data, t_list *list)
 	}
 }
 
+static void	file_error_message(t_data *data, t_file	*file)
+{
+	if (file->type == COMMON_FILE_IN)
+	{
+		if (access(file->path, R_OK))
+			ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
+		else
+			ft_printf(GREY"minishell: %s : No such file or directory\n"RESET, file->path);
+		file->fd = data->empty_infile->fd;
+	}
+	else
+	{
+		ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
+		file->fd = data->discarded_outfile->fd;
+	}
+}
+
 void	file_manager(t_data *data, t_file	*file)
 {
 	if (file == NULL)
 		return ;
-	if (file->type == COMMON_FILE_IN)
+	else if (file->type == COMMON_FILE_IN)
 	{
 		file->fd = open(file->path, O_RDONLY);
 		if (file->fd == -1)
-		{
-			ft_printf(GREY"minishell: %s : No such file or directory\n"RESET, file->path);
-			file->fd = data->empty_infile->fd;
-		}
+			file_error_message(data, file);
 	}
-	if (file->type == COMMON_FILE_OUT)
+	else if (file->type == COMMON_FILE_OUT)
 	{
 		file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (file->fd == -1)
-		{
-			ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
-			file->fd = data->discarded_outfile->fd;
-		}
+			file_error_message(data, file);
 	}
-	if (file->type == APPEND_FILE)
+	else if (file->type == APPEND_FILE)
 	{
 		file->fd = open(file->path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (file->fd == -1)
-		{
-			ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
-			file->fd = data->discarded_outfile->fd;
-		}
+			file_error_message(data, file);
 	}
-	if (file->type == HEREDOC_FILE)
+	else if (file->type == HEREDOC_FILE)
 		file->fd = open("/tmp/herecdoc_minihell", O_WRONLY | O_CREAT | \
 				O_APPEND, 0644);
 }
