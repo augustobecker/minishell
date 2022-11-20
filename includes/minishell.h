@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 12:57:01 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 22:46:48 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void    execution_process(t_data *data, t_list *list);
 void    execute_single_cmd(t_data *data, t_cmd *command, int fd_pipe_in);
 int     execute_cmd_to_pipe(t_data *data, t_cmd *command, int fd_pipe_in);
 int     execute(t_cmd *command, char *const *envp);
-
+void	delete_temporary_files(t_data *data, t_list *list);
 
 #endif

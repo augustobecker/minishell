@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 14:09:17 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 22:46:44 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	prompt(t_data *data)
 	init_files(data, list);
 	execution_process(data, list);
 	array_destroy(commands);
+	delete_temporary_files(data, list);
 	free(prompt_exp);
 	free(path);
 }
@@ -105,7 +106,7 @@ void	prompt(t_data *data)
 // 	if (cmd->infile)
 // 	{
 // 		printf("\tInfile: %s | ", cmd->infile->path);
-// 		printf("%s\n", (cmd->infile->type == COMMON_FILE)? "COMMON":"HEREDOC");
+// 		printf("%s\n", (cmd->infile->type == COMMON_FILE_IN)? "COMMON":"HEREDOC");
 // 	}
 // 	else 
 // 		printf("\tInfile: null\n");
@@ -113,7 +114,7 @@ void	prompt(t_data *data)
 // 	if (cmd->outfile)
 // 	{
 // 		printf("\tOutfile: %s | ", cmd->outfile->path);
-// 		printf("%s\n", (cmd->outfile->type == COMMON_FILE)? "COMMON":"APPEND");
+// 		printf("%s\n", (cmd->outfile->type == COMMON_FILE_OUT)? "COMMON":"APPEND");
 // 	}
 // 	else 
 // 		printf("\tOutfile: null\n");

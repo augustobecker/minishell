@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 06:05:15 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 00:51:20 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 22:59:10 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@
 # define    OUTPUT              1
 # define    EMPTY_INFILE        "/tmp/empty_infile"
 # define    TMP_OUTFILE         "/tmp/discarded"
-
+# define    HEREDOC_PATH        "/tmp/herecdoc_minihell"
 #endif

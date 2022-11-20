@@ -6,11 +6,17 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 08:15:15 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/11/20 13:47:14 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 23:22:35 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void			init_files(t_data *data, t_list *list);
+void			file_manager(t_data *data, t_file	*file);
+static void		file_error_message(t_data *data, t_file	*file);
+int				read_heredoc(t_data *data, t_file *file, char *limiter);
+void			delete_temporary_files(t_data *data, t_list *list);
 
 void	init_files(t_data *data, t_list *list)
 {
@@ -32,25 +38,6 @@ void	init_files(t_data *data, t_list *list)
 		file_manager(data, command->infile);
 		file_manager(data, command->outfile);
 		node = node->next;
-	}
-}
-
-static void	file_error_message(t_data *data, t_file	*file)
-{
-	if (file->type == COMMON_FILE_IN)
-	{
-		if (access(file->path, R_OK))
-			ft_printf \
-			(GREY"minishell: %s : Permission denied\n"RESET, file->path);
-		else
-			ft_printf \
-			(GREY"minishell: %s : No such file or directory\n"RESET, file->path);
-		file->fd = data->empty_infile->fd;
-	}
-	else
-	{
-		ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
-		file->fd = data->discarded_outfile->fd;
 	}
 }
 
@@ -77,6 +64,72 @@ void	file_manager(t_data *data, t_file	*file)
 			file_error_message(data, file);
 	}
 	else if (file->type == HEREDOC_FILE)
-		file->fd = open("/tmp/herecdoc_minihell", O_WRONLY | O_CREAT | \
+	{
+		file->fd = open(HEREDOC_PATH, O_WRONLY | O_CREAT | \
 				O_APPEND, 0644);
+		file->fd = read_heredoc(data, file, file->path);
+	}
+}
+
+int	read_heredoc(t_data *data, t_file *file, char *limiter)
+{
+	char    *line;
+    int    rd;
+	int		fd_stdout;
+	
+	fd_stdout = dup(STDOUT_FILENO);
+	dup2(file->fd, STDOUT_FILENO);
+	line = get_next_line(STDIN_FILENO);
+	while (!ft_strnstr(line, limiter, ft_strlen(limiter)))
+	{
+		ft_printf("%s", line);
+		free(line);
+		line = get_next_line(STDIN_FILENO);
+	}
+	free(line);
+	dup2(fd_stdout, STDOUT_FILENO);
+	close(file->fd);
+	return (open(HEREDOC_PATH, O_RDONLY));
+}
+
+static void	file_error_message(t_data *data, t_file	*file)
+{
+	if (file->type == COMMON_FILE_IN)
+	{
+		if (access(file->path, R_OK))
+			ft_printf \
+			(GREY"minishell: %s : Permission denied\n"RESET, file->path);
+		else
+			ft_printf \
+			(GREY"minishell: %s : No such file or directory\n"RESET, file->path);
+		file->fd = data->empty_infile->fd;
+	}
+	else
+	{
+		ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
+		file->fd = data->discarded_outfile->fd;
+	}
+}
+
+void			delete_temporary_files(t_data *data, t_list *list)
+{
+	t_cmd	*command;
+	t_list	*node;
+
+	unlink(data->empty_infile->path);
+	unlink(data->discarded_outfile->path);
+	node = list;
+	while (node)
+	{
+		command = (t_cmd *) node->content;
+		if (command->infile)
+		{
+			if (command->infile->type == HEREDOC_FILE)
+			{
+				unlink(HEREDOC_PATH);
+				break;
+			}
+		}
+		node = node->next;
+	}
 }
