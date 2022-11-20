@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 02:20:14 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 14:09:17 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char	*current_path(void)
 {
 	char	*path;
 
-	path = ft_calloc(sizeof(char), PATH_MAX);
+	path = ft_calloc(sizeof(char), PATH_MAX + 1);
 	if (getcwd(path, PATH_MAX) == NULL)
 		return (NULL);
 	else
@@ -161,5 +161,3 @@ char	*current_path(void)
 	// 	ft_printf("%s\n", &prompt[5]);
 	// if (ft_strnstr(prompt, "pwd", ft_strlen(prompt)))
 	// 	pwd(STDOUT_FILENO);
-
-
