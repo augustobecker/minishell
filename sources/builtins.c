@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:08:56 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 13:20:38 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/20 13:56:59 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void execute_builtin(t_cmd *cmd, char *const *envp)
 	exit_code = 0;
 	if (ft_strcmp("echo\0", cmd->command))
 		exit_code = echo(&cmd->args[1]);
-	else if (ft_strcmp("cd\0", cmd->command))
-		exit_code = cd(cmd->args[1], array_size(cmd->args), envp);
 	else if	(ft_strcmp("pwd\0", cmd->command))
 		exit_code = pwd();
 	else if	(ft_strcmp("export\0", cmd->command))
@@ -72,9 +70,9 @@ int	pwd(void)
 
 int	cd(char *directory, int argc, char *const *env)
 {
-	char *home_dir;
-	int	 return_value;
-	
+	char	*home_dir;
+	int		return_value;
+
 	if (argc > 2)
 	{
 		ft_printf(GREY"minishell: cd : too many arguments\n"RESET);
@@ -96,8 +94,7 @@ int	cd(char *directory, int argc, char *const *env)
 			directory);
 		return (1);
 	}
-	else
-		return (0);
+	return (0);
 }
 
 int	echo(char **arguments)
