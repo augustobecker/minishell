@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 08:15:15 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/11/20 23:22:35 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/21 04:45:54 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,13 @@ void	file_manager(t_data *data, t_file	*file)
 
 int	read_heredoc(t_data *data, t_file *file, char *limiter)
 {
-	char    *line;
-    int    rd;
+	char	*line;
+    int		rd;
 	int		fd_stdout;
 	
 	fd_stdout = dup(STDOUT_FILENO);
 	dup2(file->fd, STDOUT_FILENO);
+	limiter = ft_strappend(&limiter, "\n");
 	line = get_next_line(STDIN_FILENO);
 	while (!ft_strnstr(line, limiter, ft_strlen(limiter)))
 	{
