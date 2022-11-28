@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:01:12 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/28 13:22:29 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/28 13:33:29 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	execute_builtin(t_cmd *cmd, char *const *envp)
 	else if (ft_strcmp("unset\0", cmd->command))
 		exit_code = ft_printf("unset not built\n");
 	else if (ft_strcmp("env\0", cmd->command))
-		exit_code = ft_printf("env not built\n");
+		exit_code = env(envp);
 	else
 		exit (0);
 	exit(exit_code);
