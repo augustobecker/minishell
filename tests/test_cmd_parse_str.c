@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_cmd_parse_str.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 21:44:01 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/14 21:07:47 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/29 15:54:30 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void assert_cmd(const char *prompt, t_cmd *cmp)
 		}
 	}
 	else
-	{	
+	{
 		TEST_ASSERT_NULL(cmd->args);
 	}
 	cmd_destroy(&cmd);
@@ -76,10 +76,10 @@ TEST(cmd_parse_str, Empty_string)
 
 TEST(cmd_parse_str, Without_command)
 {
-	t_file *infile = file_create("infile", 0, COMMON_FILE);
-	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
+	t_file *infile = file_create("infile", 0, COMMON_FILE_IN);
+	t_file *outfile = file_create("outfile", 0, COMMON_FILE_OUT);
 	t_cmd *cmd = cmd_create("", NULL, infile, outfile);
-	
+
 	assert_cmd("< infile > outfile", cmd);
 	assert_cmd("< infile > outfile | ls", cmd);
 	assert_cmd("< infile > outfile | echo ok", cmd);
@@ -91,7 +91,7 @@ TEST(cmd_parse_str, Without_args)
 {
 	char  *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, NULL, NULL);
-	
+
 	assert_cmd("ls", cmd);
 	assert_cmd(" ls ", cmd);
 	assert_cmd("\"ls\" ", cmd);
@@ -137,7 +137,7 @@ TEST(cmd_parse_str, With_double_quoted_string_args)
 	cmd->args = array_dup(args2);
 
 	assert_cmd(" echo \"' string args '\"  ", cmd);
-	
+
 	cmd_destroy(&cmd);
 }
 
@@ -170,7 +170,7 @@ TEST(cmd_parse_str, With_quotes_in_sequnce_args)
 
 TEST(cmd_parse_str, With_infile)
 {
-	t_file *infile = file_create("infile", 0, COMMON_FILE);
+	t_file *infile = file_create("infile", 0, COMMON_FILE_IN);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, infile, NULL);
 
@@ -209,7 +209,7 @@ TEST(cmd_parse_str, With_infile)
 
 TEST(cmd_parse_str, With_outfile)
 {
-	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
+	t_file *outfile = file_create("outfile", 0, COMMON_FILE_OUT);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, NULL, outfile);
 
@@ -241,11 +241,11 @@ TEST(cmd_parse_str, With_outfile)
 
 TEST(cmd_parse_str, With_infile_and_outfile)
 {
-	t_file *infile = file_create("infile", 0, COMMON_FILE);
-	t_file *outfile = file_create("outfile", 0, COMMON_FILE);
+	t_file *infile = file_create("infile", 0, COMMON_FILE_IN);
+	t_file *outfile = file_create("outfile", 0, COMMON_FILE_OUT);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, infile, outfile);
-	
+
 	assert_cmd("< 'infile' ls >   outfile", cmd);
 	assert_cmd(">   \"outfile\" ls < infile", cmd);
 	assert_cmd("< \"infile\" > outfile ls  ", cmd);
@@ -267,14 +267,14 @@ TEST(cmd_parse_str, With_infile_and_outfile)
 
 TEST(cmd_parse_str, With_multi_infiles)
 {
-	t_file *infile = file_create("infile2", 0, COMMON_FILE);
+	t_file *infile = file_create("infile2", 0, COMMON_FILE_IN);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, infile, NULL);
 
 	assert_cmd("< infile1 < infile2 ls", cmd);
 	assert_cmd(" < infile1 ls < infile2", cmd);
 	assert_cmd("ls < infile1 < infile2 ", cmd);
-	
+
 	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("< infile1 < infile2 ls -l -a -e", cmd);
@@ -286,15 +286,15 @@ TEST(cmd_parse_str, With_multi_infiles)
 
 TEST(cmd_parse_str, With_multi_outfiles)
 {
-	t_file *outfile = file_create("outfile2", 0, COMMON_FILE);
+	t_file *outfile = file_create("outfile2", 0, COMMON_FILE_OUT);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, NULL, outfile);
-	
+
 	assert_cmd("> outfile1 > outfile2 ls", cmd);
 	assert_cmd(" > outfile1 ls > outfile2", cmd);
 	assert_cmd("ls > outfile1 > outfile2 ", cmd);
 	assert_cmd("ls >> outfile1 > outfile2 ", cmd);
-	
+
 	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("> outfile1 > outfile2 ls -l -a -e", cmd);
@@ -307,15 +307,15 @@ TEST(cmd_parse_str, With_multi_outfiles)
 
 TEST(cmd_parse_str, With_multi_in_and_out_files)
 {
-	t_file *infile = file_create("infile2", 0, COMMON_FILE);
-	t_file *outfile = file_create("outfile2", 0, COMMON_FILE);
+	t_file *infile = file_create("infile2", 0, COMMON_FILE_IN);
+	t_file *outfile = file_create("outfile2", 0, COMMON_FILE_OUT);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, infile, outfile);
-	
+
 	assert_cmd("> outfile1 > 'outfile2' ls < infile1 < infile2", cmd);
 	assert_cmd("< infile1 > outfile1 ls > outfile2 < infile2", cmd);
 	assert_cmd("ls > outfile1 < 'infile1' > outfile2 < infile2", cmd);
-	
+
 	array_destroy(cmd->args);
 	cmd->args = ft_split("ls -l -a -e", ' ');
 	assert_cmd("> outfile1 > \"outfile2\" ls -l -a -e < infile1 < infile2", cmd);
@@ -350,7 +350,7 @@ TEST(cmd_parse_str, With_infile_heredoc)
 	t_file *infile = file_create("heredoc", 0, HEREDOC_FILE);
 	char *args[] = {"ls", NULL};
 	t_cmd *cmd = cmd_create("ls", args, infile, NULL);
-	
+
 	assert_cmd("ls << heredoc", cmd);
 	assert_cmd("ls << 'heredoc'", cmd);
 	assert_cmd("ls << \"heredoc\"", cmd);

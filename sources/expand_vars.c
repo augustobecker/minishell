@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:32:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/15 09:37:12 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/29 17:04:11 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*expand_vars(const char *str, char *const *envp)
 	token = get_next_token(&prompt);
 	result = NULL;
 	while (token)
-	{	
+	{
 		if (result)
 			append_str(&result, " ", 0, 2);
 		if (is_valid_expand_vars_token(token->type))
@@ -58,7 +58,8 @@ static void	expand_token(t_token *token, char *const *envp)
 	while (token->value[i])
 	{
 		if (token->value[i] == '$' && \
-			(token->value[i + 1] == '_' || ft_isalpha(token->value[i + 1])))
+			(token->value[i + 1] == '_' || ft_isalpha(token->value[i + 1]) || \
+				token->value[i + 1] == '?'))
 		{
 			append_str(&newstr, token->value, start_copy_at, i - start_copy_at);
 			i += append_var(&newstr, token->value + i + 1, envp);
@@ -78,6 +79,8 @@ static char	*var_name(const char *str)
 	if (!str || !*str)
 		return (ft_strdup(""));
 	i = 0;
+	if (str[i] == '?')
+		return (ft_substr(str, 0, 1));
 	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
 		i++;
 	return (ft_substr(str, 0, i));
