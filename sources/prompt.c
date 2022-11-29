@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 22:46:44 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 22:50:35 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	prompt(t_data *data)
 	commands = parse_pipe(prompt_exp);
 	list = cmd_create_list(commands);
 	// print_list(list);
-	init_files(data, list);
-	execution_process(data, list);
-	array_destroy(commands);
-	delete_temporary_files(data, list);
+	init_global_struct();
+	init_files(list);
+	execution_process(list);
+	clear_memory(list);
 	free(prompt_exp);
 	free(path);
 }

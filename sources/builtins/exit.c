@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   defines.h                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 06:05:15 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:39:19 by acesar-l         ###   ########.fr       */
+/*   Created: 2022/11/29 22:52:54 by acesar-l          #+#    #+#             */
+/*   Updated: 2022/11/29 22:53:13 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEFINES_H
-# define DEFINES_H
+#include "minishell.h"
 
-# define    TAB		            9
-# define    SPACE	        	32
-# define    COMMAND_NOT_FOUND   127
-# define    INPUT               0
-# define    OUTPUT              1
-# define    EMPTY_INFILE        "/tmp/empty_infile"
-# define    TMP_OUTFILE         "/tmp/discarded"
-# define    HEREDOC_PATH        "/tmp/herecdoc_minihell"
-
-#endif
+int	minishell_exit(t_list *list)
+{
+	clear_memory(list);
+	exit (0);
+}

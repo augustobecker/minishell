@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/28 13:38:21 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/29 22:53:29 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,30 @@ void	handle_signal(void);
 char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
 char	**to_unset(char **envp, char *var_name);
-void	file_manager(t_data *data, t_file	*file);
+void	file_manager(t_file	*file);
 char	**set_env_value(char *name, char *value, char **envp);
+void	list_clear(t_list **list);
 
 // Builtins
-void	execute_builtin(t_cmd *command, char *const *envp);
+void	execute_builtin(t_cmd *command);
 t_bool	is_a_builtin(char *command);
 int		echo(char **arguments);
 int		pwd(void);
-int		cd(char *directory, int argc, char *const *env);
+int		cd(char **args, int argc);
 int		env(char *const *envp);
+int     minishell_exit(t_list *list);
 
 //execution
-void	init_files(t_data *data, t_list *list);
-void	command_not_found(char *command);
-char	**get_cmd_paths(char *const *envp);
-void	execution_process(t_data *data, t_list *list);
-void	execute_single_cmd(t_data *data, t_cmd *command, int fd_pipe_in);
-int		execute_cmd_to_pipe(t_data *data, t_cmd *command, int fd_pipe_in);
-int		execute(t_cmd *command, char *const *envp);
-void	delete_temporary_files(t_data *data, t_list *list);
+void	init_files(t_list *list);
+char	**get_cmd_paths(void);
+void		execution_process(t_list *list);
+void	delete_temporary_files(t_list *list);
+
+//global
+void	init_global_struct(void);
+void    clear_global(void);
+
+//memory
+void        clear_memory(t_list *list);
 
 #endif

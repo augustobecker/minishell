@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 07:20:31 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 07:11:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/29 22:49:22 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	list_clear(t_list **list);
+
+void	list_clear(t_list **list)
+{
+	t_list	*ptr_i;
+	t_list	*next;
+
+	ptr_i = *list;
+	if (*list == NULL)
+		return ;
+	while (ptr_i)
+	{
+		next = ptr_i->next;
+		free(ptr_i);
+		ptr_i = next;
+	}
+	*list = NULL;
+}
 
 void	clear_stack(t_stack **stack)
 {
