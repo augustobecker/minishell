@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:42:24 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:45:27 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:23:03 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ void clear_global(void)
 {
     file_destroy(&g_data.empty_infile);
 	file_destroy(&g_data.discarded_outfile);
+    free(g_data.prompt_path);
 }

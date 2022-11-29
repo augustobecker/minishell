@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 23:01:07 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:13:33 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	execution_process(t_list *list)
 		}
 		else
 			fd_pipe_in = execute_cmd_to_pipe(command, fd_pipe_in, list);
+		//set_exit_code();
 		node = node->next;
 	}
 }

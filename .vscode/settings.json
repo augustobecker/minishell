@@ -2,7 +2,8 @@
 	"files.associations": {
 		"*.tcc": "c",
 		"string": "c",
-		"string_view": "c"
+		"string_view": "c",
+		"debug.h": "c"
 	},
 	"cmake.configureOnOpen": false
 }

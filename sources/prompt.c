@@ -6,12 +6,14 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:50:35 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:23:48 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "debug.h"
+
+t_data	g_data;
 
 void	prompt(t_data *data);
 char	*current_path(void);
@@ -51,29 +53,26 @@ static void prompt_null(char *prompt, char *path)
 void	prompt(t_data *data)
 {
 	char	*prompt;
-	char	*path;
 	char	*prompt_exp;
 	char	**commands;
 	t_list	*list;
 
-	path = current_path();
-	prompt = readline(path);
-
+	g_data.prompt_path = current_path();
+	prompt = readline(g_data.prompt_path);
 	if (prompt == NULL)
-		prompt_null(prompt, path);
+		prompt_null(prompt, g_data.prompt_path);
 	if (syntatic_validations(prompt) == false) // Token + sintaxe
 		return;
 	prompt_exp = expand_vars(prompt, data->env);
 	//print_tokens_colorized(prompt_exp);
 	commands = parse_pipe(prompt_exp);
+	free(prompt_exp);
 	list = cmd_create_list(commands);
 	// print_list(list);
 	init_global_struct();
 	init_files(list);
 	execution_process(list);
 	clear_memory(list);
-	free(prompt_exp);
-	free(path);
 }
 
 // void print_list(t_list *list)

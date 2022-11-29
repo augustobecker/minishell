@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/20 00:52:23 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:23:27 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
+	char	*prompt_path;
 	char	**env;
 	int		last_exit_code;
 	t_file	*empty_infile;
