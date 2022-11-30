@@ -6,13 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:59:17 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 22:05:09 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/29 23:47:38 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
 int			cd(char **args, int argc);
 static int	cd_to_home(void);
@@ -32,15 +32,16 @@ int	cd(char **args, int argc)
 		return (cd_to_home());
 	else if (chdir(args[1]))
 	{
-		printf(GREY"minishell: cd: %s: No such file or directory\n"RESET, args[1]);
+		printf(GREY"minishell: cd: %s: No such file or directory\n"RESET,
+			args[1]);
 		return (1);
 	}
 	return (0);
 }
 
-static int cd_to_home(void)
+static int	cd_to_home(void)
 {
-	char *home_dir;
+	char	*home_dir;
 
 	home_dir = get_env_value("HOME", g_data.env);
 	if (!home_dir)
@@ -51,7 +52,10 @@ static int cd_to_home(void)
 	}
 	else if (chdir(home_dir))
 	{
-		printf(GREY"minishell: cd: %s: No such file or directory\n"RESET, home_dir);
+		printf(
+			GREY"minishell: cd: %s: No such file or directory\n"RESET,
+			home_dir
+			);
 		free(home_dir);
 		return (1);
 	}

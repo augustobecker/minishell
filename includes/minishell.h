@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:18:52 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/29 23:30:25 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		pwd(void);
 int		cd(char **args, int argc);
 int		env(char *const *envp);
 int		minishell_exit(t_list *list);
+int		unset(const char *name, char ***envp);
 
 //execution
 void	init_files(t_list *list);
