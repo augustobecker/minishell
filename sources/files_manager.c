@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 21:09:53 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:48:45 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ static int	read_heredoc(t_file *file, char *limiter)
 	char	*line;
     int		rd;
 	int		fd_stdout;
-	
+
 	fd_stdout = dup(STDOUT_FILENO);
 	dup2(file->fd, STDOUT_FILENO);
 	limiter = ft_strappend(&limiter, "\n");
 	line = get_next_line(STDIN_FILENO);
 	while (!ft_strnstr(line, limiter, ft_strlen(limiter)))
 	{
-		ft_printf("%s", line);
+		printf("%s", line);
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
@@ -92,17 +92,17 @@ static void	file_error_message(t_file *file)
 	if (file->type == COMMON_FILE_IN)
 	{
 		if (access(file->path, F_OK) == -1)
-			ft_printf \
+			printf \
 			(GREY"minishell: %s : No such file or directory\n"RESET, file->path);
 		else if (access(file->path, R_OK) == -1)
-			ft_printf \
+			printf \
 			(GREY"minishell: %s : Permission denied\n"RESET, file->path);
 		file->fd = g_data.empty_infile->fd;
 	}
 	else
 	{
 		if (access(file->path, W_OK) == -1)
-			ft_printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
+			printf(GREY"minishell: %s : Permission denied\n"RESET, file->path);
 		file->fd = g_data.discarded_outfile->fd;
 	}
 }

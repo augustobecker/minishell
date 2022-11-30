@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 20:48:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:48:15 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ static int	execute(t_cmd *command)
 static void	command_not_found(char *command, t_list *list)
 {
 	dup2(STDERR_FILENO, STDOUT_FILENO);
-	ft_printf(GREY"minishell: %s : command not found\n"RESET, command);
+	printf(GREY"minishell: %s : command not found\n"RESET, command);
 	clear_memory(list);
 	exit(COMMAND_NOT_FOUND);
 }

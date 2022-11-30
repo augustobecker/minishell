@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:04:53 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:48:20 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ void	prompt(t_data *data)
 // 	while (list)
 // 	{
 // 		cmd = (t_cmd *) list->content;
-		
+
 // 		if (cmd)
 // 		{
 // 			print_cmd(cmd);
 // 			printf("\n");
 // 		}
-			
+
 // 		list = list->next;
 // 	}
 // }
@@ -98,24 +98,24 @@ void	prompt(t_data *data)
 // {
 // 	if (!cmd)
 // 		return ;
-	
+
 // 	printf("Comando: %s\n", cmd->command);
 // 	printf("\tArgs: "); array_print(cmd->args);
-	
+
 // 	if (cmd->infile)
 // 	{
 // 		printf("\tInfile: %s | ", cmd->infile->path);
 // 		printf("%s\n", (cmd->infile->type == COMMON_FILE_IN)? "COMMON":"HEREDOC");
 // 	}
-// 	else 
+// 	else
 // 		printf("\tInfile: null\n");
-		
+
 // 	if (cmd->outfile)
 // 	{
 // 		printf("\tOutfile: %s | ", cmd->outfile->path);
 // 		printf("%s\n", (cmd->outfile->type == COMMON_FILE_OUT)? "COMMON":"APPEND");
 // 	}
-// 	else 
+// 	else
 // 		printf("\tOutfile: null\n");
 // }
 
@@ -128,7 +128,7 @@ char	*current_path(void)
 		return (NULL);
 	else
 	{
-		ft_printf(PURPLE);
+		printf(PURPLE);
 		path = ft_strappend(&path, ">");
 		path = ft_strappend(&path, " ");
 		path = ft_strappend(&path, RESET);
