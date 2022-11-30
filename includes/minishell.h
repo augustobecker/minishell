@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 23:30:25 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 08:47:33 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
 char	**unset_env_value(const char *name, char *const *envp);
 void	file_manager(t_file	*file);
-char	**set_env_value(char *name, char *value, char **envp);
+char	**set_env_value(char *name, char *value, char *const *envp);
 void	list_clear(t_list **list);
 
 // Builtins

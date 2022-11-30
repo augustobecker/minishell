@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:16:59 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 23:21:28 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 09:09:20 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**unset_env_value(const char *name, char *const *envp)
 	{
 		var_name = get_var_name(envp[i]);
 		if (!ft_strcmp(name, var_name))
-			tmp[cp_i++] = envp[i];
+			tmp[cp_i++] = ft_strdup(envp[i]);
 		i++;
 		free(var_name);
 	}

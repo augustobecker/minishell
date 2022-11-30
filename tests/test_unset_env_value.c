@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 23:22:49 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 23:23:01 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 09:12:47 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ TEST(unset_env_value, with_absent_env_var)
 	TEST_ASSERT_NULL(envp[1]);
 
 	array_destroy(copy);
-	free(new_array);
+	array_destroy(new_array);
 }
 
 TEST(unset_env_value, with_present_env_var)
@@ -66,7 +66,7 @@ TEST(unset_env_value, with_present_env_var)
 	TEST_ASSERT_NULL(new_array[2]);
 
 	array_destroy(copy);
-	free(new_array);
+	array_destroy(new_array);
 }
 
 
