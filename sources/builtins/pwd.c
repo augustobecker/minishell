@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:58:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/28 13:20:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:54:05 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	pwd(void)
 		return (1);
 	else
 	{
-		ft_printf("%s\n", pwd);
+		printf("%s\n", pwd);
 		free(pwd);
 		return (0);
 	}
