@@ -3,41 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 13:48:20 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/30 22:50:44 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "debug.h"
 
-extern t_data	g_data;
+extern t_data g_data;
 
-void	prompt(t_data *data);
-char	*current_path(void);
-void 	print_list(t_list *list);
-void	print_cmd(t_cmd *cmd);
+void		prompt(t_data *data);
+static char	*current_path(void);
+static void	prompt_null(char *prompt, char *path);
 
-t_bool syntatic_validations(char *prompt)
+void	prompt(t_data *data)
 {
-	if (there_is_a_valid_char(prompt, "\0") == false)
-		return	(false);
-	if (are_the_quotation_marks_closed(prompt) == false)
+	char	*prompt;
+	char	*prompt_exp;
+	char	**commands;
+	t_list	*list;
+
+	g_data.prompt_path = current_path();
+	g_data.last_exit_code = 0;
+	prompt = readline(g_data.prompt_path);
+	if (prompt == NULL)
+		prompt_null(prompt, g_data.prompt_path);
+	if (!syntatic_validations(prompt))
+		return;
+	prompt_exp = expand_vars(prompt, data->env);
+	commands = parse_pipe(prompt_exp);
+	free(prompt_exp);
+	list = cmd_create_list(commands);
+	array_destroy(commands);
+	init_global_struct();
+	init_files(list);
+	execution_process(list);
+	clear_memory(list);
+}
+
+static char	*current_path(void)
+{
+	char	*path;
+
+	path = ft_calloc(sizeof(char), PATH_MAX + 1);
+	if (getcwd(path, PATH_MAX) == NULL)
+		return (NULL);
+	else
 	{
-		error("syntax error: unclosed quotation marks", 2);
-		return	(false);
+		ft_printf(PURPLE);
+		path = ft_strappend(&path, ">");
+		path = ft_strappend(&path, " ");
+		path = ft_strappend(&path, RESET);
+		return (path);
 	}
-	add_history(prompt);
-	if (there_is_a_valid_char(prompt, "#") == false)
-		return	(false);
-	if (ft_strcmp(prompt, "exit") == true)
-	{
-		free(prompt);
-		exit(0);
-	}
-	return (true);
 }
 
 static void prompt_null(char *prompt, char *path)
@@ -49,115 +70,3 @@ static void prompt_null(char *prompt, char *path)
 		exit(0);
 	}
 }
-
-void	prompt(t_data *data)
-{
-	char	*prompt;
-	char	*prompt_exp;
-	char	**commands;
-	t_list	*list;
-
-	g_data.prompt_path = current_path();
-	prompt = readline(g_data.prompt_path);
-	if (prompt == NULL)
-		prompt_null(prompt, g_data.prompt_path);
-	if (syntatic_validations(prompt) == false) // Token + sintaxe
-		return;
-	prompt_exp = expand_vars(prompt, data->env);
-	//print_tokens_colorized(prompt_exp);
-	commands = parse_pipe(prompt_exp);
-	free(prompt_exp);
-	list = cmd_create_list(commands);
-	// print_list(list);
-	init_global_struct();
-	init_files(list);
-	execution_process(list);
-	clear_memory(list);
-}
-
-// void print_list(t_list *list)
-// {
-// 	t_list	*node;
-// 	t_cmd	*cmd;
-
-// 	while (list)
-// 	{
-// 		cmd = (t_cmd *) list->content;
-
-// 		if (cmd)
-// 		{
-// 			print_cmd(cmd);
-// 			printf("\n");
-// 		}
-
-// 		list = list->next;
-// 	}
-// }
-
-// void	print_cmd(t_cmd *cmd)
-// {
-// 	if (!cmd)
-// 		return ;
-
-// 	printf("Comando: %s\n", cmd->command);
-// 	printf("\tArgs: "); array_print(cmd->args);
-
-// 	if (cmd->infile)
-// 	{
-// 		printf("\tInfile: %s | ", cmd->infile->path);
-// 		printf("%s\n", (cmd->infile->type == COMMON_FILE_IN)? "COMMON":"HEREDOC");
-// 	}
-// 	else
-// 		printf("\tInfile: null\n");
-
-// 	if (cmd->outfile)
-// 	{
-// 		printf("\tOutfile: %s | ", cmd->outfile->path);
-// 		printf("%s\n", (cmd->outfile->type == COMMON_FILE_OUT)? "COMMON":"APPEND");
-// 	}
-// 	else
-// 		printf("\tOutfile: null\n");
-// }
-
-char	*current_path(void)
-{
-	char	*path;
-
-	path = ft_calloc(sizeof(char), PATH_MAX + 1);
-	if (getcwd(path, PATH_MAX) == NULL)
-		return (NULL);
-	else
-	{
-		printf(PURPLE);
-		path = ft_strappend(&path, ">");
-		path = ft_strappend(&path, " ");
-		path = ft_strappend(&path, RESET);
-		return (path);
-	}
-}
-
-	// char	*prompt;
-	// char	*token_prompt;
-	// char	*current;
-	// char	**command_line;
-
-	// current = current_path();
-
-	// prompt = readline(current);
-	// free(current);
-	// if (ft_strnstr(prompt, "command", ft_strlen(prompt)))
-	// {
-	// 	command_line = parse_pipe(prompt);
-	// 	printf("%s\n", command_line[0]);
-	// 	printf("%s\n", command_line[1]);
-	// 	array_destroy(command_line);
-	// 	return;
-	// }
-	// if (is_prompt_valid(prompt) == false)
-	// 	exit(EXIT_FAILURE);
-	// if (ft_strnstr(prompt, "cd", ft_strlen(prompt)))
-	// 	cd(&prompt[3]);
-	// if (ft_strnstr(prompt, "echo", ft_strlen(prompt)))
-	// 	ft_printf("%s\n", &prompt[5]);
-	// if (ft_strnstr(prompt, "pwd", ft_strlen(prompt)))
-	// 	pwd(STDOUT_FILENO);

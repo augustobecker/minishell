@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:01:12 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/30 09:25:01 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 22:43:42 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,19 @@
 
 extern t_data	g_data;
 
-// TODO - Free memory
-void	execute_builtin(t_cmd *cmd)
+int	execute_builtin(t_cmd *cmd)
 {
-	int	exit_code;
-
-	exit_code = 0;
 	if (ft_strcmp("echo", cmd->command))
-		exit_code = echo(&cmd->args[1]);
-	else if (ft_strcmp("pwd", cmd->command))
-		exit_code = pwd();
-	else if (ft_strcmp("export", cmd->command))
-		exit_code = export(cmd->args[1], &g_data.env);
-	else if (ft_strcmp("unset", cmd->command))
-		exit_code = unset(cmd->args[1], &g_data.env);
-	else if (ft_strcmp("env", cmd->command))
-		exit_code = env(g_data.env);
-	else
-		exit (0);
-	exit(exit_code);
+		return (echo(&cmd->args[1]));
+	if (ft_strcmp("cd", cmd->command))
+		return (cd(cmd->args, array_size(cmd->args)));
+	if (ft_strcmp("pwd", cmd->command))
+		return (pwd());
+	if (ft_strcmp("export", cmd->command))
+		return (export(cmd->args[1], &g_data.env));
+	if (ft_strcmp("unset", cmd->command))
+		return (unset(cmd->args[1], &g_data.env));
+	if (ft_strcmp("env", cmd->command))
+		return (env(g_data.env));
+	return (g_data.last_exit_code);
 }

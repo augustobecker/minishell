@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 09:24:43 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 22:44:40 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,7 @@
 # include <sys/wait.h>
 
 void	prompt(t_data *data);
-t_bool	is_prompt_valid(char *prompt);
-char	*current_path(void);
-t_bool	is_syntax_valid(char *expression);
-t_bool	there_is_a_valid_char(char *str, char *limiter);
-t_bool	is_a_limiter(char c);
-t_bool	are_the_quotation_marks_closed(char *expression);
+t_bool	syntatic_validations(char *prompt);
 int		error(char *message, int exit_code);
 char	*tokenization(char *prompt);
 char	*get_env_value(const char *name, char *const *envp);
@@ -51,13 +46,12 @@ char	**set_env_value(char *name, char *value, char *const *envp);
 void	list_clear(t_list **list);
 
 // Builtins
-void	execute_builtin(t_cmd *command);
-t_bool	is_a_builtin(char *command);
+int	    execute_builtin(t_cmd *cmd);
 int		echo(char **arguments);
 int		pwd(void);
 int		cd(char **args, int argc);
 int		env(char *const *envp);
-int		minishell_exit(t_list *list);
+int	    minishell_exit(t_list *list);
 int		unset(const char *name, char ***envp);
 int		export(const char *var, char ***envp);
 
@@ -69,9 +63,9 @@ void	delete_temporary_files(t_list *list);
 
 //global
 void	init_global_struct(void);
-void	clear_global(void);
+void    clear_global(void);
 
 //memory
-void	clear_memory(t_list *list);
+int        clear_memory(t_list *list);
 
 #endif

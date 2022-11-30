@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 09:16:42 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/30 09:28:40 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 22:57:40 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	export(const char *var, char ***envp)
 		{
 			tmp = *envp;
 			*envp = new_envp;
-			array_print(*envp);
-			array_destroy(*envp);
+			//array_destroy(tmp);
 		}
 	}
 	free(name);

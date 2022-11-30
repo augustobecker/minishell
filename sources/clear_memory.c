@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 05:51:57 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 21:09:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/11/30 22:48:34 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 extern t_data	g_data;
 
-void        clear_memory(t_list *list);
+int clear_memory(t_list *list);
 
-void clear_memory(t_list *list)
+int clear_memory(t_list *list)
 {
     t_cmd		*command;
     t_list      *node;
@@ -31,4 +31,5 @@ void clear_memory(t_list *list)
         node = node->next;
     }
     list_clear(&list);
+    return (g_data.last_exit_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 13:48:15 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/11/30 22:46:37 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void	execution_process(t_list *list)
 	{
 		command = (t_cmd *) node->content;
 		if (ft_strcmp("exit", command->command))
-			minishell_exit(list);
-		else if (ft_strcmp("cd", command->command))
-			g_data.last_exit_code = \
-			cd(command->args, array_size(command->args));
+		{
+			clear_memory(list);
+			exit (0);
+		}
+		if ((ft_strcmp("cd", command->command))
+		|| (ft_strcmp("export", command->command))
+		|| (ft_strcmp("unset", command->command)))
+			execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
 		{
 			execute_single_cmd(command, fd_pipe_in, list);
@@ -43,7 +47,6 @@ void	execution_process(t_list *list)
 		}
 		else
 			fd_pipe_in = execute_cmd_to_pipe(command, fd_pipe_in, list);
-		//set_exit_code();
 		node = node->next;
 	}
 }
@@ -62,8 +65,9 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 			dup2(fd_pipe_in, STDIN_FILENO);
 		if (command->outfile)
 			dup2(command->outfile->fd, STDOUT_FILENO);
-		if (execute(command) == -1) // free_all_memory();
+		if (execute(command) == -1)
 			command_not_found(command->command, list);
+		exit (clear_memory(list));
 	}
 	else
 	{
@@ -91,6 +95,7 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 		dup2(fd_new_pipe[OUTPUT], STDOUT_FILENO);
 		if (execute(command) == -1)
 			command_not_found(command->command, list);
+		exit (clear_memory(list));
 	}
 	else
 	{
@@ -109,8 +114,13 @@ static int	execute(t_cmd *command)
 	int		i;
 
 	i = 0;
-	if (is_a_builtin(command->command))
-		execute_builtin(command);
+	if ((ft_strcmp("echo", command->command))
+		|| (ft_strcmp("pwd", command->command))
+		|| ((ft_strcmp("env", command->command))))
+	{
+			g_data.last_exit_code = execute_builtin(command);
+			return (0);
+	}
 	if (ft_count_occurrences(command->command, '/'))
 		execve(command->command, command->args, g_data.env);
 	paths = get_cmd_paths();
@@ -129,6 +139,6 @@ static void	command_not_found(char *command, t_list *list)
 {
 	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf(GREY"minishell: %s : command not found\n"RESET, command);
+	g_data.last_exit_code = COMMAND_NOT_FOUND;
 	clear_memory(list);
-	exit(COMMAND_NOT_FOUND);
 }

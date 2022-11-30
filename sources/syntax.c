@@ -6,76 +6,110 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/10/19 06:23:44 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/30 22:51:30 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	is_syntax_valid(char *expression);
-t_bool	there_is_a_valid_char(char *str, char *limiter);
-t_bool	is_a_limiter(char c);
-t_bool	are_the_quotation_marks_closed(char *expression);
+t_bool			syntatic_validations(char *prompt);
+static t_bool	are_the_quotation_marks_closed(char *expression);
+static t_bool	is_syntax_valid(char *expression);
+static t_bool	validate_syntax_aux(char *expression);
+static int		next_token(char *str);
 
-t_bool	is_syntax_valid(char *expression)
+t_bool	syntatic_validations(char *prompt)
 {
-	int	i;
-
+	char *tokenized_prompt;
+	int i;
+	
 	i = 0;
+	while (prompt[i] && prompt[i] == ' ')
+		i++;
+	if (!prompt[i])
+		return (false);
+	if (!are_the_quotation_marks_closed(prompt))
+	{
+		error("syntax error: unclosed quotation marks", 2);
+		return (false);
+	}
+	add_history(prompt);
+	if (prompt[i] == '#')
+		return (false);
+	tokenized_prompt = tokenization(prompt);
+	if (prompt[i] == '|' || !is_syntax_valid(tokenized_prompt))
+	{
+		free(tokenized_prompt);
+		error("syntax error or syntax not suported", 2);
+		return (false);
+	}
+	free(tokenized_prompt);
+	return (true);
+}
+
+static t_bool	is_syntax_valid(char *expression)
+{
+	int		i;
+
+	i = next_token(expression);
 	while (expression[i])
 	{
-		if (is_a_limiter(expression[i]) == true)
+		if ((expression[i + 1] == '<') || (expression[i + 1] == '>') 
+		|| (expression[i + 1] == '|') || (expression[i + 1] == '&'))
 		{
-			if (is_a_limiter(expression[i + 1]) == true)
-			{
-				if (expression[i] != expression[i + 1] || expression[i] == '|')
-					return (false);
-				i++;
-			}
-			if (expression[i] == '&')
+			if (expression[i] != expression[i + 1] || expression[i] == '|')
 				return (false);
 			i++;
-			if (there_is_a_valid_char(&expression[i], "<|&>") == false)
-				return (false);
 		}
-		i++;
+		if (expression[i] == '&')
+			return (false);
+		if (!validate_syntax_aux(&expression[i]))
+			return (false);
+		i += next_token(&expression[++i]);
 	}
 	return (true);
 }
 
-t_bool	there_is_a_valid_char(char *str, char *limiter)
+static t_bool validate_syntax_aux(char *expression)
 {
-	int	i;
-	int	j;
+	int		i;
+	
+	i = 1;
+	while (expression[i] && expression[i] == ' ')
+		i++;
+	if (expression[0] == '|' && expression[i] == '|')
+		return (false);
+	if (expression[0] != '|')
+	{
+		if ((expression[i] == '<')
+		|| (expression[i] == '>') 
+		|| (expression[i] == '|') 
+		|| (expression[i] == '&'))
+			return (false);
+	}
+	if (!expression[i])
+		return (false);
+	return (true);
+}
+
+static int		next_token(char *str)
+{
+	int i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (limiter[0] != '\0')
-		{
-			j = 0;
-			while (limiter[j])
-			{
-				if (str[i] == limiter[j])
-					return (false);
-				j++;
-			}
-		}
-		if ((str[i] != TAB) && (str[i] != SPACE))
-			return (true);
+		if ((str[i] == '<') 
+		|| (str[i] == '>') 
+		|| (str[i] == '|') 
+		|| (str[i] == '&'))
+			return (i);
 		i++;
 	}
-	return (false);
+	return (i);
 }
 
-t_bool	is_a_limiter(char c)
-{
-	if ((c == '<') || (c == '>') || (c == '|') || (c == '&'))
-		return (true);
-	return (false);
-}
-
-t_bool	are_the_quotation_marks_closed(char *expression)
+static t_bool	are_the_quotation_marks_closed(char *expression)
 {
 	t_stack	**head;
 	int		i;
