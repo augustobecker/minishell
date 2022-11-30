@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:53:29 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 22:18:52 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_list	*cmd_create_list(char *const *cmds);
 void	handle_signal(void);
 char	*get_var_name(const char *string);
 char	*get_var_value(const char *string);
-char	**to_unset(char **envp, char *var_name);
+char	**unset_env_value(const char *name, char *const *envp);
 void	file_manager(t_file	*file);
 char	**set_env_value(char *name, char *value, char **envp);
 void	list_clear(t_list **list);
@@ -57,19 +57,19 @@ int		echo(char **arguments);
 int		pwd(void);
 int		cd(char **args, int argc);
 int		env(char *const *envp);
-int     minishell_exit(t_list *list);
+int		minishell_exit(t_list *list);
 
 //execution
 void	init_files(t_list *list);
 char	**get_cmd_paths(void);
-void		execution_process(t_list *list);
+void	execution_process(t_list *list);
 void	delete_temporary_files(t_list *list);
 
 //global
 void	init_global_struct(void);
-void    clear_global(void);
+void	clear_global(void);
 
 //memory
-void        clear_memory(t_list *list);
+void	clear_memory(t_list *list);
 
 #endif

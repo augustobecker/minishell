@@ -3,17 +3,17 @@
 #include "unity_fixture.h"
 #include "minishell.h"
 
-TEST_GROUP(to_unset);
+TEST_GROUP(unset_env_value);
 
-TEST_SETUP(to_unset) {}
-TEST_TEAR_DOWN(to_unset) {}
+TEST_SETUP(unset_env_value) {}
+TEST_TEAR_DOWN(unset_env_value) {}
 
-TEST(to_unset, main)
+TEST(unset_env_value, main)
 {
 
 	char *envp[] = {"USER=Usuário", "DOG=Cachorro", "ADVOGATO=Gato", NULL};
 	char **copy = array_dup(envp);
-	char **new_array = to_unset(copy, "DOG");
+	char **new_array = unset_env_value("DOG", copy);
 
 	TEST_ASSERT_EQUAL_INT(3, array_size(copy));
 	TEST_ASSERT_EQUAL_INT(2, array_size(new_array));//deveria ter 2
@@ -25,33 +25,33 @@ TEST(to_unset, main)
 	//array_print(new_array);
 }
 
-TEST(to_unset, Invalid_name)
+TEST(unset_env_value, Invalid_name)
 {
 
 	char *envp[] = {"USER=Usuário", "DOG=Cachorro", "ADVOGATO=Gato", NULL};
 	char **copy = array_dup(envp);
-	char **new_array = to_unset(copy, "ADVODOG");
+	char **new_array = unset_env_value("ADVODOG", copy);
 
 	TEST_ASSERT_EQUAL_INT(3, array_size(copy));
 	TEST_ASSERT_EQUAL_INT(3, array_size(new_array));
 	//array_print(new_array);
 }
 
-TEST(to_unset, Invalid_array)
+TEST(unset_env_value, Invalid_array)
 {
 
 	char *envp[] = {NULL};
 	char **copy = array_dup(envp);
-	char **new_array = to_unset(copy, "ADVODOG");
+	char **new_array = unset_env_value("ADVODOG", copy);
 
 	TEST_ASSERT_EQUAL_INT(0, array_size(copy));
 	TEST_ASSERT_EQUAL_INT(0, array_size(new_array));
 	//array_print(new_array);
 }
 
-TEST_GROUP_RUNNER(to_unset)
+TEST_GROUP_RUNNER(unset_env_value)
 {
-	RUN_TEST_CASE(to_unset, main);
-	RUN_TEST_CASE(to_unset, Invalid_name);
-	RUN_TEST_CASE(to_unset, Invalid_array);
+	RUN_TEST_CASE(unset_env_value, main);
+	RUN_TEST_CASE(unset_env_value, Invalid_name);
+	RUN_TEST_CASE(unset_env_value, Invalid_array);
 }

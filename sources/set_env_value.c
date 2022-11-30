@@ -11,7 +11,7 @@ char **set_env_value(char *name, char *value, char **envp)
 	var_name = ft_strjoin(new_name, value);
 	free(new_name);
 	if (envp)
-		temp_envp = to_unset(envp, name);
+		temp_envp = unset_env_value(name, envp);
 	array_append(&temp_envp, var_name);
 	return (temp_envp);
 }
