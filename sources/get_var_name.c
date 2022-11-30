@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env_value.c                                    :+:      :+:    :+:   */
+/*   get_var_name.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 09:00:29 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/15 09:29:44 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/11 17:13:32 by gnuncio-          #+#    #+#             */
+/*   Updated: 2022/11/11 17:42:54 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(const char *name, char *const *envp)
+// usuario=gabriel  -> usuario
+char	*get_var_name(const char *string)
 {
-	char	*var_name;
+	char *var_name;
+	char *equal_char_at;
 
-	while (name && envp && *envp)
+	if(string == NULL)
+		return (NULL);
+
+	equal_char_at = ft_strchr(string, '=');
+	if (equal_char_at)
 	{
-		var_name = get_var_name(*envp);
-		if (var_name && ft_strcmp(var_name, name))
-		{
-			free(var_name);
-			return (get_var_value(*envp));
-		}
-		if (var_name)
-			free(var_name);
-		envp++;
+		return ft_substr(string, 0, equal_char_at - string);
 	}
+
 	return (NULL);
 }
+

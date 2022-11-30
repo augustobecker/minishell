@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env_value.c                                    :+:      :+:    :+:   */
+/*   set_env_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 09:00:29 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/15 09:29:44 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/30 09:14:55 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/30 09:15:07 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(const char *name, char *const *envp)
+char	**set_env_value(char *name, char *value, char *const *envp)
 {
 	char	*var_name;
+	char	*var_str;
+	char	**tmp;
 
-	while (name && envp && *envp)
+	if (!name || !value)
+		return (array_dup(envp));
+	var_name = ft_strjoin(name, "=");
+	if (!var_name)
+		return (array_dup(envp));
+	var_str = ft_strjoin(var_name, value);
+	if (!var_str)
 	{
-		var_name = get_var_name(*envp);
-		if (var_name && ft_strcmp(var_name, name))
-		{
-			free(var_name);
-			return (get_var_value(*envp));
-		}
-		if (var_name)
-			free(var_name);
-		envp++;
+		free(var_name);
+		return (array_dup(envp));
 	}
-	return (NULL);
+	free(var_name);
+	tmp = unset_env_value(name, envp);
+	array_append(&tmp, var_str);
+	return (tmp);
 }

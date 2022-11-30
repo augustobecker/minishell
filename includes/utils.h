@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strappend.c                                     :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/01 15:39:55 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 08:28:58 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/09 07:11:37 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/12 10:38:45 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#ifndef UTILS_H
+# define UTILS_H
+# include <stdlib.h>
+# include "types.h"
 
-char	*ft_strappend(char **s1, const char *s2)
-{
-	char	*str;
+size_t	array_size(char *const *array);
+void	array_destroy(char **array);
+char	**array_dup(char *const *array);
+void	array_print(char *const *array);
+void	array_append(char ***array, char *value);
+t_bool	ft_strcmp(const char *str1, const char *str2);
 
-	if (!s1[0] || !s2)
-		return (NULL);
-	str = \
-	(char *)ft_calloc((ft_strlen(s1[0]) + ft_strlen(s2)) + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1[0], ft_strlen(s1[0]) + 1);
-	ft_strlcat(str, s2, ft_strlen(s1[0]) + ft_strlen(s2) + 1);
-	free(s1[0]);
-	return (str);
-}
+#endif

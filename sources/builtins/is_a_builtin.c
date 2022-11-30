@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   defines.h                                          :+:      :+:    :+:   */
+/*   is_a_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 06:05:15 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:39:19 by acesar-l         ###   ########.fr       */
+/*   Created: 2022/11/28 13:00:17 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/29 22:30:37 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEFINES_H
-# define DEFINES_H
+#include "minishell.h"
 
-# define    TAB		            9
-# define    SPACE	        	32
-# define    COMMAND_NOT_FOUND   127
-# define    INPUT               0
-# define    OUTPUT              1
-# define    EMPTY_INFILE        "/tmp/empty_infile"
-# define    TMP_OUTFILE         "/tmp/discarded"
-# define    HEREDOC_PATH        "/tmp/herecdoc_minihell"
-
-#endif
+t_bool	is_a_builtin(char *command)
+{
+	if ((ft_strcmp("echo", command))
+		|| (ft_strcmp("cd", command))
+		|| (ft_strcmp("pwd", command))
+		|| (ft_strcmp("export", command))
+		|| (ft_strcmp("unset", command))
+		|| (ft_strcmp("env", command))
+		|| (ft_strcmp("exit", command)))
+		return (true);
+	return (false);
+}

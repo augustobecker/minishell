@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strappend.c                                     :+:      :+:    :+:   */
+/*   get_string_unquoted_token.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/01 15:39:55 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 08:28:58 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/10 06:43:36 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/14 15:19:30 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "minishell.h"
+#include "lexical.h"
 
-char	*ft_strappend(char **s1, const char *s2)
+t_token	*get_string_unquoted_token(char *start, char **str)
 {
-	char	*str;
+	char	*str_end;
+	char	*tmp;
+	t_token	*token;
 
-	if (!s1[0] || !s2)
+	if (!start || !str || !*start || !*str)
 		return (NULL);
-	str = \
-	(char *)ft_calloc((ft_strlen(s1[0]) + ft_strlen(s2)) + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1[0], ft_strlen(s1[0]) + 1);
-	ft_strlcat(str, s2, ft_strlen(s1[0]) + ft_strlen(s2) + 1);
-	free(s1[0]);
-	return (str);
+	str_end = start;
+	while (*str_end && !ft_strchr("<>|\"' ", *str_end))
+		str_end++;
+	*str = str_end;
+	tmp = ft_substr(start, 0, str_end - start);
+	token = token_create(tmp, STRING_UNQUOTED);
+	free(tmp);
+	return (token);
 }

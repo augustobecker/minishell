@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env_value.c                                    :+:      :+:    :+:   */
+/*   cmd_create_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 09:00:29 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/15 09:29:44 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/11 19:48:42 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/28 12:45:03 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(const char *name, char *const *envp)
+t_list	*cmd_create_list(char *const *cmds)
 {
-	char	*var_name;
+	t_list	*list_cmds;
+	t_list	*node;
+	t_cmd	*cmd;
 
-	while (name && envp && *envp)
+	list_cmds = NULL;
+	while (cmds && *cmds)
 	{
-		var_name = get_var_name(*envp);
-		if (var_name && ft_strcmp(var_name, name))
+		cmd = cmd_parse_str(*cmds);
+		if (!cmd)
+			continue ;
+		node = ft_lstnew(cmd);
+		if (!node)
 		{
-			free(var_name);
-			return (get_var_value(*envp));
+			cmd_destroy(&cmd);
+			continue ;
 		}
-		if (var_name)
-			free(var_name);
-		envp++;
+		if (list_cmds == NULL)
+			list_cmds = node;
+		else
+			ft_lstadd_back(&list_cmds, node);
+		cmds++;
 	}
-	return (NULL);
+	return (list_cmds);
 }

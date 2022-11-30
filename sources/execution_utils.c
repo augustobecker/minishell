@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strappend.c                                     :+:      :+:    :+:   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/01 15:39:55 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 08:28:58 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/18 17:43:39 by acesar-l          #+#    #+#             */
+/*   Updated: 2022/11/29 21:09:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "minishell.h"
 
-char	*ft_strappend(char **s1, const char *s2)
+extern t_data g_data;
+
+char	**get_cmd_paths(void);
+
+char	**get_cmd_paths(void)
 {
-	char	*str;
+	char	*paths_to_be_split;
+	char	**paths;
+	int		i;
 
-	if (!s1[0] || !s2)
+	i = 0;
+	paths_to_be_split = get_env_value("PATH", g_data.env);
+	if (!paths_to_be_split)
 		return (NULL);
-	str = \
-	(char *)ft_calloc((ft_strlen(s1[0]) + ft_strlen(s2)) + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1[0], ft_strlen(s1[0]) + 1);
-	ft_strlcat(str, s2, ft_strlen(s1[0]) + ft_strlen(s2) + 1);
-	free(s1[0]);
-	return (str);
+	paths = ft_split(paths_to_be_split, ':');
+	while (paths[i])
+	{
+		paths[i] = ft_strappend(&paths[i], "/");
+		i++;
+	}
+	free(paths_to_be_split);
+	return (paths);
 }

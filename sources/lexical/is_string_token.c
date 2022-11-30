@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strappend.c                                     :+:      :+:    :+:   */
+/*   is_string_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/01 15:39:55 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/09 08:28:58 by gasouza          ###   ########.fr       */
+/*   Created: 2022/11/12 09:22:51 by gasouza           #+#    #+#             */
+/*   Updated: 2022/11/12 09:23:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "minishell.h"
 
-char	*ft_strappend(char **s1, const char *s2)
+t_bool	is_string_token(t_token *token)
 {
-	char	*str;
-
-	if (!s1[0] || !s2)
-		return (NULL);
-	str = \
-	(char *)ft_calloc((ft_strlen(s1[0]) + ft_strlen(s2)) + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1[0], ft_strlen(s1[0]) + 1);
-	ft_strlcat(str, s2, ft_strlen(s1[0]) + ft_strlen(s2) + 1);
-	free(s1[0]);
-	return (str);
+	if (!token)
+		return (false);
+	if (token->type == STRING_UNQUOTED)
+		return (true);
+	if (token->type == STRING_DQ_CLOSED)
+		return (true);
+	if (token->type == STRING_DQ_CLOSED)
+		return (true);
+	if (token->type == STRING_SQ_CLOSED)
+		return (true);
+	if (token->type == STRING_SQ_CLOSED)
+		return (true);
+	return (false);
 }
