@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:01:12 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 22:52:25 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 22:05:39 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
+extern t_data	g_data;
 
 // TODO - Free memory
 void	execute_builtin(t_cmd *cmd)

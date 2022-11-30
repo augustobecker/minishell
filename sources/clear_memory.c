@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 05:51:57 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:46:21 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 21:09:46 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
+extern t_data	g_data;
 
 void        clear_memory(t_list *list);
 

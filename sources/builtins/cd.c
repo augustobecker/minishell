@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:59:17 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 22:33:59 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 22:05:09 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data g_data;
+extern t_data g_data;
 
 int			cd(char **args, int argc);
 static int	cd_to_home(void);

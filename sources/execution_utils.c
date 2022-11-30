@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:43:39 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 22:28:00 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 21:09:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data g_data;
+extern t_data g_data;
 
 char	**get_cmd_paths(void);
 

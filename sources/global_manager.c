@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   global_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:42:24 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 23:23:03 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/11/29 21:10:02 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
+extern t_data	g_data;
 
 void	init_global_struct(void);
 void    clear_global(void);
