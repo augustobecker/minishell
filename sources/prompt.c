@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 22:50:44 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:37:50 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	prompt(t_data *data)
 	if (!syntatic_validations(prompt))
 		return;
 	prompt_exp = expand_vars(prompt, data->env);
+	free(prompt);
 	commands = parse_pipe(prompt_exp);
 	free(prompt_exp);
 	list = cmd_create_list(commands);

@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 09:16:42 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/30 22:57:40 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:05:42 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	export(const char *var, char ***envp)
 		{
 			tmp = *envp;
 			*envp = new_envp;
-			//array_destroy(tmp);
+			array_destroy(tmp);
 		}
 	}
 	free(name);
