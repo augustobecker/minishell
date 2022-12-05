@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/01 22:17:17 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:11:23 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
 void		execution_process(t_list *list);
 static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list);
@@ -32,10 +32,7 @@ void	execution_process(t_list *list)
 	{
 		command = (t_cmd *) node->content;
 		if (ft_strcmp("exit", command->command))
-		{
-			clear_memory(list);
-			exit (0);
-		}
+			dead_minihell(list);
 		if ((ft_strcmp("cd", command->command))
 		|| (ft_strcmp("export", command->command))
 		|| (ft_strcmp("unset", command->command)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 22:51:30 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/05 09:17:49 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_bool	syntatic_validations(char *prompt)
 {
 	char *tokenized_prompt;
 	int i;
-	
+
 	i = 0;
 	while (prompt[i] && prompt[i] == ' ')
 		i++;
@@ -54,7 +54,7 @@ static t_bool	is_syntax_valid(char *expression)
 	i = next_token(expression);
 	while (expression[i])
 	{
-		if ((expression[i + 1] == '<') || (expression[i + 1] == '>') 
+		if ((expression[i + 1] == '<') || (expression[i + 1] == '>')
 		|| (expression[i + 1] == '|') || (expression[i + 1] == '&'))
 		{
 			if (expression[i] != expression[i + 1] || expression[i] == '|')
@@ -73,7 +73,7 @@ static t_bool	is_syntax_valid(char *expression)
 static t_bool validate_syntax_aux(char *expression)
 {
 	int		i;
-	
+
 	i = 1;
 	while (expression[i] && expression[i] == ' ')
 		i++;
@@ -82,8 +82,8 @@ static t_bool validate_syntax_aux(char *expression)
 	if (expression[0] != '|')
 	{
 		if ((expression[i] == '<')
-		|| (expression[i] == '>') 
-		|| (expression[i] == '|') 
+		|| (expression[i] == '>')
+		|| (expression[i] == '|')
 		|| (expression[i] == '&'))
 			return (false);
 	}
@@ -99,9 +99,9 @@ static int		next_token(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == '<') 
-		|| (str[i] == '>') 
-		|| (str[i] == '|') 
+		if ((str[i] == '<')
+		|| (str[i] == '>')
+		|| (str[i] == '|')
 		|| (str[i] == '&'))
 			return (i);
 		i++;

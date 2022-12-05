@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 22:44:40 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:03:57 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@ void	delete_temporary_files(t_list *list);
 
 //global
 void	init_global_struct(void);
-void    clear_global(void);
+void	clear_global(void);
 
 //memory
-int        clear_memory(t_list *list);
+int		clear_memory(t_list *list);
+void	clear_history(void);
+void	dead_minihell(t_list *list);
 
 #endif

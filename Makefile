@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
+#    By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/11/04 13:02:53 by gasouza          ###   ########.fr        #
+#    Updated: 2022/12/05 09:50:05 by gnuncio-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,5 +69,8 @@ testsv:
 
 val: all
 			valgrind --suppressions=./local.supp --leak-check=full ./minishell
+
+val2: all
+			valgrind --suppressions=./local.supp --leak-check=full --track-origins=yes --show-leak-kinds=all ./minishell
 
 .PHONY:		all clean fclean re tests testsv val
