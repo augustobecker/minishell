@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:42:24 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/01 21:34:39 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/05 22:01:04 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ void    clear_global(void);
 void	init_global_struct(void)
 {
 	g_data.last_exit_code = 0;
+	
+	if (g_data.empty_infile)
+		file_destroy(&g_data.empty_infile);
 	g_data.empty_infile = file_create(EMPTY_INFILE, 0, COMMON_FILE_IN);
+	
+	if (g_data.discarded_outfile)
+		file_destroy(&g_data.discarded_outfile);
 	g_data.discarded_outfile = file_create("TMP_OUTFILE", 0, COMMON_FILE_OUT);
+	
 	g_data.empty_infile->fd = \
 	open(EMPTY_INFILE, O_RDONLY | O_CREAT | O_TRUNC, 0644);
 	g_data.discarded_outfile->fd = \
@@ -31,8 +38,14 @@ void	init_global_struct(void)
 void clear_global(void)
 {
     file_destroy(&g_data.empty_infile);
+	g_data.empty_infile = NULL;
+	
 	file_destroy(&g_data.discarded_outfile);
+	g_data.discarded_outfile = NULL;
+	
     free(g_data.prompt_path);
-	array_destroy(g_data.env);
-	g_data.env = NULL;
+	g_data.prompt_path = NULL;
+	
+	// array_destroy(g_data.env);
+	// g_data.env = NULL;
 }

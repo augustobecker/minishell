@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/05 09:39:22 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/05 21:45:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,28 @@
 
 extern t_data g_data;
 
-void		prompt(t_data *data);
 static char	*current_path(void);
 static void	prompt_null(char *prompt, char *path);
 
-void	prompt(t_data *data)
+void	prompt(void)
 {
 	char	*prompt;
 	char	*prompt_exp;
 	char	**commands;
 	t_list	*list;
 
+	if (g_data.prompt_path != NULL)
+		free(g_data.prompt_path);
 	g_data.prompt_path = current_path();
+
+	
 	g_data.last_exit_code = 0;
 	prompt = readline(g_data.prompt_path);
 	if (prompt == NULL)
 		prompt_null(prompt, g_data.prompt_path);
 	if (!syntatic_validations(prompt))
 		return;
-	prompt_exp = expand_vars(prompt, data->env);
+	prompt_exp = expand_vars(prompt, g_data.env);
 	free(prompt);
 	commands = parse_pipe(prompt_exp);
 	free(prompt_exp);

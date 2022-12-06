@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/30 13:48:45 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/05 21:54:40 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,13 @@ void	delete_temporary_files(t_list *list)
 	unlink(EMPTY_INFILE);
 	unlink(TMP_OUTFILE);
 	node = list;
-	while (node)
+	while (node && node->content)
 	{
 		command = (t_cmd *) node->content;
-		if (command->infile)
+		if (command && command->infile && command->infile->type == HEREDOC_FILE)
 		{
-			if (command->infile->type == HEREDOC_FILE)
-			{
-				unlink(HEREDOC_PATH);
-				break;
-			}
+			unlink(HEREDOC_PATH);
+			break;
 		}
 		node = node->next;
 	}

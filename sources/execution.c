@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/05 10:11:23 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/05 21:49:12 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 	pid = fork();
 	if (pid == 0)
 	{
+		clear_history();
 		if (command->infile)
 			dup2(command->infile->fd, STDIN_FILENO);
 		else
@@ -121,7 +122,7 @@ static int	execute(t_cmd *command)
 	if (ft_count_occurrences(command->command, '/'))
 		execve(command->command, command->args, g_data.env);
 	paths = get_cmd_paths();
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		cmd_and_path = ft_strjoin(paths[i], command->command);
 		execve(cmd_and_path, command->args, g_data.env);
