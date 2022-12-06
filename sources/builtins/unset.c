@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 23:26:23 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 23:45:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 18:16:32 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	unset(const char *name, char ***envp)
 		{
 			tmp = *envp;
 			*envp = new_envp;
-			free(tmp);
+			array_destroy(tmp);
 		}
 	}
 	return (0);
