@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 23:23:27 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/06 15:59:26 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_data
 	int		last_exit_code;
 	t_file	*empty_infile;
 	t_file	*discarded_outfile;
+
+	t_bool	exit_status;
 }	t_data;
 
 t_stack	*stack_new(char c);

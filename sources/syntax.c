@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 13:35:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 17:31:49 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool			syntatic_validations(char *prompt);
+extern t_data	g_data;
+
 static t_bool	are_the_quotation_marks_closed(char *expression);
 static t_bool	is_syntax_valid(char *expression);
 static t_bool	validate_syntax_aux(char *expression);
@@ -23,6 +24,8 @@ t_bool	syntatic_validations(char *prompt)
 	char	*tokenized_prompt;
 	int		i;
 
+	if (prompt == NULL)
+		handle_sigquit(SIGQUIT);
 	i = 0;
 	while (prompt[i] && prompt[i] == ' ')
 		i++;
