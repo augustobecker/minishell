@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 13:02:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 17:40:26 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		env(char *const *envp);
 int		minishell_exit(t_list *list);
 int		unset(const char *name, char ***envp);
 int		export(const char *var, char ***envp);
+t_bool	is_a_builtin(char *command);
 
 //execution
 void	init_files(t_list *list);

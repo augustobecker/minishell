@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 12:38:45 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 17:39:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ void	execution_process(t_list *list)
 		command = (t_cmd *) node->content;
 		if (ft_strcmp("exit", command->command))
 			dead_minihell(list);
-		if ((ft_strcmp("cd", command->command))
-			|| (ft_strcmp("export", command->command))
-			|| (ft_strcmp("unset", command->command)))
+		if (is_a_builtin(command->command))
 			execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
 		{
