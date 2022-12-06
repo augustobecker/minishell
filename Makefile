@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/20 20:55:32 by acesar-l          #+#    #+#              #
-#    Updated: 2022/12/05 09:50:05 by gnuncio-         ###   ########.fr        #
+#    Updated: 2022/12/06 13:20:39 by gasouza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJS 		= $(SRCS:.c=.o)
 
 COMPILER 	= gcc -g -c
 LINKER		= gcc
-# CFLAGS 		= -Wall -Wextra -Werror
+CFLAGS 		= -Wall -Wextra -Werror
 
 CLEANUP 	= rm -rf
 

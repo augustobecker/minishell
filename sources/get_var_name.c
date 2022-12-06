@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:13:32 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/12/06 12:21:24 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 13:21:13 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*get_var_name(const char *string)
 {
-	char	*var_name;
 	char	*equal_char_at;
 
 	if (!string)

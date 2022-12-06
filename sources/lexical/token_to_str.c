@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 08:05:55 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/12 08:49:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 13:36:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*token_to_str(t_token *token)
 		return (ft_strdup(">>"));
 	if (token->type == PIPE)
 		return (ft_strdup("|"));
+	return (NULL);
 }
 
 static char	*str_add_prefix(const char *prefix, const char *str)

@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 13:00:37 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 13:35:41 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static t_bool	is_syntax_valid(char *expression)
 			return (false);
 		if (!validate_syntax_aux(&expression[i]))
 			return (false);
-		i += next_token(&expression[++i]);
+		i++;
+		i += next_token(&expression[i]);
 	}
 	return (true);
 }

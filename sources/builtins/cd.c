@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:59:17 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 23:47:38 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 13:38:30 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static int	cd_to_home(void);
 
 int	cd(char **args, int argc)
 {
-	char	*home_dir;
-
 	if (argc > 2)
 	{
 		printf(GREY"minishell: cd : too many arguments\n"RESET);

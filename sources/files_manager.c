@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 12:53:12 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 13:27:54 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	file_manager(t_file	*file)
 static int	read_heredoc(t_file *file, char *limiter)
 {
 	char	*line;
-	int		rd;
 	int		fd_stdout;
 
 	fd_stdout = dup(STDOUT_FILENO);

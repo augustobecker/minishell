@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:58:02 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 22:31:35 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:37:27 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	echo(char **arguments)
 {
 	t_bool	flag_n;
 	size_t	args;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	flag_n = false;

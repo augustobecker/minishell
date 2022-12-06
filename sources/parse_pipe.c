@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 14:18:59 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/12/01 22:10:35 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:24:54 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ t_bool	replacement(t_stack **stack, char character)
 			return (false);
 		}
 	}
+	return (false);
 }
 
-char	*replace_pipe(char *command, t_stack **head)
+static void	replace_pipe(char *command, t_stack **head)
 {
 	int		i;
 	t_bool	replacement_status;
@@ -55,7 +56,6 @@ char	*replace_pipe(char *command, t_stack **head)
 
 char	**parse_pipe(char *prompt)
 {
-	int		i;
 	char	*command;
 	char	**list_commands;
 	t_stack	**head;
