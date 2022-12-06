@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 17:39:41 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 18:00:42 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,22 @@ static int	execute(t_cmd *command)
 
 static void	command_not_found(char *command, t_list *list)
 {
+	t_cmd	*cmd;
+	t_list	*node;
+
 	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf(GREY"minishell: %s : command not found\n"RESET, command);
 	g_data.last_exit_code = COMMAND_NOT_FOUND;
-	clear_memory(list);
+	node = list;
+	clear_global();
+	delete_temporary_files(list);
+	while (node)
+	{
+		cmd = (t_cmd *)node->content;
+		cmd_destroy(&cmd);
+		node = node->next;
+	}
+	array_destroy(g_data.env);
+	list_clear(&list);
+	exit(g_data.last_exit_code);
 }
