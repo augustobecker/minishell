@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/05 21:45:24 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 13:02:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ char	**set_env_value(char *name, char *value, char *const *envp);
 void	list_clear(t_list **list);
 
 // Builtins
-int	    execute_builtin(t_cmd *cmd);
+int		execute_builtin(t_cmd *cmd);
 int		echo(char **arguments);
 int		pwd(void);
 int		cd(char **args, int argc);
 int		env(char *const *envp);
-int	    minishell_exit(t_list *list);
+int		minishell_exit(t_list *list);
 int		unset(const char *name, char ***envp);
 int		export(const char *var, char ***envp);
 

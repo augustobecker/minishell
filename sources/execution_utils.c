@@ -6,15 +6,13 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:43:39 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/11/29 21:09:26 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 12:53:49 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data g_data;
-
-char	**get_cmd_paths(void);
+extern t_data	g_data;
 
 char	**get_cmd_paths(void)
 {
@@ -32,6 +30,6 @@ char	**get_cmd_paths(void)
 		paths[i] = ft_strappend(&paths[i], "/");
 		i++;
 	}
-	free(paths_to_be_split);
+	free (paths_to_be_split);
 	return (paths);
 }

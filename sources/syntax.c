@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/05 09:17:49 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:00:37 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int		next_token(char *str);
 
 t_bool	syntatic_validations(char *prompt)
 {
-	char *tokenized_prompt;
-	int i;
+	char	*tokenized_prompt;
+	int		i;
 
 	i = 0;
 	while (prompt[i] && prompt[i] == ' ')
@@ -55,7 +55,7 @@ static t_bool	is_syntax_valid(char *expression)
 	while (expression[i])
 	{
 		if ((expression[i + 1] == '<') || (expression[i + 1] == '>')
-		|| (expression[i + 1] == '|') || (expression[i + 1] == '&'))
+			|| (expression[i + 1] == '|') || (expression[i + 1] == '&'))
 		{
 			if (expression[i] != expression[i + 1] || expression[i] == '|')
 				return (false);
@@ -70,7 +70,7 @@ static t_bool	is_syntax_valid(char *expression)
 	return (true);
 }
 
-static t_bool validate_syntax_aux(char *expression)
+static t_bool	validate_syntax_aux(char *expression)
 {
 	int		i;
 
@@ -82,9 +82,9 @@ static t_bool validate_syntax_aux(char *expression)
 	if (expression[0] != '|')
 	{
 		if ((expression[i] == '<')
-		|| (expression[i] == '>')
-		|| (expression[i] == '|')
-		|| (expression[i] == '&'))
+			|| (expression[i] == '>')
+			|| (expression[i] == '|')
+			|| (expression[i] == '&'))
 			return (false);
 	}
 	if (!expression[i])
@@ -92,17 +92,17 @@ static t_bool validate_syntax_aux(char *expression)
 	return (true);
 }
 
-static int		next_token(char *str)
+static int	next_token(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
 	{
 		if ((str[i] == '<')
-		|| (str[i] == '>')
-		|| (str[i] == '|')
-		|| (str[i] == '&'))
+			|| (str[i] == '>')
+			|| (str[i] == '|')
+			|| (str[i] == '&'))
 			return (i);
 		i++;
 	}
@@ -112,6 +112,7 @@ static int		next_token(char *str)
 static t_bool	are_the_quotation_marks_closed(char *expression)
 {
 	t_stack	**head;
+	int		result;
 	int		i;
 
 	i = 0;
@@ -130,11 +131,7 @@ static t_bool	are_the_quotation_marks_closed(char *expression)
 		}
 		i++;
 	}
-	if (*head)
-	{
-		clear_stack(head);
-		return (false);
-	}
+	result = *head == NULL;
 	clear_stack(head);
-	return (true);
+	return (result);
 }

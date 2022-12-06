@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/05 21:49:12 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/06 12:38:45 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	execution_process(t_list *list)
 		if (ft_strcmp("exit", command->command))
 			dead_minihell(list);
 		if ((ft_strcmp("cd", command->command))
-		|| (ft_strcmp("export", command->command))
-		|| (ft_strcmp("unset", command->command)))
+			|| (ft_strcmp("export", command->command))
+			|| (ft_strcmp("unset", command->command)))
 			execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
 		{
@@ -51,7 +51,7 @@ void	execution_process(t_list *list)
 static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 {
 	int	pid;
-	int wstatus;
+	int	wstatus;
 
 	pid = fork();
 	if (pid == 0)
@@ -78,7 +78,7 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 {
 	int	fd_new_pipe[2];
-	int wstatus;
+	int	wstatus;
 	int	pid;
 
 	pipe(fd_new_pipe);
@@ -94,15 +94,13 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 		if (execute(command) == -1)
 			command_not_found(command->command, list);
 		exit (clear_memory(list));
+		return (1);
 	}
-	else
-	{
-		waitpid(pid, &wstatus, 0);
-		if (WIFEXITED(wstatus))
-			g_data.last_exit_code = WEXITSTATUS(wstatus);
-		close(fd_new_pipe[OUTPUT]);
-		return (fd_new_pipe[INPUT]);
-	}
+	waitpid(pid, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		g_data.last_exit_code = WEXITSTATUS(wstatus);
+	close(fd_new_pipe[OUTPUT]);
+	return (fd_new_pipe[INPUT]);
 }
 
 static int	execute(t_cmd *command)
@@ -116,8 +114,8 @@ static int	execute(t_cmd *command)
 		|| (ft_strcmp("pwd", command->command))
 		|| ((ft_strcmp("env", command->command))))
 	{
-			g_data.last_exit_code = execute_builtin(command);
-			return (0);
+		g_data.last_exit_code = execute_builtin(command);
+		return (0);
 	}
 	if (ft_count_occurrences(command->command, '/'))
 		execve(command->command, command->args, g_data.env);
