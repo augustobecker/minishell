@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 16:23:08 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 00:47:07 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,20 @@ void	init_files(t_list *list)
 {
 	t_cmd	*command;
 	t_list	*node;
+	size_t	i;
 
+	i = 0;
 	node = list;
 	while (node)
 	{
 		command = (t_cmd *) node->content;
-		file_manager(command->infile);
+		if (!command->infile && i == 0)
+			command->infile = file_create("", STDIN_FILENO, COMMON_FILE_IN);
+		else
+			file_manager(command->infile);
 		file_manager(command->outfile);
 		node = node->next;
+		i++;
 	}
 }
 
