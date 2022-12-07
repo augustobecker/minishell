@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 13:32:56 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 17:29:09 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,15 @@ void	file_manager(t_file	*file)
 static int	read_heredoc(t_file *file, char *limiter)
 {
 	char	*line;
-	int		fd_stdout;
-	char	*tmp_limiter;
 
-	fd_stdout = dup(STDOUT_FILENO);
-	dup2(file->fd, STDOUT_FILENO);
-	tmp_limiter = ft_strjoin(limiter, "\n");
-	line = get_next_line(STDIN_FILENO);
-	while (!ft_strnstr(line, tmp_limiter, ft_strlen(tmp_limiter)))
+	line = readline("> ");
+	while (!ft_strcmp(line, limiter))
 	{
-		printf("%s", line);
+		ft_putstr_fd(line, file->fd);
 		free(line);
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
 	}
 	free(line);
-	free(tmp_limiter);
-	dup2(fd_stdout, STDOUT_FILENO);
 	close(file->fd);
 	return (open(HEREDOC_PATH, O_RDONLY));
 }
@@ -103,7 +96,6 @@ static void	file_error_message(t_file *file)
 
 void	delete_temporary_files(void)
 {
-	unlink(EMPTY_INFILE);
 	unlink(TMP_OUTFILE);
 	unlink(HEREDOC_PATH);
 }
