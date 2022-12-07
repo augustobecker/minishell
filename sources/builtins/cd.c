@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:59:17 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/06 13:38:30 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 13:24:18 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	cd(char **args, int argc)
 		printf(GREY"minishell: cd : too many arguments\n"RESET);
 		return (1);
 	}
-	else if ((argc == 1))
+	else if (argc == 1)
 		return (cd_to_home());
-	else if (ft_strcmp("~\0", args[1]))
+	else if (ft_strcmp("~", args[1]))
 		return (cd_to_home());
 	else if (chdir(args[1]))
 	{
