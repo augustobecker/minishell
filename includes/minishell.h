@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 13:33:46 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 14:18:30 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ int		clear_memory(t_list *list);
 void	clear_history(void);
 void	dead_minihell(t_list *list);
 void	handle_sigquit(int signal);
+
+//minishell
+t_minishell	*minishell_crate(char **envp);
 
 #endif

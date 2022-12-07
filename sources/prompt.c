@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 17:19:51 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:46:50 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	prompt(void)
 	free(prompt_exp);
 	list = cmd_create_list(commands);
 	array_destroy(commands);
-	init_global_struct();
+	init_global_struct(); //minishell_init
 	init_files(list);
 	execution_process(list);
 	clear_memory(list);

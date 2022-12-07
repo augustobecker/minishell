@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 15:59:26 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:02:08 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ typedef struct s_data
 
 	t_bool	exit_status;
 }	t_data;
+
+typedef struct s_minishell
+{
+	char	*current_path;
+	char	**envp;
+	int		last_exit_code;
+	t_list	*command_list;
+	t_file	*temp_outfile;
+}	t_minishell;
+
 
 t_stack	*stack_new(char c);
 void	stack_push(t_stack **stack, t_stack *new);
