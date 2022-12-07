@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AllTests.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 12:00:45 by gasouza           #+#    #+#             */
-/*   Updated: 2022/11/29 22:22:20 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 15:04:47 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static	void	runAllTests(void)
 	//RUN_TEST_GROUP(file_manager);
 	RUN_TEST_GROUP(unset_env_value);
 	RUN_TEST_GROUP(set_env_value);
+	RUN_TEST_GROUP(minishell_create);
+
 }
 
 t_data	g_data;
