@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 05:51:57 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 12:32:54 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 13:33:32 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	clear_memory(t_list *list)
 
 	node = list;
 	clear_global();
-	delete_temporary_files(list);
+	delete_temporary_files();
 	while (node)
 	{
 		command = (t_cmd *)node->content;

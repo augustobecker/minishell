@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 00:59:34 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 13:32:56 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,9 @@ static void	file_error_message(t_file *file)
 	}
 }
 
-void	delete_temporary_files(t_list *list)
+void	delete_temporary_files(void)
 {
-	t_cmd	*command;
-	t_list	*node;
-
 	unlink(EMPTY_INFILE);
 	unlink(TMP_OUTFILE);
-	node = list;
-	while (node && node->content)
-	{
-		command = (t_cmd *) node->content;
-		if (command && command->infile && command->infile->type == HEREDOC_FILE)
-		{
-			unlink(HEREDOC_PATH);
-			break ;
-		}
-		node = node->next;
-	}
+	unlink(HEREDOC_PATH);
 }

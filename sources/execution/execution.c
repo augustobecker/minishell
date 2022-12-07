@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 00:49:10 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 13:34:08 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	execution_process(t_list *list)
 	int			fd_pipe_in;
 
 	node = list;
-	fd_pipe_in = g_data.empty_infile->fd;
+	fd_pipe_in = STDIN_FILENO;
 	while (node)
 	{
 		command = (t_cmd *) node->content;
@@ -37,7 +37,6 @@ void	execution_process(t_list *list)
 		else if ((!node->next) || (command->outfile))
 		{
 			execute_single_cmd(command, fd_pipe_in, list);
-			fd_pipe_in = g_data.empty_infile->fd;
 		}
 		else
 			fd_pipe_in = execute_cmd_to_pipe(command, fd_pipe_in, list);
@@ -133,7 +132,7 @@ static void	command_not_found(char *command, t_list *list)
 	g_data.last_exit_code = COMMAND_NOT_FOUND;
 	node = list;
 	clear_global();
-	delete_temporary_files(list);
+	delete_temporary_files();
 	while (node)
 	{
 		cmd = (t_cmd *)node->content;
