@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 17:29:09 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 19:30:15 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	read_heredoc(t_file *file, char *limiter)
 	line = readline("> ");
 	while (!ft_strcmp(line, limiter))
 	{
-		ft_putstr_fd(line, file->fd);
+		ft_putendl_fd(line, file->fd);
 		free(line);
 		line = readline("> ");
 	}
