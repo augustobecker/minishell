@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   save_last_exit_code.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 13:30:48 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/06 23:54:12 by gasouza          ###   ########.fr       */
+/*   Created: 2022/12/06 23:57:17 by gasouza           #+#    #+#             */
+/*   Updated: 2022/12/07 00:05:01 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(char *const *envp)
+extern t_data	g_data;
+
+void	save_last_exit_code(int wstatus)
 {
-	while (envp && *envp)
+	char	**tmp_env;
+	char	*num_str;
+
+	if (WIFEXITED(wstatus))
 	{
-		if (**envp != '?')
-			printf("%s\n", *envp);
-		envp++;
+		g_data.last_exit_code = WEXITSTATUS(wstatus);
+		tmp_env = g_data.env;
+		num_str = ft_itoa(g_data.last_exit_code);
+		g_data.env = set_env_value("?", num_str, tmp_env);
+		array_destroy(tmp_env);
+		free(num_str);
 	}
-	return (0);
 }

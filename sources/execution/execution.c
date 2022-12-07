@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 18:00:42 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 00:02:47 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 extern t_data	g_data;
 
-void		execution_process(t_list *list);
 static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list);
 static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list);
 static int	execute(t_cmd *command);
@@ -65,19 +64,15 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 			command_not_found(command->command, list);
 		exit (clear_memory(list));
 	}
-	else
-	{
-		waitpid(pid, &wstatus, 0);
-		if (WIFEXITED(wstatus))
-			g_data.last_exit_code = WEXITSTATUS(wstatus);
-	}
+	waitpid(pid, &wstatus, 0);
+	save_last_exit_code(wstatus);
 }
 
 static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 {
-	int	fd_new_pipe[2];
-	int	wstatus;
-	int	pid;
+	int		fd_new_pipe[2];
+	int		wstatus;
+	int		pid;
 
 	pipe(fd_new_pipe);
 	pid = fork();
@@ -95,8 +90,7 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 		return (1);
 	}
 	waitpid(pid, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		g_data.last_exit_code = WEXITSTATUS(wstatus);
+	save_last_exit_code(wstatus);
 	close(fd_new_pipe[OUTPUT]);
 	return (fd_new_pipe[INPUT]);
 }

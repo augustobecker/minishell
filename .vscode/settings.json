@@ -3,7 +3,8 @@
 		"*.tcc": "c",
 		"string": "c",
 		"string_view": "c",
-		"debug.h": "c"
+		"debug.h": "c",
+		"array": "c"
 	},
 	"cmake.configureOnOpen": false
 }

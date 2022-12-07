@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 17:42:50 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 00:03:10 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_files(t_list *list);
 char	**get_cmd_paths(void);
 void	execution_process(t_list *list);
 void	delete_temporary_files(t_list *list);
+void	save_last_exit_code(int wstatus);
 
 //global
 void	init_global_struct(void);
