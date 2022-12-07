@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 00:47:07 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 00:59:34 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,20 @@ static int	read_heredoc(t_file *file, char *limiter)
 {
 	char	*line;
 	int		fd_stdout;
+	char	*tmp_limiter;
 
 	fd_stdout = dup(STDOUT_FILENO);
 	dup2(file->fd, STDOUT_FILENO);
-	limiter = ft_strappend(&limiter, "\n");
+	tmp_limiter = ft_strjoin(limiter, "\n");
 	line = get_next_line(STDIN_FILENO);
-	while (!ft_strnstr(line, limiter, ft_strlen(limiter)))
+	while (!ft_strnstr(line, tmp_limiter, ft_strlen(tmp_limiter)))
 	{
 		printf("%s", line);
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
 	free(line);
+	free(tmp_limiter);
 	dup2(fd_stdout, STDOUT_FILENO);
 	close(file->fd);
 	return (open(HEREDOC_PATH, O_RDONLY));
