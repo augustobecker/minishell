@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 00:01:47 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:24:45 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in)
 	int	wstatus;
 
 	pid = fork();
+	handle_signal_fork();
 	if (pid == 0)
 	{
 		clear_history();
@@ -75,6 +76,7 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in)
 
 	pipe(fd_new_pipe);
 	pid = fork();
+	handle_signal_fork();
 	if (pid == 0)
 	{
 		close(fd_new_pipe[INPUT]);

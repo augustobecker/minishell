@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 23:21:05 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:27:29 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_bool	syntatic_validations(char *prompt)
 	char	*tokenized_prompt;
 	int		i;
 
-	if (prompt == NULL)
-		handle_sigquit(SIGQUIT);
 	i = 0;
 	while (prompt[i] && prompt[i] == ' ')
 		i++;

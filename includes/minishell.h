@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 00:07:00 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:25:47 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ void		handle_sigquit(int signal);
 
 //minishell
 void		minishell_init_files(void);
-t_minishell	*minishell_crate(char **envp);
+t_minishell	*minishell_create(char **envp);
+
+//signal
+void	handle_signal_fork();
 
 #endif
