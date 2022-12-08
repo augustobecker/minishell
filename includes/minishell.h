@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 14:26:54 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:07:00 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	    minishell_exit(char **args);
 void		handle_sigquit(int signal);
 
 //minishell
-void		minishell_init_files(void);
 t_minishell	*minishell_create(char **envp);
+void		minishell_init_files(void);
+
+//signals
+void	handle_signal_fork();
 
 #endif
