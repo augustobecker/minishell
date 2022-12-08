@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 05:51:57 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 13:33:32 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 23:20:24 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
-int	clear_memory(t_list *list)
+int	clear_memory(void)
 {
 	t_cmd	*command;
 	t_list	*node;
 
-	node = list;
+	node = g_minishell->command_list;
 	clear_global();
 	delete_temporary_files();
 	while (node)
@@ -28,6 +28,8 @@ int	clear_memory(t_list *list)
 		cmd_destroy(&command);
 		node = node->next;
 	}
-	list_clear(&list);
-	return (g_data.last_exit_code);
+	if (g_minishell->command_list == NULL)
+		return (g_minishell->last_exit_code);
+	list_clear(&g_minishell->command_list);
+	return (g_minishell->last_exit_code);
 }

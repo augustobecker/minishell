@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:00:03 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 16:02:08 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:38:30 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_minishell
 	char	**envp;
 	int		last_exit_code;
 	t_list	*command_list;
+	t_file	*temp_infile;
 	t_file	*temp_outfile;
 }	t_minishell;
 

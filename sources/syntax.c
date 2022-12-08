@@ -6,13 +6,13 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 17:31:49 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 23:21:05 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
 static t_bool	are_the_quotation_marks_closed(char *expression);
 static t_bool	is_syntax_valid(char *expression);
@@ -37,8 +37,6 @@ t_bool	syntatic_validations(char *prompt)
 		return (false);
 	}
 	add_history(prompt);
-	if (prompt[i] == '#')
-		return (false);
 	tokenized_prompt = tokenization(prompt);
 	if (prompt[i] == '|' || !is_syntax_valid(tokenized_prompt))
 	{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:59:17 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/07 13:24:18 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 23:29:14 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
 int			cd(char **args, int argc);
 static int	cd_to_home(void);
@@ -41,7 +41,7 @@ static int	cd_to_home(void)
 {
 	char	*home_dir;
 
-	home_dir = get_env_value("HOME", g_data.env);
+	home_dir = get_env_value("HOME", g_minishell->envp);
 	if (!home_dir)
 	{
 		printf(GREY"minishell: cd : HOME not set\n"RESET);

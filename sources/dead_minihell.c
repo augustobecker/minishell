@@ -6,19 +6,21 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 10:02:25 by gnuncio-          #+#    #+#             */
-/*   Updated: 2022/12/06 17:49:06 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 23:22:19 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
-void	dead_minihell(t_list *list)
+void	dead_minihell(void)
 {
 	clear_history();
-	clear_memory(list);
-	array_destroy(g_data.env);
-	g_data.env = NULL;
+	clear_memory();
+	array_destroy(g_minishell->envp);
+	free(g_minishell->current_path);
+	g_minishell->envp = NULL;
+	free(g_minishell);
 	exit (0);
 }

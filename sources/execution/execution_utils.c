@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:43:39 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 12:53:49 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 23:25:23 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
 char	**get_cmd_paths(void)
 {
@@ -21,7 +21,7 @@ char	**get_cmd_paths(void)
 	int		i;
 
 	i = 0;
-	paths_to_be_split = get_env_value("PATH", g_data.env);
+	paths_to_be_split = get_env_value("PATH", g_minishell->envp);
 	if (!paths_to_be_split)
 		return (NULL);
 	paths = ft_split(paths_to_be_split, ':');

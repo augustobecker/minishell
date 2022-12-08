@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 13:34:08 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 23:32:19 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
 static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list);
 static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list);
@@ -31,7 +31,7 @@ void	execution_process(t_list *list)
 	{
 		command = (t_cmd *) node->content;
 		if (ft_strcmp("exit", command->command))
-			dead_minihell(list);
+			dead_minihell();
 		if (is_a_builtin(command->command))
 			execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
@@ -61,7 +61,7 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 			dup2(command->outfile->fd, STDOUT_FILENO);
 		if (execute(command) == -1)
 			command_not_found(command->command, list);
-		exit (clear_memory(list));
+		exit (clear_memory());
 	}
 	waitpid(pid, &wstatus, 0);
 	save_last_exit_code(wstatus);
@@ -73,6 +73,7 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 	int		wstatus;
 	int		pid;
 
+	(void) list;
 	pipe(fd_new_pipe);
 	pid = fork();
 	if (pid == 0)
@@ -84,8 +85,8 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
 			dup2(fd_pipe_in, STDIN_FILENO);
 		dup2(fd_new_pipe[OUTPUT], STDOUT_FILENO);
 		if (execute(command) == -1)
-			command_not_found(command->command, list);
-		exit (clear_memory(list));
+			command_not_found(command->command, g_minishell->command_list);
+		exit (clear_memory());
 		return (1);
 	}
 	waitpid(pid, &wstatus, 0);
@@ -105,16 +106,16 @@ static int	execute(t_cmd *command)
 		|| (ft_strcmp("pwd", command->command))
 		|| ((ft_strcmp("env", command->command))))
 	{
-		g_data.last_exit_code = execute_builtin(command);
+		g_minishell->last_exit_code = execute_builtin(command);
 		return (0);
 	}
 	if (ft_count_occurrences(command->command, '/'))
-		execve(command->command, command->args, g_data.env);
+		execve(command->command, command->args, g_minishell->envp);
 	paths = get_cmd_paths();
 	while (paths && paths[i])
 	{
 		cmd_and_path = ft_strjoin(paths[i], command->command);
-		execve(cmd_and_path, command->args, g_data.env);
+		execve(cmd_and_path, command->args, g_minishell->envp);
 		free(cmd_and_path);
 		i++;
 	}
@@ -126,10 +127,11 @@ static void	command_not_found(char *command, t_list *list)
 {
 	t_cmd	*cmd;
 	t_list	*node;
+	int		exit_code;
 
 	dup2(STDERR_FILENO, STDOUT_FILENO);
 	printf(GREY"minishell: %s : command not found\n"RESET, command);
-	g_data.last_exit_code = COMMAND_NOT_FOUND;
+	g_minishell->last_exit_code = COMMAND_NOT_FOUND;
 	node = list;
 	clear_global();
 	delete_temporary_files();
@@ -139,7 +141,9 @@ static void	command_not_found(char *command, t_list *list)
 		cmd_destroy(&cmd);
 		node = node->next;
 	}
-	array_destroy(g_data.env);
+	array_destroy(g_minishell->envp);
 	list_clear(&list);
-	exit(g_data.last_exit_code);
+	exit_code = g_minishell->last_exit_code;
+	free(g_minishell);
+	exit(exit_code);
 }

@@ -55,20 +55,6 @@ SRCS 		= ft_isalpha.c 					\
 			ft_count_occurrences.c			\
 			ft_free_str_array.c				\
 			ft_strappend.c					\
-			get_next_line/get_next_line.c	\
-			ft_printf/ft_printf.c			\
-			ft_printf/ft_argument_c.c		\
-			ft_printf/ft_arguments_d_i.c	\
-			ft_printf/ft_argument_p.c		\
-			ft_printf/ft_argument_percent.c	\
-			ft_printf/ft_argument_s.c		\
-			ft_printf/ft_argument_u.c		\
-			ft_printf/ft_arguments_x.c		\
-			ft_printf/ft_free_ptr.c			\
-			ft_printf/ft_hex_length.c		\
-			ft_printf/ft_decimal_length.c	\
-			ft_printf/ft_print_reversed_str.c	\
-			ft_printf/ft_decimal_converter_to_hex.c	\
 			ft_lstnew.c						\
 			ft_lstadd_front.c				\
 			ft_lstsize.c					\

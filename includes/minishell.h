@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 14:18:30 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 23:29:04 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int		echo(char **arguments);
 int		pwd(void);
 int		cd(char **args, int argc);
 int		env(char *const *envp);
-int		minishell_exit(t_list *list);
 int		unset(const char *name, char ***envp);
 int		export(const char *var, char ***envp);
 t_bool	is_a_builtin(char *command);
@@ -68,12 +67,13 @@ void	init_global_struct(void);
 void	clear_global(void);
 
 //memory
-int		clear_memory(t_list *list);
+int		clear_memory(void);
 void	clear_history(void);
-void	dead_minihell(t_list *list);
+void	dead_minihell(void);
 void	handle_sigquit(int signal);
 
 //minishell
 t_minishell	*minishell_crate(char **envp);
+void		minishell_init_files(void);
 
 #endif
