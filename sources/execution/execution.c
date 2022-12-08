@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 18:24:45 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 19:05:07 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	execution_process(void)
 		command = (t_cmd *) node->content;
 		if (ft_strcmp("exit", command->command))
 			dead_minihell();
-		if (is_a_builtin(command->command))
+		if ((ft_strcmp("cd", command->command))
+			|| (ft_strcmp("export", command->command))
+			|| (ft_strcmp("unset", command->command)))
 			execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
 		{
@@ -62,7 +64,7 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in)
 			dup2(command->outfile->fd, STDOUT_FILENO);
 		if (execute(command) == -1)
 			command_not_found(command->command, g_minishell->command_list);
-		exit (clear_memory());
+		execution_exit();
 	}
 	waitpid(pid, &wstatus, 0);
 	save_last_exit_code(wstatus);

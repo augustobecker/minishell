@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 18:25:47 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 19:04:00 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char		**get_cmd_paths(void);
 void		execution_process(void);
 void		delete_temporary_files(void);
 void		save_last_exit_code(int wstatus);
+void		execution_exit(void);
 
 //global
 void		init_global_struct(void);
@@ -77,6 +78,6 @@ void		minishell_init_files(void);
 t_minishell	*minishell_create(char **envp);
 
 //signal
-void	handle_signal_fork();
+void	handle_signal_fork(void);
 
 #endif
