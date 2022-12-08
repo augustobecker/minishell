@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 14:25:22 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:34:17 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	execution_process(void)
 		command = (t_cmd *) node->content;
 		if (ft_strcmp("exit", command->command))
 			minishell_exit(command->args);
-		if (is_a_builtin(command->command))
+		if ((ft_strcmp("cd", command->command))
+		|| (ft_strcmp("export", command->command))
+		|| (ft_strcmp("unset", command->command)))
 			g_minishell->last_exit_code = execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
 		{
