@@ -6,7 +6,7 @@
 /*   By: acesar-l <acesar-l@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 13:13:33 by acesar-l         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:26:54 by acesar-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			pwd(void);
 int			cd(char **args, int argc);
 int			env(char *const *envp);
 int			unset(const char *name, char ***envp);
-int			export(const char *var, char ***envp);
+int			export(char *const *vars, char ***envp);
 t_bool		is_a_builtin(char *command);
 
 //execution
