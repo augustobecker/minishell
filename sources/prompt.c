@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 23:30:28 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/07 23:55:20 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern t_minishell	*g_minishell;
 
 static char	*current_path(void);
 static void	prompt_null(char *prompt);
+char		*get_readline_init(void);
 
 void	prompt(void)
 {
@@ -23,11 +24,7 @@ void	prompt(void)
 	char	*prompt_exp;
 	char	**commands;
 
-	if (g_minishell->current_path != NULL)
-		free(g_minishell->current_path);
-	g_minishell->current_path = current_path();
-	g_minishell->last_exit_code = 0;
-	prompt = readline(g_minishell->current_path);
+	prompt = get_readline_init();
 	if (prompt == NULL)
 		prompt_null(prompt);
 	if (!syntatic_validations(prompt))
@@ -39,7 +36,7 @@ void	prompt(void)
 	g_minishell->command_list = cmd_create_list(commands);
 	array_destroy(commands);
 	minishell_init_files();
-	execution_process(g_minishell->command_list);
+	execution_process();
 	clear_memory();
 }
 
@@ -58,6 +55,15 @@ static char	*current_path(void)
 		path = ft_strappend(&path, RESET);
 		return (path);
 	}
+}
+
+char	*get_readline_init(void)
+{
+	if (g_minishell->current_path != NULL)
+		free(g_minishell->current_path);
+	g_minishell->current_path = current_path();
+	g_minishell->last_exit_code = 0;
+	return (readline(g_minishell->current_path));
 }
 
 static void	prompt_null(char *prompt)

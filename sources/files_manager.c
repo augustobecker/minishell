@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:40:53 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 23:42:49 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 00:07:16 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ extern t_minishell	*g_minishell;
 static void		file_error_message(t_file	*file);
 static int		read_heredoc(t_file *file, char *limiter);
 
-void	init_files(t_list *list)
+void	init_files(void)
 {
 	t_cmd	*command;
 	t_list	*node;
 	size_t	i;
 
 	i = 0;
-	node = list;
+	node = g_minishell->command_list;
 	while (node)
 	{
 		command = (t_cmd *) node->content;

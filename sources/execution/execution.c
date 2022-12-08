@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 23:32:19 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 00:01:47 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 extern t_minishell	*g_minishell;
 
-static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list);
-static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list);
+static void	execute_single_cmd(t_cmd *command, int fd_pipe_in);
+static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in);
 static int	execute(t_cmd *command);
 static void	command_not_found(char *command, t_list *list);
 
-void	execution_process(t_list *list)
+void	execution_process(void)
 {
 	t_cmd		*command;
 	t_list		*node;
 	int			fd_pipe_in;
 
-	node = list;
+	node = g_minishell->command_list;
 	fd_pipe_in = STDIN_FILENO;
 	while (node)
 	{
@@ -36,15 +36,15 @@ void	execution_process(t_list *list)
 			execute_builtin(command);
 		else if ((!node->next) || (command->outfile))
 		{
-			execute_single_cmd(command, fd_pipe_in, list);
+			execute_single_cmd(command, fd_pipe_in);
 		}
 		else
-			fd_pipe_in = execute_cmd_to_pipe(command, fd_pipe_in, list);
+			fd_pipe_in = execute_cmd_to_pipe(command, fd_pipe_in);
 		node = node->next;
 	}
 }
 
-static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
+static void	execute_single_cmd(t_cmd *command, int fd_pipe_in)
 {
 	int	pid;
 	int	wstatus;
@@ -60,20 +60,19 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in, t_list *list)
 		if (command->outfile)
 			dup2(command->outfile->fd, STDOUT_FILENO);
 		if (execute(command) == -1)
-			command_not_found(command->command, list);
+			command_not_found(command->command, g_minishell->command_list);
 		exit (clear_memory());
 	}
 	waitpid(pid, &wstatus, 0);
 	save_last_exit_code(wstatus);
 }
 
-static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in, t_list *list)
+static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in)
 {
 	int		fd_new_pipe[2];
 	int		wstatus;
 	int		pid;
 
-	(void) list;
 	pipe(fd_new_pipe);
 	pid = fork();
 	if (pid == 0)
