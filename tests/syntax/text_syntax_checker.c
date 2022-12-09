@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:45:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/09 14:15:24 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/09 14:25:50 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,20 @@ TEST(syntax_checker, Invalid_infile_sequence)
 	TEST_ASSERT_EQUAL_STRING("Unexpected token: <", error);
 	free(error);
 
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" < << ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: <<", error);
+	free(error);
+
 	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" < | ", &error));
 	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
 	free(error);
 
 	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << ", &error));
 	TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << << ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: <<", error);
 	free(error);
 
 	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << < ", &error));
@@ -139,6 +147,61 @@ TEST(syntax_checker, Valid_infile_sequence)
 	TEST_ASSERT_NULL(error);
 }
 
+TEST(syntax_checker, Invalid_outfile_sequence)
+{
+	char *error;
+	
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" > ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" > > ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: >", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" > >> ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: >>", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" > | ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" >> ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" >> >> ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: >>", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" >> > ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: >", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" >> | ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
+	free(error);
+}
+
+TEST(syntax_checker, Valid_outfile_sequence)
+{
+	char *error;
+	
+	TEST_ASSERT_EQUAL_INT(true, syntax_checker(" > ok ", &error));
+	TEST_ASSERT_NULL(error);
+	TEST_ASSERT_EQUAL_INT(true, syntax_checker(" > \"ok\" ", &error));
+	TEST_ASSERT_NULL(error);
+	TEST_ASSERT_EQUAL_INT(true, syntax_checker(" > 'ok' ", &error));
+	TEST_ASSERT_NULL(error);
+	TEST_ASSERT_EQUAL_INT(true, syntax_checker(" >> ok ", &error));
+	TEST_ASSERT_NULL(error);
+	TEST_ASSERT_EQUAL_INT(true, syntax_checker(" >> \"ok\" ", &error));
+	TEST_ASSERT_NULL(error);
+	TEST_ASSERT_EQUAL_INT(true, syntax_checker(" >> 'ok' ", &error));
+	TEST_ASSERT_NULL(error);
+}
+
 TEST(syntax_checker, Invalid_pipe_sequence)
 {
 	char *error;
@@ -158,7 +221,6 @@ TEST(syntax_checker, Invalid_pipe_sequence)
 	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" cmd | cmd || ", &error));
 	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
 	free(error);
-
 }
 
 TEST_GROUP_RUNNER(syntax_checker) {
@@ -167,5 +229,7 @@ TEST_GROUP_RUNNER(syntax_checker) {
 	RUN_TEST_CASE(syntax_checker, Unclosed_quotation_marks);
 	RUN_TEST_CASE(syntax_checker, Invalid_infile_sequence);
 	RUN_TEST_CASE(syntax_checker, Valid_infile_sequence);
+	RUN_TEST_CASE(syntax_checker, Invalid_outfile_sequence);
+	RUN_TEST_CASE(syntax_checker, Valid_outfile_sequence);
 	RUN_TEST_CASE(syntax_checker, Invalid_pipe_sequence);
 }
