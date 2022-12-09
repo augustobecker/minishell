@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 05:26:07 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/06 17:31:49 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/09 21:01:05 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_bool	syntatic_validations(char *prompt)
 		return (false);
 	}
 	add_history(prompt);
-	if (prompt[i] == '#')
-		return (false);
 	tokenized_prompt = tokenization(prompt);
 	if (prompt[i] == '|' || !is_syntax_valid(tokenized_prompt))
 	{
