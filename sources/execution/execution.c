@@ -6,7 +6,7 @@
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:32:23 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 19:05:07 by gnuncio-         ###   ########.fr       */
+/*   Updated: 2022/12/08 23:39:19 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static void	execute_single_cmd(t_cmd *command, int fd_pipe_in)
 	int	wstatus;
 
 	pid = fork();
-	handle_signal_fork();
 	if (pid == 0)
 	{
+		handle_signal_fork();
 		clear_history();
 		if (command->infile)
 			dup2(command->infile->fd, STDIN_FILENO);
@@ -81,6 +81,7 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in)
 	handle_signal_fork();
 	if (pid == 0)
 	{
+		clear_history();
 		close(fd_new_pipe[INPUT]);
 		if (command->infile)
 			dup2(command->infile->fd, STDIN_FILENO);
@@ -89,8 +90,7 @@ static int	execute_cmd_to_pipe(t_cmd *command, int fd_pipe_in)
 		dup2(fd_new_pipe[OUTPUT], STDOUT_FILENO);
 		if (execute(command) == -1)
 			command_not_found(command->command, g_minishell->command_list);
-		exit (clear_memory());
-		return (1);
+		execution_exit();
 	}
 	waitpid(pid, &wstatus, 0);
 	save_last_exit_code(wstatus);
