@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:45:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/09 11:04:17 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/09 14:15:24 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,25 +100,25 @@ TEST(syntax_checker, Invalid_infile_sequence)
 	TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
 	free(error);
 
-	// TEST_ASSERT_EQUAL_INT(false, syntax_checker(" < < ", &error));
-	// TEST_ASSERT_EQUAL_STRING("Unexpected token: <", error);
-	// free(error);
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" < < ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: <", error);
+	free(error);
 
-	// TEST_ASSERT_EQUAL_INT(false, syntax_checker(" < | ", &error));
-	// TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
-	// free(error);
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" < | ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
+	free(error);
 
-	// TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << ", &error));
-	// TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
-	// free(error);
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
+	free(error);
 
-	// TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << < ", &error));
-	// TEST_ASSERT_EQUAL_STRING("Unexpected token: <", error);
-	// free(error);
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << < ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: <", error);
+	free(error);
 
-	// TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << | ", &error));
-	// TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
-	// free(error);
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" << | ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
+	free(error);
 }
 
 TEST(syntax_checker, Valid_infile_sequence)

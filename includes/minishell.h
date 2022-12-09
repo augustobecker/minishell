@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/08 03:18:36 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/09 14:13:28 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "utils.h"
 # include "defines.h"
 # include "lexical.h"
+# include "syntax.h"
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>

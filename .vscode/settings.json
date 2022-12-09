@@ -1,10 +1,12 @@
 {
 	"files.associations": {
+		"*.c": "c",
 		"*.tcc": "c",
 		"string": "c",
 		"string_view": "c",
 		"debug.h": "c",
-		"array": "c"
+		"array": "c",
+		"random": "c"
 	},
 	"cmake.configureOnOpen": false
 }
