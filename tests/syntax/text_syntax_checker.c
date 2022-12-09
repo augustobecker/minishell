@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:45:50 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/09 14:25:50 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/09 20:22:00 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,10 @@ TEST(syntax_checker, Invalid_pipe_sequence)
 	
 	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" | ", &error));
 	TEST_ASSERT_EQUAL_STRING("Unexpected token: |", error);
+	free(error);
+
+	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" command | ", &error));
+	TEST_ASSERT_EQUAL_STRING("Unexpected token: newline", error);
 	free(error);
 
 	TEST_ASSERT_EQUAL_INT(false, syntax_checker(" | command ", &error));
