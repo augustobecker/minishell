@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:17:28 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 16:11:17 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/08 03:18:36 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void	dead_minihell(t_list *list);
 void	handle_sigquit(int signal);
 
 //syntax
-t_bool	syntax_checker(const char *str, char **error);
+t_bool	syntax_checker(char *str, char **error);
 
 #endif
