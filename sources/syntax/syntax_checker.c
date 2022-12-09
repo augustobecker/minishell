@@ -6,14 +6,14 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:51:31 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/09 20:52:15 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/09 21:06:02 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "syntax.h"
 
-static t_bool	is_unclose_quotation(t_syntax *syntax);
+static t_bool	is_unclosed_quotation(t_syntax *syntax);
 static t_bool	is_invalid_pipe(t_syntax *syntax);
 static t_bool	is_invalid_in_out(t_syntax *syntax);
 static void		move_syntax(t_syntax *syntax, char **str);
@@ -30,7 +30,7 @@ t_bool	syntax_checker(char *str, char **error)
 	move_syntax(&syntax, &str);
 	while (syntax.current_token)
 	{
-		if (is_unclose_quotation(&syntax))
+		if (is_unclosed_quotation(&syntax))
 			return (false);
 		if (is_invalid_pipe(&syntax))
 			return (false);
@@ -42,7 +42,7 @@ t_bool	syntax_checker(char *str, char **error)
 	return (true);
 }
 
-static t_bool	is_unclose_quotation(t_syntax *syntax)
+static t_bool	is_unclosed_quotation(t_syntax *syntax)
 {
 	t_tokentype	type;
 
