@@ -3,46 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:26:52 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 19:10:05 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/09 10:31:30 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
 static char	*current_path(void);
-static void	prompt_null(char *prompt, char *path);
+static void	prompt_null(char *prompt);
+char		*get_readline_init(void);
 
 void	prompt(void)
 {
 	char	*prompt;
 	char	*prompt_exp;
 	char	**commands;
-	t_list	*list;
 
-	if (g_data.prompt_path != NULL)
-		free(g_data.prompt_path);
-	g_data.prompt_path = current_path();
-	g_data.last_exit_code = 0;
-	prompt = readline(g_data.prompt_path);
+	prompt = get_readline_init();
+	handle_signal_fork();
 	if (prompt == NULL)
-		prompt_null(prompt, g_data.prompt_path);
+		prompt_null(prompt);
 	if (!syntatic_validations(prompt))
 		return ;
-	prompt_exp = expand_vars(prompt, g_data.env);
+	prompt_exp = expand_vars(prompt, g_minishell->envp);
 	free(prompt);
 	commands = parse_pipe(prompt_exp);
 	free(prompt_exp);
-	list = cmd_create_list(commands);
+	g_minishell->command_list = cmd_create_list(commands);
 	array_destroy(commands);
-	init_global_struct();
-	init_files(list);
-	execution_process(list);
-	clear_memory(list);
+	minishell_init_files();
+	execution_process();
+	clear_memory();
 }
 
 static char	*current_path(void)
@@ -62,11 +58,17 @@ static char	*current_path(void)
 	}
 }
 
-static void	prompt_null(char *prompt, char *path)
+char	*get_readline_init(void)
 {
-	if (!prompt)
-		return ;
-	free(path);
+	if (g_minishell->current_path != NULL)
+		free(g_minishell->current_path);
+	g_minishell->current_path = current_path();
+	g_minishell->last_exit_code = 0;
+	return (readline(g_minishell->current_path));
+}
+
+static void	prompt_null(char *prompt)
+{
 	free(prompt);
-	exit(0);
+	dead_minihell();
 }

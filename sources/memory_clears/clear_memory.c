@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/18 17:43:39 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 23:25:23 by gnuncio-         ###   ########.fr       */
+/*   Created: 2022/11/25 05:51:57 by acesar-l          #+#    #+#             */
+/*   Updated: 2022/12/07 23:20:24 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 extern t_minishell	*g_minishell;
 
-char	**get_cmd_paths(void)
+int	clear_memory(void)
 {
-	char	*paths_to_be_split;
-	char	**paths;
-	int		i;
+	t_cmd	*command;
+	t_list	*node;
 
-	i = 0;
-	paths_to_be_split = get_env_value("PATH", g_minishell->envp);
-	if (!paths_to_be_split)
-		return (NULL);
-	paths = ft_split(paths_to_be_split, ':');
-	while (paths[i])
+	node = g_minishell->command_list;
+	clear_global();
+	delete_temporary_files();
+	while (node)
 	{
-		paths[i] = ft_strappend(&paths[i], "/");
-		i++;
+		command = (t_cmd *)node->content;
+		cmd_destroy(&command);
+		node = node->next;
 	}
-	free (paths_to_be_split);
-	return (paths);
+	if (g_minishell->command_list == NULL)
+		return (g_minishell->last_exit_code);
+	list_clear(&g_minishell->command_list);
+	return (g_minishell->last_exit_code);
 }

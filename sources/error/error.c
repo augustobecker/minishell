@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/18 17:43:39 by acesar-l          #+#    #+#             */
-/*   Updated: 2022/12/07 23:25:23 by gnuncio-         ###   ########.fr       */
+/*   Created: 2022/10/19 05:42:26 by acesar-l          #+#    #+#             */
+/*   Updated: 2022/12/07 23:22:54 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,9 @@
 
 extern t_minishell	*g_minishell;
 
-char	**get_cmd_paths(void)
+int	error(char *message, int exit_code)
 {
-	char	*paths_to_be_split;
-	char	**paths;
-	int		i;
-
-	i = 0;
-	paths_to_be_split = get_env_value("PATH", g_minishell->envp);
-	if (!paths_to_be_split)
-		return (NULL);
-	paths = ft_split(paths_to_be_split, ':');
-	while (paths[i])
-	{
-		paths[i] = ft_strappend(&paths[i], "/");
-		i++;
-	}
-	free (paths_to_be_split);
-	return (paths);
+	printf(GREY"minishell: %s\n"RESET, message);
+	g_minishell->last_exit_code = exit_code;
+	return (exit_code);
 }

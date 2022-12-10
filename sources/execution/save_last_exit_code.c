@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   save_last_exit_code.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: gnuncio- <gnuncio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 23:57:17 by gasouza           #+#    #+#             */
-/*   Updated: 2022/12/07 00:05:01 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/12/07 23:25:17 by gnuncio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_data	g_data;
+extern t_minishell	*g_minishell;
 
 void	save_last_exit_code(int wstatus)
 {
@@ -21,10 +21,10 @@ void	save_last_exit_code(int wstatus)
 
 	if (WIFEXITED(wstatus))
 	{
-		g_data.last_exit_code = WEXITSTATUS(wstatus);
-		tmp_env = g_data.env;
-		num_str = ft_itoa(g_data.last_exit_code);
-		g_data.env = set_env_value("?", num_str, tmp_env);
+		g_minishell->last_exit_code = WEXITSTATUS(wstatus);
+		tmp_env = g_minishell->envp;
+		num_str = ft_itoa(g_minishell->last_exit_code);
+		g_minishell->envp = set_env_value("?", num_str, tmp_env);
 		array_destroy(tmp_env);
 		free(num_str);
 	}
