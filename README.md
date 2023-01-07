@@ -2,9 +2,13 @@
 
 <p align="center">:information_source: A Command language interpreter - Recreating a mini Shell (bash) in C  programming </p>
 
-<p align="center"> :mage_man: Project done in partnership with <a href="https://github.com/guilherme-dell">gnuncio-</a> </p>
+<p align="center"><a href="https://www.42sp.org.br/" target="_blank"><img src="https://img.shields.io/static/v1?label=&message=SP&color=000&style=for-the-badge&logo=42""></a></p>
 
-<p align="center">🚧 Under construction</p>
+<p align="center">  <a href="https://github.com/augustobecker/minishell" target="_blank"><img alt="minishell" src="https://user-images.githubusercontent.com/81205527/206884965-cfe1b09f-0c6c-4a9d-b252-a9fffb78dfef.png"> </a></p>
+
+<p align="center"> 100/100 ✅ </p>
+
+<p align="center"> :mage_man: Project done in partnership with <a href="https://github.com/guilherme-dell">gnuncio-</a> </p>
 
 <p align="center"><a href="https://github.com/augustobecker/minishell/blob/main/README-ptbr.md" target="_blank"><img src="https://img.shields.io/badge/dispon%C3%ADvel%20tamb%C3%A9m%20em-PT--BR-yellow"></a></p>
 
